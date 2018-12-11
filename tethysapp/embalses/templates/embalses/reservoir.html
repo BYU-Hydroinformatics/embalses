@@ -1,0 +1,19 @@
+{% extends "embalses/base.html" %}
+
+{% load tethys_gizmos %}
+
+
+
+{% block app_content %}
+<h1>Estadisticas del Embalse: {{name}}</h1>
+<h5>Datos Historicos y Prevision</h5>
+{% gizmo timeseries_plot %}
+{% gizmo table_view %}
+<br>
+<h5 id="nivprog" class = "hidden" align="center">Niveles Pronosticados</h5>
+<table align="center" id="mytable">
+    <tbody id="tbody">
+    </tbody>
+</table>
+
+{% endblock %}

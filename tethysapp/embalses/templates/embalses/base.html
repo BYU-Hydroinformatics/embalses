@@ -1,0 +1,68 @@
+{% extends "tethys_apps/app_base.html" %}
+
+{% load tethys_gizmos staticfiles %}
+{% load tethys_gizmos %}
+{% load staticfiles %}
+
+
+{% block title %}{{ tethys_app.name }}{% endblock %}
+{% block app_icon %}<img src="{% static tethys_app.icon %}">{% endblock %}
+
+
+{% block app_title %}{{ tethys_app.name }}{% endblock %}
+
+
+{% block app_navigation_items %}
+    {% url 'embalses:home' as home_url %}
+    {% url 'embalses:reportar' as reportar_url %}
+    <li class="title">Navigación</li>
+    <li class="{% if request.path == home_url %}active{% endif %}"><a href="{{ home_url }}">Mapa</a></li>
+    {% if admin %}
+        <li class="{% if request.path == reportar_url %}active{% endif %}"><a href="{{ reportar_url }}">Reportar Niveles</a></li>
+    {% endif %}
+    <!-- generate links to pages for each of the reservoirs -->
+    <li class="title">Paginas de los Embalses</li>
+    {%if urls%}
+        {% for url in urls %}
+          <li class="{% if url.active %}active{% endif %}"><a href="{{ url.url }}">{{url.name}}</a></li>
+        {% endfor %}
+    {%endif%}
+{% endblock %}
+
+
+{% block app_content %}
+{% endblock %}
+
+{% block app_actions %}
+{% endblock %}
+
+
+{% block content_dependent_styles %}
+  {{ block.super }}
+  <!-- styling for leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" />
+  <!-- App specific styling scripts -->
+  <link href="{% static 'embalses/css/main.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    {% include "embalses/analytics.html" %}
+    <!-- Allows csrf verification with AJAX -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <!-- Script for Leaflet -->
+    <script type="text/javascript" src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
+    <!-- script generated for the app -->
+    <script type="text/javascript" src="{% static 'embalses/js/locations.js' %}"></script>
+    <script type="text/javascript" src="{% static 'embalses/js/leaflet.js' %}"></script>
+    <script type="text/javascript" src="{% static 'embalses/js/main.js' %}"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-128273217-4"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-128273217-2');
+    </script>
+{% endblock %}
