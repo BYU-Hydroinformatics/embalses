@@ -19,12 +19,6 @@ class Embalses(TethysAppBase):
     enable_feedback = False
     feedback_emails = []
 
-    # handle implementing analytics if available on this portal. python 2/3 compatible
-    workingdir = os.path.dirname(__file__)
-    with open(os.path.join(workingdir, 'templates/embalses/analytics.html'), 'w') as file:
-        if 'analytical' in settings.INSTALLED_APPS:
-            file.write("{% load google_analytics_js %}{% google_analytics_js %}")
-
     def url_maps(self):
         """
         Add controllers
