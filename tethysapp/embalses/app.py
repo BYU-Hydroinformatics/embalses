@@ -1,6 +1,4 @@
 from tethys_sdk.base import TethysAppBase, url_map_maker
-from django.core.management import settings     # To access settings.py in the portal and check for analytics
-import os
 
 
 class Embalses(TethysAppBase):
@@ -18,6 +16,7 @@ class Embalses(TethysAppBase):
     tags = ''
     enable_feedback = False
     feedback_emails = []
+    currentpage = ''        # a custom setting added for keeping track of which reservoir is being viewed
 
     def url_maps(self):
         """
@@ -26,6 +25,8 @@ class Embalses(TethysAppBase):
         UrlMap = url_map_maker(self.root_url)
 
         url_maps = (
+
+            # CONTROLLERS FOR NAVIAGABLE PAGES
             UrlMap(
                 name='home',
                 url='embalses',
@@ -36,11 +37,23 @@ class Embalses(TethysAppBase):
                 url='embalses/reportar',
                 controller='embalses.controllers.reportar'
             ),
+            UrlMap(
+              name='instrucciones',
+                url='embalses/instrucciones',
+                controller='embalses.controllers.instructions'
+            ),
             UrlMap(                     # this is the controller for the page that shows reservoir specific stats
                 name='template',        # {name} is an argument the controller needs to accept second
                 url='embalses/{name}',
                 controller='embalses.controllers.reservoirviewer'
             ),
+
+            # CONTROLLERS FOR AJAX PAGES
+            UrlMap(
+                name='chartdata',
+                url='embalses/ajax/chartdata',
+                controller='embalses.controllersAJAX.hist_levels_chart'
+            )
         )
 
         return url_maps

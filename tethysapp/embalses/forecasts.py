@@ -1,5 +1,7 @@
 def gettabledates(comid):
     """
+    DEPRECATED, using datetime to load table dates so there is less load time
+
     You give it a comid and this returns a list of the next available forecast dates for that reach
     """
     import requests, pprint, datetime
@@ -69,7 +71,6 @@ def forecastdata(comids, reservoir, outflow):
 
     elev = reservoir + '_Elev'
     vol = reservoir + '_Vol'
-
 
 
     df = pandas.read_excel(bathimetry)

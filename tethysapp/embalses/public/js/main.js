@@ -12,4 +12,18 @@ $.ajaxSetup({
     }
 });
 
-leaf_map();
+
+$(document).ready(function() {
+
+    // The code figures out which page you're on depending on the divs on the page and calls the right functions
+    if ($('#map').length) {
+        leaf_map();
+    }
+    if ($('#hist_data_chart').length) {
+        placeholderchart();
+        getChart();
+    }
+
+
+
+});

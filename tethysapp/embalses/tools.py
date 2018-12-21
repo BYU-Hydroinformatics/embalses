@@ -7,7 +7,7 @@ def check_portal_analytics():
 
     print('ADMINSTRACION DE LOS EMBALSES: Getting portal analytical configuration status.')
     my_directory = os.path.dirname(__file__)
-    with open(os.path.join(my_directory, 'templates/embalses/embalses.html'), 'w') as file:
+    with open(os.path.join(my_directory, 'templates/embalses/anlytics.html'), 'w') as file:
         if 'analytical' in settings.INSTALLED_APPS:
             print('ADMINSTRACION DE LOS EMBALSES: Analytics is enabled for this Portal. Enabling tracking.')
             file.write("{% load google_analytics_js %}{% google_analytics_js %}")
@@ -50,37 +50,3 @@ def generate_app_urls(request, res_dict):
     }), res_dict))
 
     return site_urls
-
-
-def gethistoricaldata(reservoir_name):
-
-    from app import Embalses as app
-    import os, pandas
-
-    # change the names for two reservoirs who are listed under different names in spreadsheets
-    if reservoir_name == 'Sabana Yegua':
-        reservoir_name = 'S. Yegua'
-    elif reservoir_name == 'Tavera-Bao':
-        reservoir_name = 'Tavera'
-
-    # open the sheet with historical levels
-    app_workspace = app.get_app_workspace()
-    damsheet = os.path.join(app_workspace.path, 'DamLevel_DR_BYU 2018.xlsx')
-    # read the sheet, get the water level info (nivel) corresponding to the correct reservoir name
-    dfnan = pandas.read_excel(damsheet)
-    df1 = dfnan[['Nivel', reservoir_name]]
-    df = df1.dropna()       # drop null values from the series
-    data = []
-
-    # convert the date listed under nivel to a python usable form and make an entry with the date/value to the list
-    for index, row in df.iterrows():
-        timestep = row["Nivel"].to_pydatetime()
-        data.append([timestep, row[reservoir_name]])
-
-    if reservoir_name == 'Bao':
-        del data[0]
-        del data[0]
-    elif reservoir_name == 'Moncion':
-        del data[0]
-
-    return data

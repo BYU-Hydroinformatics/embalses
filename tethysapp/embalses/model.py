@@ -85,3 +85,50 @@ def reservoirs():
         'Valdesia': 'valdesia',
     }
     return names
+
+
+def gethistoricaldata(reservoir_name):
+    """
+    You give it the name of a reservoir and it will read the excel sheet in the app workspace making a list of all the
+    levels recorded so that you can plot them
+    """
+    from app import Embalses as app
+    import os, pandas, datetime, calendar
+
+    # change the names for two reservoirs who are listed under different names in spreadsheets
+    if reservoir_name == 'Sabana Yegua':
+        reservoir_name = 'S. Yegua'
+    elif reservoir_name == 'Tavera-Bao':
+        reservoir_name = 'Tavera'
+
+    # open the sheet with historical levels
+    app_workspace = app.get_app_workspace()
+    damsheet = os.path.join(app_workspace.path, 'DamLevel_DR_BYU 2018.xlsx')
+    # read the sheet, get the water level info (nivel) corresponding to the correct reservoir name
+    dfnan = pandas.read_excel(damsheet)
+    df1 = dfnan[['Nivel', reservoir_name]]
+    df = df1.dropna()       # drop null values from the series
+    data = []
+
+    # convert the date listed under nivel to a python usable form and make an entry with the date/value to the list
+    timestep = 0
+    for index, row in df.iterrows():
+        # timestep = row["Nivel"].to_pydatetime()
+
+        # timestep = datetime.datetime.strptime(row['Nivel'], "%Y-%m-%d")
+        # timestep = calendar.timegm(timestep.utctimetuple()) * 1000
+
+        # timestep = row['Nivel'].utctimetuple()
+        # print(timestep)
+
+        timestep += 1
+
+        data.append([timestep, row[reservoir_name]])
+
+    if reservoir_name == 'Bao':
+        del data[0]
+        del data[0]
+    elif reservoir_name == 'Moncion':
+        del data[0]
+
+    return data

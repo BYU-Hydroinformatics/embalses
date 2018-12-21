@@ -2,14 +2,14 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from tethys_sdk.permissions import has_permission
 
-from tools import generate_app_urls, check_portal_analytics, gethistoricaldata
-from forecasts import gettabledates, forecastdata
-from model import operations, reservoirs
+from tools import generate_app_urls, check_portal_analytics
+from model import reservoirs
 
-from tethys_sdk.gizmos import TimeSeries, TableView
+from tethys_sdk.gizmos import TableView
 
 check_portal_analytics()
 reservoirs = reservoirs()
+
 
 @login_required()
 def home(request):
@@ -40,53 +40,52 @@ def reportar(request):
 
 
 @login_required()
+def instructions(request):
+    """
+    controller for the instructions page
+    """
+
+    context = {
+        'admin': has_permission(request, 'update_data'),
+        'urls': generate_app_urls(request, reservoirs)
+    }
+
+    return render(request, 'embalses/instructions.html', context)
+
+
+@login_required()
 def reservoirviewer(request, name):
     """
     controller for the reservoir specific page template. The code does 2 functions in this order:
     - This calls the gethistoricaldata method which takes a long time to read 35 years of daily data
-    - Calls gettabledates to populate the next available forecast dates in the simulation tables
+    - Calls getdates to populate the next available forecast dates in the simulation tables
     todo: When the button is pressed to calculate future levels, do the math to figure out the water levels
     todo: how much water is left? current - min height, read from bathimetry table
+    todo: convert the highchart to highstock to show multiple lines on the same chart
+    todo: make the chart have the right dates
+    todo: change the code in model for historical data back to processing dates the way it should
     """
+    import datetime
+    from app import Embalses as app
+
     for reservoir in reservoirs:
         if reservoirs[reservoir] == name:
             name = reservoir
+            app.currentpage = name
 
-    # Show the historical times series plot
-    # Get the historical data and 2 coordinate pairs for lines of min/max water levels
-    info = operations()[name]
-    hist_data = gethistoricaldata(name)
-    for i in range(len(hist_data)):
-        hist_data[i][1] -= info['ymin']         # change the values from elevations to depths
-    minlvl = [ [hist_data[0][0], info['minlvl'] - info['ymin']], [hist_data[-1][0], info['minlvl'] - info['ymin']] ]
-    maxlvl = [ [hist_data[0][0], info['maxlvl'] - info['ymin']], [hist_data[-1][0], info['maxlvl'] - info['ymin']] ]
-    timeseries = TimeSeries(
-        height='500px',
-        width='500px',
-        engine='highcharts',
-        title=name,
-        y_axis_title='Niveles de agua',
-        y_axis_units='Metros',
-        series=[
-            {'name': 'Nivel Historico', 'data': hist_data},
-            {'name': 'Nivel Minimo de Operacion', 'data': minlvl, 'type': 'line', 'color': '#660066'},
-            {'name': 'Nivel Maximo de Operacion', 'data': maxlvl, 'type': 'line', 'color': '#FF0000'}
-        ],
-        y_min=0
-    )
-
-    # based on the comids in the list, generate a table for simulating changes in reservoir levels
-    # uses the gettabledates method to get the dates of the next available forecast days
-    comid = info['comids']
-    tabledates = gettabledates(comid)
+    # generate a table for simulating changes in reservoir levels
+    dates = []
+    for i in range(0, 7):
+        timedelta = datetime.timedelta(i)
+        dates.append((datetime.datetime.today() + timedelta).strftime('%B %d %Y'))
     outflows_tbl = TableView(column_names=('Dia', 'Caudal de Salida (cms)', 'Tiempo de salida (horas)'),
-                             rows=[(tabledates[0], '0', '0'),
-                                   (tabledates[1], '0', '0'),
-                                   (tabledates[2], '0', '0'),
-                                   (tabledates[3], '0', '0'),
-                                   (tabledates[4], '0', '0'),
-                                   (tabledates[5], '0', '0'),
-                                   (tabledates[6], '0', '0'),
+                             rows=[(dates[0], '0', '0'),
+                                   (dates[1], '0', '0'),
+                                   (dates[2], '0', '0'),
+                                   (dates[3], '0', '0'),
+                                   (dates[4], '0', '0'),
+                                   (dates[5], '0', '0'),
+                                   (dates[6], '0', '0'),
                                    ],
                              hover=True,
                              striped=True,
@@ -101,7 +100,6 @@ def reservoirviewer(request, name):
         'admin': has_permission(request, 'update_data'),
         'urls': generate_app_urls(request, reservoirs),
         'name': name,
-        'timeseries_plot': timeseries,
         'table_view': outflows_tbl,
     }
 
