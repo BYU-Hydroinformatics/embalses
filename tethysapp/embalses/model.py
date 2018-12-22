@@ -108,27 +108,36 @@ def gethistoricaldata(reservoir_name):
     dfnan = pandas.read_excel(damsheet)
     df1 = dfnan[['Nivel', reservoir_name]]
     df = df1.dropna()       # drop null values from the series
-    data = []
+    values = []
 
     # convert the date listed under nivel to a python usable form and make an entry with the date/value to the list
-    timestep = 0
     for index, row in df.iterrows():
-        # timestep = row["Nivel"].to_pydatetime()
+        time = row["Nivel"].to_pydatetime()
+        time = datetime.datetime.strptime(str(time)[0:10], "%Y-%m-%d")
+        timestep = calendar.timegm(time.utctimetuple()) * 1000
+        values.append([timestep, row[reservoir_name]])
 
-        # timestep = datetime.datetime.strptime(row['Nivel'], "%Y-%m-%d")
-        # timestep = calendar.timegm(timestep.utctimetuple()) * 1000
-
-        # timestep = row['Nivel'].utctimetuple()
-        # print(timestep)
-
-        timestep += 1
-
-        data.append([timestep, row[reservoir_name]])
-
+    # not sure why we do this, but it was left over from the old version of the app
     if reservoir_name == 'Bao':
-        del data[0]
-        del data[0]
+        del values[0]
+        del values[0]
     elif reservoir_name == 'Moncion':
-        del data[0]
+        del values[0]
+
+    histdata = {
+        'values': values,
+        'lastdate': time,
+    }
+    return histdata
+
+
+def getbathymettrydata():
+    """
+    You give it the name of a reservoir and it returns bathymettry data gained by reading the bathymettry spreadsheet
+    """
+    from app import Embalses as app
+    import os
+
+    data = {}
 
     return data

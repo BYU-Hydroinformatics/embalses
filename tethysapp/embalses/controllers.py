@@ -61,9 +61,6 @@ def reservoirviewer(request, name):
     - Calls getdates to populate the next available forecast dates in the simulation tables
     todo: When the button is pressed to calculate future levels, do the math to figure out the water levels
     todo: how much water is left? current - min height, read from bathimetry table
-    todo: convert the highchart to highstock to show multiple lines on the same chart
-    todo: make the chart have the right dates
-    todo: change the code in model for historical data back to processing dates the way it should
     """
     import datetime
     from app import Embalses as app

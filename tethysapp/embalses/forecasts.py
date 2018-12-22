@@ -4,7 +4,7 @@ def gettabledates(comid):
 
     You give it a comid and this returns a list of the next available forecast dates for that reach
     """
-    import requests, pprint, datetime
+    import requests, datetime
     timeseries = []
     dates = []
 
@@ -15,18 +15,15 @@ def gettabledates(comid):
     res = requests.get('https://tethys-staging.byu.edu/apps/streamflow-prediction-tool/api/GetForecast/',
                        params=request_params, headers=request_headers)
 
-    pprint.pprint(res.content)
     content = res.content.splitlines()
     for i in content:
         timeseries.append(i.split(','))
-    pprint.pprint(timeseries)
     timeseries.pop(0)
     for i in range(len(timeseries)):
         if '12:00:00' in timeseries[i][0]:
             date = str(timeseries[i][0]).replace('Timestamp', '').replace(' 12:00:00', '')
             date = date.replace('(', '').replace(')', '').replace('"', '').replace("'", '')
             date = datetime.datetime.strptime(date, '%Y-%m-%d').strftime('%B %d %Y')
-            print date
             dates.append(date)
 
     return dates

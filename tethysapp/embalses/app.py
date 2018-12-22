@@ -51,8 +51,8 @@ class Embalses(TethysAppBase):
             # CONTROLLERS FOR AJAX PAGES
             UrlMap(
                 name='chartdata',
-                url='embalses/ajax/chartdata',
-                controller='embalses.controllersAJAX.hist_levels_chart'
+                url='embalses/ajax/respageinfo',
+                controller='embalses.controllersAJAX.reservoir_pg_info'
             )
         )
 

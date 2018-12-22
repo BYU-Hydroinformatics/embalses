@@ -1,5 +1,4 @@
 import os
-import sys
 from setuptools import setup, find_packages
 from tethys_apps.app_installation import custom_develop_command, custom_install_command
 
@@ -10,7 +9,7 @@ app_class = 'embalses.app:Embalses'
 app_package_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'tethysapp', app_package)
 
 ### Python Dependencies ###
-dependencies = []
+dependencies = ['datetime', 'requests', 'pandas', 'pprint']
 
 setup(
     name=release_package,
