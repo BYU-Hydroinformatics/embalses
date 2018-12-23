@@ -131,12 +131,56 @@ def gethistoricaldata(reservoir_name):
     return histdata
 
 
-def getbathymettrydata():
+def getlastelevation():
     """
-    You give it the name of a reservoir and it returns bathymettry data gained by reading the bathymettry spreadsheet
+    Returns the most recently reported ELEVATION for each of the reservoirs as listed in the excel sheet
     """
     from app import Embalses as app
-    import os
+    import os, pandas
+    elevations = {}
+
+    # open the sheet with historical levels
+    app_workspace = app.get_app_workspace()
+    damsheet = os.path.join(app_workspace.path, 'DamLevel_DR_BYU 2018.xlsx')
+    dfnan = pandas.read_excel(damsheet)
+
+    reservoirs = operations()
+    for reservoir in reservoirs:
+        # change the names for two reservoirs who are listed under different names in spreadsheets
+        if reservoir == 'Sabana Yegua':
+            reservoir = 'S. Yegua'
+        elif reservoir == 'Tavera-Bao':
+            reservoir = 'Tavera'
+
+        df = dfnan[['Nivel', reservoir]].dropna()       # load the right columns of data and drop the null values
+        df = df.tail(1)
+        for index, row in df.iterrows():
+            elev = row[reservoir]
+
+        if reservoir == 'S. Yegua':
+            reservoir = 'Sabana Yegua'
+        elif reservoir == 'Tavera':
+            reservoir = 'Tavera-Bao'
+        elevations[reservoir] = elev
+
+    return elevations
+
+
+def getvolumefrombathymetry(reservoir_name):
+    """
+    You give it the name of a reservoir and it returns total volume and usable volume using the bathymetry data gained
+    by reading the bathymetry spreadsheet
+    """
+    from app import Embalses as app
+    import os, pandas
+
+    elevs = getlastelevation()
+    info = operations()[reservoir_name]
+
+    app_workspace = app.get_app_workspace()
+    bath = os.path.join(app_workspace.path, 'BATIMETRIA PRESAS RD.xlsx')
+    df = pandas.read_excel(bath)
+    df1 = df[[reservoir_name + '_Elev', reservoir_name + '_Vol']]
 
     data = {}
 

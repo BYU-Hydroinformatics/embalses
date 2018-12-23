@@ -18,6 +18,7 @@ $(document).ready(function() {
     // The code figures out which page you're on depending on the divs on the page and calls the right functions
     if ($('#map').length) {
         leaf_map();
+        dataOverview();
     }
     if ($('#hist_data_chart').length) {
         placeholderchart();

@@ -1,5 +1,12 @@
 from tethys_sdk.base import TethysAppBase, url_map_maker
 
+# todo: finish the getvolumefrombathymetry function in the model
+# todo: make the reservoir page ajax controller send it and the ajax.js print it
+# todo: make the table have a calculate button
+# todo: make the calculate button work
+# todo: finish the overviewinfo ajax function (depends on the getvolumefrombathymetry)
+
+
 
 class Embalses(TethysAppBase):
     """
@@ -53,6 +60,11 @@ class Embalses(TethysAppBase):
                 name='chartdata',
                 url='embalses/ajax/respageinfo',
                 controller='embalses.controllersAJAX.reservoir_pg_info'
+            ),
+            UrlMap(
+                name='overview',
+                url='embalses/ajax/overviewpage',
+                controller='embalses.controllersAJAX.overviewpage'
             )
         )
 
