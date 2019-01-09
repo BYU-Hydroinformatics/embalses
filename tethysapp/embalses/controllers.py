@@ -63,12 +63,12 @@ def reservoirviewer(request, name):
     todo: how much water is left? current - min height, read from bathimetry table
     """
     import datetime
-    from app import Embalses as app
+    from app import Embalses as App
 
     for reservoir in reservoirs:
         if reservoirs[reservoir] == name:
             name = reservoir
-            app.currentpage = name
+            App.currentpage = name
 
     # generate a table for simulating changes in reservoir levels
     dates = []

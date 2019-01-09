@@ -18,10 +18,12 @@
     {% url 'embalses:instrucciones' as instrucciones_url %}
     <li class="title">Navigación</li>
     <li class="{% if request.path == home_url %}active{% endif %}"><a href="{{ home_url }}">Mapa</a></li>
+
     {% if admin %}
         <li class="{% if request.path == reportar_url %}active{% endif %}"><a href="{{ reportar_url }}">Reportar Niveles</a></li>
     {% endif %}
-    <li class="{% if request.path == instrucciones_url %}active{% endif %}"><a href="{{ instrucciones_url }}">Instrucciones Para El App</a></li>
+    <!--<li class="{% if request.path == instrucciones_url %}active{% endif %}"><a href="{{ instrucciones_url }}">Instrucciones Para El App</a></li>-->
+
     <!-- generate links to pages for each of the reservoirs -->
     <li class="title">Datos Historicos y Prevision</li>
     {%if urls%}

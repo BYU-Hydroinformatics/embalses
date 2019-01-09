@@ -64,7 +64,7 @@ function newHighchart(data) {
             {
                 data: data['values'],
                 type: "area",
-                name: 'Niveles',
+                name: 'Niveles Reportados',
                 tooltip: {
                     xDateFormat: '%Y-%m-%d',
                     },
@@ -73,11 +73,13 @@ function newHighchart(data) {
                 data: data['maximum'],
                 type: "line",
                 name: "Nivel Maximo",
+                color: 'red',
                 },
             {
                 data: data['minimum'],
                 type: "line",
-                name: "Nivel Maximo",
+                name: "Nivel Minimo",
+                color: 'red',
                 },
 
         ],

@@ -7,10 +7,10 @@ function getChart() {
         method: 'POST',
         success: function(result) {
             newHighchart(result);
-            $("#minlvl").text(result['minlvl']);
-            $("#maxlvl").text(result['maxlvl']);
-            $("#currentlvl").text(result['currentlvl']);
-            $("#lastreport").text(result['lastreport']);
+//            $("#minlvl").text(result['minlvl']);
+//            $("#maxlvl").text(result['maxlvl']);
+//            $("#currentlvl").text(result['currentlvl']);
+//            $("#lastreport").text(result['lastreport']);
 //            $("#capacity").text)result['capacity'];
 //            $("#wateravailable").text)result['wateravailable'];
             },
