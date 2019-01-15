@@ -92,7 +92,7 @@ def gethistoricaldata(reservoir_name):
     You give it the name of a reservoir and it will read the excel sheet in the app workspace making a list of all the
     levels recorded so that you can plot them
     """
-    from app import Embalses as app
+    from .app import Embalses as app
     import os, pandas, datetime, calendar
 
     # change the names for two reservoirs who are listed under different names in spreadsheets
@@ -135,7 +135,7 @@ def getlastelevation():
     """
     Returns the most recently reported ELEVATION for each of the reservoirs as listed in the excel sheet
     """
-    from app import Embalses as app
+    from .app import Embalses as app
     import os, pandas
     elevations = {}
 
@@ -171,7 +171,7 @@ def getvolumefrombathymetry(reservoir_name):
     You give it the name of a reservoir and it returns total volume and usable volume using the bathymetry data gained
     by reading the bathymetry spreadsheet
     """
-    from app import Embalses as app
+    from .app import Embalses as app
     import os, pandas
 
     elevs = getlastelevation()

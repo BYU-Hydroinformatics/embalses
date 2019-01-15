@@ -33,7 +33,7 @@ def forecastdata(comids, reservoir, outflow):
 
     outtime = 24.0
 
-    from app import Embalses as app
+    from .app import Embalses as app
     import os, pandas, requests
     import datetime as datetime
 

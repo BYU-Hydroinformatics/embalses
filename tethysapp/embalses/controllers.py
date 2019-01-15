@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from tethys_sdk.permissions import has_permission
 
-from tools import generate_app_urls, check_portal_analytics
-from model import reservoirs
+from .tools import generate_app_urls, check_portal_analytics
+from .model import reservoirs
 
 from tethys_sdk.gizmos import TableView
 
@@ -63,7 +63,7 @@ def reservoirviewer(request, name):
     todo: how much water is left? current - min height, read from bathimetry table
     """
     import datetime
-    from app import Embalses as App
+    from .app import Embalses as App
 
     for reservoir in reservoirs:
         if reservoirs[reservoir] == name:

@@ -7,7 +7,7 @@ def check_portal_analytics():
 
     print('ADMINSTRACION DE LOS EMBALSES: Getting portal analytical configuration status.')
     my_directory = os.path.dirname(__file__)
-    with open(os.path.join(my_directory, 'templates/embalses/anlytics.html'), 'w') as file:
+    with open(os.path.join(my_directory, 'templates/embalses/analytics.html'), 'w') as file:
         if 'analytical' in settings.INSTALLED_APPS:
             print('ADMINSTRACION DE LOS EMBALSES: Analytics is enabled for this Portal. Enabling tracking.')
             file.write("{% load google_analytics_js %}{% google_analytics_js %}")

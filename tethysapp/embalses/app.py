@@ -7,7 +7,6 @@ from tethys_sdk.base import TethysAppBase, url_map_maker
 # todo: finish the overviewinfo ajax function (depends on the getvolumefrombathymetry)
 
 
-
 class Embalses(TethysAppBase):
     """
     Tethys app class for Herramientas de Operaciones de los Embalses.

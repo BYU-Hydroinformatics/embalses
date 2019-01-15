@@ -7,8 +7,8 @@ def reservoir_pg_info(request):
     """
     called when the reservoir stats page is opened to give data to the historical data chart
     """
-    from model import operations, gethistoricaldata, getvolumefrombathymetry
-    from app import Embalses as app
+    from .model import operations, gethistoricaldata, getvolumefrombathymetry
+    from .app import Embalses as app
     import datetime
 
     name = app.currentpage
@@ -50,7 +50,7 @@ def overviewpage(request):
     called when the home page with the map is loaded. gets overview data about total volume, current levels, etc
     """
     # todo: this should get total available water, current levels and available water at all reservoirs
-    from model import getlastelevation
+    from .model import getlastelevation
     elevs = getlastelevation()
 
     return JsonResponse(elevs)
