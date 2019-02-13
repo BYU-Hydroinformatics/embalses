@@ -2,12 +2,11 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from tethys_sdk.permissions import has_permission
 
-from .tools import generate_app_urls, check_portal_analytics
+from .tools import generate_app_urls
 from .model import reservoirs
 
 from tethys_sdk.gizmos import TableView
 
-check_portal_analytics()
 reservoirs = reservoirs()
 
 
@@ -54,21 +53,11 @@ def instructions(request):
 
 
 @login_required()
-def reservoirviewer(request, name):
+def simulaciones(request):
     """
-    controller for the reservoir specific page template. The code does 2 functions in this order:
-    - This calls the gethistoricaldata method which takes a long time to read 35 years of daily data
-    - Calls getdates to populate the next available forecast dates in the simulation tables
-    todo: When the button is pressed to calculate future levels, do the math to figure out the water levels
-    todo: how much water is left? current - min height, read from bathimetry table
+    controller for the instructions page
     """
     import datetime
-    from .app import Embalses as App
-
-    for reservoir in reservoirs:
-        if reservoirs[reservoir] == name:
-            name = reservoir
-            App.currentpage = name
 
     # generate a table for simulating changes in reservoir levels
     dates = []
@@ -96,8 +85,34 @@ def reservoirviewer(request, name):
     context = {
         'admin': has_permission(request, 'update_data'),
         'urls': generate_app_urls(request, reservoirs),
-        'name': name,
         'table_view': outflows_tbl,
+
+    }
+
+    return render(request, 'embalses/simulaciones.html', context)
+
+
+@login_required()
+def reservoirviewer(request, name):
+    """
+    controller for the reservoir specific page template. The code does 2 functions in this order:
+    - This calls the gethistoricaldata method which takes a long time to read 35 years of daily data
+    - Calls getdates to populate the next available forecast dates in the simulation tables
+    todo: When the button is pressed to calculate future levels, do the math to figure out the water levels
+    todo: how much water is left? current - min height, read from bathimetry table
+    """
+    from .app import Embalses as App
+
+    for reservoir in reservoirs:
+        if reservoirs[reservoir] == name:
+            name = reservoir
+            App.currentpage = name
+
+
+    context = {
+        'admin': has_permission(request, 'update_data'),
+        'urls': generate_app_urls(request, reservoirs),
+        'name': name,
     }
 
     return render(request, 'embalses/reservoir.html', context)

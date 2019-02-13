@@ -1,21 +1,3 @@
-def check_portal_analytics():
-    """
-    This is the code that checks to see if django analytics is installed. If it is, it adds the tags to implement it
-    """
-    import os
-    from django.core.management import settings
-
-    print('ADMINSTRACION DE LOS EMBALSES: Getting portal analytical configuration status.')
-    my_directory = os.path.dirname(__file__)
-    with open(os.path.join(my_directory, 'templates/embalses/analytics.html'), 'w') as file:
-        if 'analytical' in settings.INSTALLED_APPS:
-            print('ADMINSTRACION DE LOS EMBALSES: Analytics is enabled for this Portal. Enabling tracking.')
-            file.write("{% load google_analytics_js %}{% google_analytics_js %}")
-        else:
-            print('ADMINSTRACION DE LOS EMBALSES: Analytics has not been configured for this portal. Disabling tracking.')
-    return
-
-
 def generate_app_urls(request, res_dict):
     """
     This function creates urls for every app installed on the portal this app is on.

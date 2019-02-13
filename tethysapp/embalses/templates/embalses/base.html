@@ -13,19 +13,26 @@
 
 
 {% block app_navigation_items %}
+
     {% url 'embalses:home' as home_url %}
     {% url 'embalses:reportar' as reportar_url %}
     {% url 'embalses:instrucciones' as instrucciones_url %}
+    {% url 'embalses:simulaciones' as simulaciones_url %}
+
     <li class="title">Navigación</li>
-    <li class="{% if request.path == home_url %}active{% endif %}"><a href="{{ home_url }}">Mapa</a></li>
+    <li class="{% if request.path == home_url %}active{% endif %}"><a href="{{ home_url }}">Mapa y Sumario</a></li>
 
     {% if admin %}
         <li class="{% if request.path == reportar_url %}active{% endif %}"><a href="{{ reportar_url }}">Reportar Niveles</a></li>
     {% endif %}
-    <!--<li class="{% if request.path == instrucciones_url %}active{% endif %}"><a href="{{ instrucciones_url }}">Instrucciones Para El App</a></li>-->
+    <li class="{% if request.path == instrucciones_url %}active{% endif %}"><a href="{{ instrucciones_url }}">Instrucciones Para El App</a></li>
+
+    <!-- The page for forcasts -->
+    <li class="title">Simulaciones y Prevision</li>
+    <li class="{% if request.path == simulaciones_url %}active{% endif %}"><a href="{{ simulaciones_url }}">Hacer un Pronóstico</a></li>
 
     <!-- generate links to pages for each of the reservoirs -->
-    <li class="title">Datos Historicos y Prevision</li>
+    <li class="title">Datos Historicos</li>
     {%if urls%}
         {% for url in urls %}
           <li class="{% if url.active %}active{% endif %}"><a href="{{ url.url }}">{{url.name}}</a></li>

@@ -1,4 +1,6 @@
 from tethys_sdk.base import TethysAppBase, url_map_maker
+from django.core.management import settings
+import os
 
 # todo: finish the getvolumefrombathymetry function in the model
 # todo: make the reservoir page ajax controller send it and the ajax.js print it
@@ -23,6 +25,11 @@ class Embalses(TethysAppBase):
     enable_feedback = False
     feedback_emails = []
     currentpage = ''        # a custom setting added for keeping track of which reservoir is being viewed
+    analytics = bool('analytical' in settings.INSTALLED_APPS and settings.GOOGLE_ANALYTICS_JS_PROPERTY_ID)
+
+    with open(os.path.join(os.path.dirname(__file__), 'templates/embalses/analytics.html'), 'w') as file:
+        if analytics:
+            file.write("{% load google_analytics_js %}{% google_analytics_js %}")
 
     def url_maps(self):
         """
@@ -32,7 +39,7 @@ class Embalses(TethysAppBase):
 
         url_maps = (
 
-            # CONTROLLERS FOR NAVIAGABLE PAGES
+            # OVERVIEW PAGES
             UrlMap(
                 name='home',
                 url='embalses',
@@ -44,10 +51,19 @@ class Embalses(TethysAppBase):
                 controller='embalses.controllers.reportar'
             ),
             UrlMap(
-              name='instrucciones',
+                name='instrucciones',
                 url='embalses/instrucciones',
                 controller='embalses.controllers.instructions'
             ),
+
+            # SIMULATIONS PAGE
+            UrlMap(
+                name='simulaciones',
+                url='embalses/simulaciones',
+                controller='embalses.controllers.simulaciones'
+            ),
+
+            # RESERVOIR SPECIFIC PAGES
             UrlMap(                     # this is the controller for the page that shows reservoir specific stats
                 name='template',        # {name} is an argument the controller needs to accept second
                 url='embalses/{name}',

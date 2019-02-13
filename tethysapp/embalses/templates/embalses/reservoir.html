@@ -5,14 +5,22 @@
 {% load staticfiles %}
 
 {% block app_content %}
-<h2>Datos Historicos y Prevision: {{name}}</h2>
+<h2 style="text-align: center">Datos Historicos para {{name}}</h2>
 <div id="hist_data_chart"></div>
-<div id="reservoir_info">Estatisticas para {{name}}</div>
+<div id="reservoir_info"><h2 style="text-align: center">Estatisticas para {{name}}</div>
 <div id="minlvl"></div>
 <div id="maxlvl"></div>
 <div id="currentlvl"></div>
 <div id="lastreport"></div>
 <div id="capactity"></div>
 <div id="wateravailable"></div>
-<div id="simulation table">{% gizmo table_view %}</div>
+
+
+<h3>things that should be in the statistical report</h3>
+<li>last 5 year averages</li>
+<li>monthly averages</li>
+<li>last 30 days of levels maybe as a graph</li>
+<li>current levels and volumes</li>
+<li>max/min levels for the reservoir</li>
+
 {% endblock %}

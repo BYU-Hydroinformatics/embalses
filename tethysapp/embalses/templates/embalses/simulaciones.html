@@ -1,0 +1,19 @@
+{% extends "embalses/base.html" %}
+
+{% load tethys_gizmos staticfiles %}
+{% load tethys_gizmos %}
+{% load staticfiles %}
+
+{% block app_content %}
+<h2>EVENTUALLY THE SIMULATION PAGE STUFF WILL BE HERE</h2>
+<ul>
+    things that need to go here
+    <li>the table for inputs and outputs</li>
+    <li>controls to mimick the josefina spreadsheet</li>
+    <li>curent status of the reservoirs</li>
+    <li>a way to pick which reservoir to do a forecast for</li>
+</ul>
+
+<div id="simulation table">{% gizmo table_view %}</div>
+
+{% endblock %}
