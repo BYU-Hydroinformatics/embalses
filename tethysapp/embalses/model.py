@@ -2,7 +2,7 @@ def operations():
     """
     A list of dams with all their relevant data
     """
-    operations = {
+    return {
         'Chacuey': {
             'comids': ['1396'],
             'minlvl': 47.00,
@@ -66,7 +66,7 @@ def operations():
             'ymin': 110,
         }
     }
-    return operations
+
 
 def reservoirs():
     """
@@ -144,11 +144,11 @@ def getlastelevation():
     damsheet = os.path.join(app_workspace.path, 'DamLevel_DR_BYU 2018.xlsx')
     dfnan = pandas.read_excel(damsheet)
 
+
     reservoirs = operations()
     for reservoir in reservoirs:
-        # change the names for two reservoirs who are listed under different names in spreadsheets
-        if reservoir == 'Sabana Yegua':
-            reservoir = 'S. Yegua'
+        if reservoir == 'Sabana Yegua':                 # change the names for two reservoirs who are
+            reservoir = 'S. Yegua'                      # listed under different names in spreadsheets
         elif reservoir == 'Tavera-Bao':
             reservoir = 'Tavera'
 
@@ -166,7 +166,7 @@ def getlastelevation():
     return elevations
 
 
-def getvolumefrombathymetry(reservoir_name):
+def getCurrentVolumes(reservoir_name):
     """
     You give it the name of a reservoir and it returns total volume and usable volume using the bathymetry data gained
     by reading the bathymetry spreadsheet
@@ -185,3 +185,28 @@ def getvolumefrombathymetry(reservoir_name):
     data = {}
 
     return data
+
+def make_overviewtable():
+    """
+    A function that creates the data needed for the overview table on the app home page.
+    The format for that data is a list of dictionaries
+    """
+    tabledata = {}
+    entries = []
+    res_ops = operations()
+    lastelevation = getlastelevation()
+
+    for reservoir in res_ops:
+        new_entry = {
+            'name': reservoir,
+            'maxlvl': res_ops[reservoir]['maxlvl'],
+            'actlvl': lastelevation[reservoir],
+            'minlvl': res_ops[reservoir]['minlvl'],
+        }
+        entries.append(new_entry)
+
+    del lastelevation
+
+    tabledata['result'] = entries
+
+    return tabledata

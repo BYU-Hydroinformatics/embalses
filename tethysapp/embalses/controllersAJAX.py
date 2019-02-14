@@ -5,9 +5,9 @@ from django.http import JsonResponse
 @login_required()
 def reservoir_pg_info(request):
     """
-    called when the reservoir stats page is opened to give data to the historical data chart
+    Called when the reservoir stats page is opened to give data to the historical data chart
     """
-    from .model import operations, gethistoricaldata, getvolumefrombathymetry
+    from .model import operations, gethistoricaldata
     from .app import Embalses as app
     import datetime
 
@@ -37,10 +37,6 @@ def reservoir_pg_info(request):
     lastdate = datetime.datetime.strftime(historical['lastdate'], "%d %B %Y")
     responsedata['lastreport'] = "Fecha de la ultima entrada: " + lastdate
 
-    # bathymetry = getvolumefrombathymetry(name)
-    # responsedata['capacity'] = total cubic meters of water
-    # responsedata['wateravailable'] = current amount of water (current level to min lvl)
-
     return JsonResponse(responsedata)
 
 
@@ -49,8 +45,5 @@ def overviewpage(request):
     """
     called when the home page with the map is loaded. gets overview data about total volume, current levels, etc
     """
-    # todo: this should get total available water, current levels and available water at all reservoirs
-    from .model import getlastelevation
-    elevs = getlastelevation()
-
-    return JsonResponse(elevs)
+    from .model import make_overviewtable
+    return JsonResponse(make_overviewtable())

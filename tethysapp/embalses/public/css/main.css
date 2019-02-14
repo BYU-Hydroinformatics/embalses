@@ -1,5 +1,27 @@
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+
 #map {
-    height:400px;
+    height:50%x;
     width:100%;
-    margin: auto;
+    margin: 0;
+    padding: 0;
+}
+
+#overview-table {
+    height: 50%;
+    width: 100%;
+    margin: 0;
+}
+
+#app-content, #inner-app-content, #outer-container {
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
 }

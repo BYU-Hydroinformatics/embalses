@@ -1,5 +1,6 @@
 // Getting the csrf token
-let csrftoken = Cookies.get('csrftoken');
+var csrftoken = Cookies.get('csrftoken');
+
 function csrfSafeMethod(method) {
     // these HTTP methods do not require CSRF protection
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));

@@ -50,10 +50,14 @@
 
 {% block content_dependent_styles %}
   {{ block.super }}
-  <!-- styling for leaflet -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" />
-  <!-- App specific styling scripts -->
-  <link href="{% static 'embalses/css/main.css' %}" rel="stylesheet"/>
+    <!-- styling for leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" />
+
+    <!-- Tabulator styling You can change tabulator_site for tabulator_ simple, midnight, modern, or just tabulator.min -->
+    <link href="https://unpkg.com/tabulator-tables@4.2.0/dist/css/tabulator_site.min.css" rel="stylesheet">
+
+    <!-- App specific styling scripts -->
+    <link href="{% static 'embalses/css/main.css' %}" rel="stylesheet"/>
 {% endblock %}
 
 {% block scripts %}
@@ -61,16 +65,23 @@
     {% include "embalses/analytics.html" %}
     <!-- Allows csrf verification with AJAX -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+
+    <!-- Tabulator for JS tables -->
+    <script type="text/javascript" src="https://unpkg.com/tabulator-tables@4.2.0/dist/js/tabulator.min.js"></script>
+
     <!-- Script for Leaflet -->
     <script type="text/javascript" src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
+
     <!-- script for using highcharts (display timeseries plot) -->
     <script type="text/javascript" src="https://code.highcharts.com/highcharts.js"></script>
     <!-- Use this to export data from highcharts as csv, jpeg, etc -->
     <script type="text/javascript" src="https://code.highcharts.com/modules/exporting.js"></script>
     <!-- Use this to show loading functions and placeholders -->
     <script src="https://code.highcharts.com/modules/no-data-to-display.js"></script>
+
     <!-- script generated for the app -->
     <script type="text/javascript" src="{% static 'embalses/js/locations.js' %}"></script>
+    <script type="text/javascript" src="{% static 'embalses/js/tabulator.js' %}"></script>
     <script type="text/javascript" src="{% static 'embalses/js/leaflet.js' %}"></script>
     <script type="text/javascript" src="{% static 'embalses/js/highchart.js' %}"></script>
     <script type="text/javascript" src="{% static 'embalses/js/ajax.js' %}"></script>

@@ -13,7 +13,7 @@ function getChart() {
 //            $("#lastreport").text(result['lastreport']);
 //            $("#capacity").text)result['capacity'];
 //            $("#wateravailable").text)result['wateravailable'];
-            },
+            }
         });
 }
 
@@ -26,10 +26,7 @@ function dataOverview() {
         contentType: "application/json",
         method: 'POST',
         success: function(results) {
-            for (result in results) {
-                $("#overviewinfo").append(result + ': ' + results[result] + '<br>');
-                }
-
-            },
-        });
+            tabulatorResStats(results['result']);
+            }
+        })
 }
