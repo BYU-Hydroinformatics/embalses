@@ -17,7 +17,8 @@
     {% url 'embalses:home' as home_url %}
     {% url 'embalses:reportar' as reportar_url %}
     {% url 'embalses:instrucciones' as instrucciones_url %}
-    {% url 'embalses:simulaciones' as simulaciones_url %}
+    {% url 'embalses:simulations_short' as simulacionesbreves_url %}
+    {% url 'embalses:simulations_long' as simulacionesprolongados_url %}
     {% url 'embalses:reportes' as reportes_url %}
 
     <li class="title">Navigación</li>
@@ -30,8 +31,8 @@
 
     <!-- The page for forcasts -->
     <li class="title">Simulaciones y Prevision</li>
-    <li class="{% if request.path == simulaciones_url %}active{% endif %}"><a href="{{ simulaciones_url }}">Hacer un Pronóstico</a></li>
-    <li class="{% if request.path == reportes_url %}active{% endif %}"><a href="{{ reportes_url }}">Informes Anteriores</a></li>
+    <li class="{% if request.path == simulacionesbreves_url %}active{% endif %}"><a href="{{ simulacionesbreves_url }}">Pronósticos Breves</a></li>
+    <li class="{% if request.path == simulacionesprolongados_url %}active{% endif %}"><a href="{{ simulacionesprolongados_url }}">Pronósticos Prolongados</a></li>
 
     <!-- generate links to pages for each of the reservoirs -->
     <li class="title">Datos Historicos</li>
@@ -69,6 +70,8 @@
 
     <!-- Tabulator for JS tables -->
     <script type="text/javascript" src="https://unpkg.com/tabulator-tables@4.2.0/dist/js/tabulator.min.js"></script>
+    {# Moment.js for dates/times in javascript #}
+    <script type="text/javascript" src="https://momentjs.com/downloads/moment-with-locales.js"></script>
 
     <!-- Script for Leaflet -->
     <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>

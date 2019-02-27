@@ -186,13 +186,16 @@ def getCurrentVolumes(reservoir_name):
 
     return data
 
+
 def make_overviewtable():
     """
     A function that creates the data needed for the overview table on the app home page.
     The format for that data is a list of dictionaries
     """
-    tabledata = {}
-    entries = []
+
+    # variables declaration
+    tabledata = {}              # the response dictionary
+    entries = []                # tabulator expects a list with one dictionary per row
     res_ops = operations()
     lastelevation = getlastelevation()
 
@@ -208,5 +211,42 @@ def make_overviewtable():
     del lastelevation
 
     tabledata['result'] = entries
+
+    return tabledata
+
+
+def make_simulationtable():
+    """
+    A function that gets called when the simulations page is opened that creates the list of entries for the table
+    """
+    import datetime
+
+    # variables declaration
+    tabledata = {}          # the response dictionary
+    entries = []            # tabulator expects a list with one dictionary per row
+    res_ops = operations()
+
+    # For each day in the next 7 days
+    for i in range(0, 7):
+        # set the date we're working on
+        date = (datetime.datetime.today() + datetime.timedelta(i)).strftime('%m-%d-%Y')
+
+        # get the forecasted streamflow into the reservoir for today
+        # for comid in res_ops[reservoir_name]['comids']:
+            # query the streamflow prediction tool api to get the forcasted inflow
+            # inflow = sum of the queried flows
+            # you'll need to use the date variable just assigned
+            # inflow = 500
+        new_entry = {
+            'date': date,
+            'inflow': 'cargando...',
+            'release': 0,
+            'units': 'mcs',
+            'time': 0,
+        }
+        entries.append(new_entry)
+
+    tabledata['result'] = entries
+    del new_entry, res_ops, entries
 
     return tabledata

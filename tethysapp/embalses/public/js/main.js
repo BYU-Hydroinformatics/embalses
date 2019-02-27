@@ -30,8 +30,10 @@ $(document).ready(function() {
     }
 
 
-    if ($('#sfptTable').length) {
-        tabulatorOutflows();
+    if ($('#outflowTable').length) {
+        $('#reservoir').change(function() {
+            simulationTable();
+        })
     }
 
 

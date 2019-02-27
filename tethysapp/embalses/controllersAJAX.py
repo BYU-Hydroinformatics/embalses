@@ -47,3 +47,12 @@ def overviewpage(request):
     """
     from .model import make_overviewtable
     return JsonResponse(make_overviewtable())
+
+
+@login_required()
+def simulationTable(request):
+    """
+    called when the simulation page starts to get used
+    """
+    from .model import make_simulationtable
+    return JsonResponse(make_simulationtable())

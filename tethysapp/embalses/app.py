@@ -51,14 +51,14 @@ class Embalses(TethysAppBase):
 
             # SIMULATIONS PAGES
             UrlMap(
-                name='simulaciones',
-                url='embalses/simulaciones',
-                controller='embalses.controllers.simulaciones'
+                name='simulations_short',
+                url='embalses/simulaciones-breves',
+                controller='embalses.controllers.simulations_short'
             ),
             UrlMap(
-                name='reportes',
-                url='embalses/reportes',
-                controller='embalses.controllers.reportes'
+                name='simulations_long',
+                url='embalses/simulaciones-prolngados',
+                controller='embalses.controllers.simulations_long'
             ),
 
             # RESERVOIR SPECIFIC PAGES
@@ -78,7 +78,12 @@ class Embalses(TethysAppBase):
                 name='overview',
                 url='embalses/ajax/overviewpage',
                 controller='embalses.controllersAJAX.overviewpage'
-            )
+            ),
+            UrlMap(
+                name='simulationTable',
+                url='embalses/ajax/simulationTable',
+                controller='embalses.controllersAJAX.simulationTable'
+            ),
         )
 
         return url_maps

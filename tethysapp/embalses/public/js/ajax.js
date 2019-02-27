@@ -30,3 +30,18 @@ function dataOverview() {
             }
         })
 }
+
+
+function simulationTable() {
+    $.ajax({
+        url:'/apps/embalses/ajax/simulationTable/',
+        data: 'feed me ur info',
+        dataType: 'json',
+        contentType: "application/json",
+        method: 'POST',
+        success: function(results) {
+            console.log(results);
+            tabulatorOutflows(results['result']);
+            }
+        })
+}

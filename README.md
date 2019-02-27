@@ -1,6 +1,6 @@
 # Administraction de los Embalses
 
-descripcion no esta pronta
+descripcion ya no esta pronta
 
 # Reservoir Management
 
@@ -9,4 +9,20 @@ This application 1- provides maps and general overview information for major res
 performing simulations based on forecasted rain and streamflow and 3- shows historical data and statistics.
 
 This application is the product of a collaboration between INDRHI and senior students from the BYU Civil and 
-Environmental Engineering program. 
+Environmental Engineering program.
+
+## Overview
+There are 3 pages for viewing summary data, reporting new data, and getting instructions to use the app.
+The overview page has a map with markers indicating the locations of each of the reservoirs in the country and a table with some relevant information about each reservoir including current elevation and usable volume.  
+
+### Report page  
+How to use the reporting page
+
+### Instruction page  
+Contains most of this information and also has links to youtube videos that demonstrate using each of these functions.  
+
+## Simulations  
+How to use the simulations page
+
+## Historical Data 
+For each reservoir, there is a page that shows all the available historical data

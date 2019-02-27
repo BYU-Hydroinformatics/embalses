@@ -30,15 +30,23 @@ function tabulatorResStats(result) {
 }
 
 
-function tabulatorOutflows() {
-    // Takes data from the ajax call made when you open a reservoir page
-    // Filters out the data from the result with the statistics information
-    // Creates the statistics tabulator page
+function tabulatorOutflows(result) {
 
-    var data =[]
+    var unitOpts = {
+        'mcs': 'Metros Cubicos Segundo',
+        'cfs': 'Cubic Feet per Second',
+        'horas': 'hours',
+        'minutos': 'minutes',
+    };
+
+    var formatterParams = {
+        inputFormat:"YYYY-MM-DD",
+        outputFormat:"DD/MM/YY",
+        invalidPlaceholder:"(invalid date)",
+    };
 
     var outflowtable = new Tabulator("#outflowTable", {
-        data:data,              //load row data from array
+        data:result,                //load row data from array
         layout:"fitColumns",      //fit columns to width of table
         responsiveLayout:"hide",  //hide columns that dont fit on the table
         tooltips:true,            //show tool tips on cells
@@ -49,16 +57,17 @@ function tabulatorOutflows() {
         movableColumns:false,     //allow column order to be changed
         resizableRows:true,       //allow row order to be changed
         initialSort:[             //set the initial sort order of the data
-            {column:"name", dir:"asc"}
+            {column:"date", dir:"asc"}
         ],
         columns:[                 //define the table columns
-            {title:"Nombre", field:"name", editor:false},
-            {title:"Nivel MAXIMO", field:"maxlvl", align:"center"},
-            {title:"Nivel ACTUAL", field:"actlvl", align:"center"},
-            {title:"Nivel MINIMO", field:"minlvl", align:"center"},
-            // {title:"Promedio Anual", field:"yrAvg", align:"left", formatter:"progress", editor:true},
-            // {title:"Volumen ACTUAL", field:"volAct", width:130, editor:"input"},
-            // {title:"Volumen UTIL", field:"volUtil", align:"center"}
+            {title:"Fecha", field:"date", formatter:"datetime", editor:false, formatterParams:{
+                inputFormat:"MM-DD-YYYY",
+                outputFormat:"DD/MM/YY",
+                invalidPlaceholder:"(invalid date)"}},
+            {title:"Entradas (pronosticadas)", field:"inflow", align:"center"},
+            {title:"Salida", field:"release", align:"center", formatter:"plaintext", editor:true},
+            {title:"Unidades", field:"units", align:"center", editor:"select", editorParams:unitOpts},
+            {title:"Tiempo de Salida (Horas)", field:"time", align:"center", formatter:"plaintext", editor:true},
         ]
     });
 }
