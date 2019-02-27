@@ -8,19 +8,10 @@ function leaf_map() {
         center: [19, -70.6],
     });
 
-    // create the basemap layers (default basemap is world imagery)
     var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}');
-    var Esri_WorldTerrain = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {maxZoom: 13});
-    var openStreetMap = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-       name: 'openStreetMap',
-        }).addTo(map);
+    var Esri_Imagery_Labels = L.esri.basemapLayer('ImageryLabels');
+    basemaps = {"Basemap": L.layerGroup([Esri_WorldImagery, Esri_Imagery_Labels]).addTo(map)}
 
-    basemaps = {
-        "ESRI Imagery": Esri_WorldImagery,
-        "ESRI Terrain": Esri_WorldTerrain,
-        "OpenStreetMap": openStreetMap,
-        };
     lyrControls = L.control.layers(basemaps).addTo(map);
 
     function onEachFeature(feature, layer) {

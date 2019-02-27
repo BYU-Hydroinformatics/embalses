@@ -5,12 +5,19 @@
 {% load staticfiles %}
 
 {% block app_content %}
-<h2>EVENTUALLY THE SIMULATION PAGE STUFF WILL BE HERE</h2>
-<ul>
-    things that need to go here
+<h2>Hacer Pronostico</h2>
+{% gizmo select_input res_list %}
+<h3 style="text-align: center;">Etradas Pronosticadas</h3>
+<div id="sfptTable">Cargando Informaciones</div>
+<h3 style="text-align: center;">Salidas Estimadas</h3>
+<div id="outflowTable">Cargando Informaciones</div>
+
+
+<br><br><br><br><br><br><br>Notes and Old stuff<br>
+things that need to go here<ul>
     <li>the table for inputs and outputs</li>
     <li>controls to mimick the josefina spreadsheet</li>
-    <li>curent status of the reservoirs</li>
+    <li>current status of the reservoirs</li>
     <li>a way to pick which reservoir to do a forecast for</li>
 </ul>
 

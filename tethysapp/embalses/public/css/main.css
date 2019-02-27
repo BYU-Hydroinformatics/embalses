@@ -5,9 +5,8 @@ html, body {
     padding: 0;
 }
 
-
 #map {
-    height:50%x;
+    height:50%;
     width:100%;
     margin: 0;
     padding: 0;
@@ -22,6 +21,6 @@ html, body {
 #app-content, #inner-app-content, #outer-container {
     height: 100%;
     width: 100%;
-    padding: 0;
-    margin: 0;
+    padding: 2px;
+    margin: 2px;
 }
