@@ -36,13 +36,7 @@ function tabulatorOutflows(result) {
         'mcs': 'Metros Cubicos Segundo',
         'cfs': 'Cubic Feet per Second',
         'horas': 'hours',
-        'minutos': 'minutes',
-    };
-
-    var formatterParams = {
-        inputFormat:"YYYY-MM-DD",
-        outputFormat:"DD/MM/YY",
-        invalidPlaceholder:"(invalid date)",
+        'minutos': 'minutes'
     };
 
     var outflowtable = new Tabulator("#outflowTable", {
@@ -60,12 +54,9 @@ function tabulatorOutflows(result) {
             {column:"date", dir:"asc"}
         ],
         columns:[                 //define the table columns
-            {title:"Fecha", field:"date", formatter:"datetime", editor:false, formatterParams:{
-                inputFormat:"MM-DD-YYYY",
-                outputFormat:"DD/MM/YY",
-                invalidPlaceholder:"(invalid date)"}},
+            {title:"Fecha", field:"date", formatter:"datetime", editor:false, formatterParams:{inputFormat:"MM-DD-YYYY", outputFormat:"DD/MM/YY"}},
             {title:"Entradas (pronosticadas)", field:"inflow", align:"center"},
-            {title:"Salida", field:"release", align:"center", formatter:"plaintext", editor:true},
+            {title:"Caudales de Salida", field:"release", align:"center", formatter:"plaintext", editor:true},
             {title:"Unidades", field:"units", align:"center", editor:"select", editorParams:unitOpts},
             {title:"Tiempo de Salida (Horas)", field:"time", align:"center", formatter:"plaintext", editor:true},
         ]
