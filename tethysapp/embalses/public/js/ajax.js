@@ -7,12 +7,6 @@ function getChart() {
         method: 'POST',
         success: function(result) {
             newHighchart(result);
-//            $("#minlvl").text(result['minlvl']);
-//            $("#maxlvl").text(result['maxlvl']);
-//            $("#currentlvl").text(result['currentlvl']);
-//            $("#lastreport").text(result['lastreport']);
-//            $("#capacity").text)result['capacity'];
-//            $("#wateravailable").text)result['wateravailable'];
             }
         });
 }
@@ -66,9 +60,21 @@ function statisticalReport() {
         method: 'POST',
         success: function(results) {
             console.log(results);
-            $("#volumes").innerHTML += results['volumes'];
-            $("#levels").innerHTML += results['levels'];
-            $("#averages").innerHTML += results['averages'];
+            for (entry in results['volumes']) {
+                console.log(entry);
+                console.log(results['volumes'][entry]);
+                $("#volumes").innerHTML += "<li>" + entry + ": " + results['volumes'][entry] + "</li>";
             }
-        })
+            for (entry in results['levels']) {
+                console.log(entry);
+                console.log(results['elevations'][entry]);
+                $("#elevations").innerHTML += "<li>" + entry + ": " + results['elevations'][entry] + "</li>";
+            }
+            for (entry in results['averages']) {
+                console.log(entry);
+                console.log(results['averages'][entry]);
+                $("#averages").innerHTML += "<li>" + entry + ": " + results['averages'][entry] + "</li>";
+            }
+        }
+    })
 }

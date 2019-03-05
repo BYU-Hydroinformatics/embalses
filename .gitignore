@@ -1,13 +1,7 @@
-*.pydevproject
-*.project
-*.egg-info
-*.class
-*.pyo
-*.pyc
-*.db
-*.sqlite
-*.DS_Store
 .idea
 .idea/*
 .DS_Store
 .DS_Store/*
+*/__pycache__
+__pycache__
+*.egg-info

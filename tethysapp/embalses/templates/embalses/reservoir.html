@@ -7,24 +7,23 @@
 {% block app_content %}
     <h2 style="text-align: center">Datos Historicos para {{name}}</h2>
     <div id="hist_data_chart"></div>
-    <div id="reservoir_info"><h2 style="text-align: center">Estatisticas para {{name}}</div>
+    <div id="reservoir_info"><h2 style="text-align: center">Estatisticas para {{name}}</h2></div>
     <div id="summary-table"></div>
 
-    <div id="volumes" class="one-third column alpha">
+    <div id="volumes">
         <h3>Volumes</h3>
     </div>
 
-    <div id="levels" class="one-third column">
+    <div id="elevations">
         <h3>Levels</h3>
         <li>last 30 days of levels maybe as a graph</li>
         <li>date of the last data entry</li>
     </div>
 
-    <div id="averages" class="one-third column omega">
+    <div id="averages">
         <h3>Averages</h3>
         <li>last 5 year averages</li>
         <li>monthly averages</li>
     </div>
-
 
 {% endblock %}

@@ -81,18 +81,13 @@ def reservoirstatistics(request):
     """
     called when the simulation page starts to get used
     """
-    from .model import operations, get_reservoirvolumes, get_lastelevations
+    from .model import get_reservoirvolumes, get_reservoirelevations
     from .app import Embalses as app
 
     reservoir = app.currentpage
-    info = operations()
     data = {}
     data['volumes'] = get_reservoirvolumes(reservoir)
-    data['elevations'] = {
-        'min': info[reservoir]['minlvl'],
-        'max': info[reservoir]['maxlvl'],
-        'current': get_lastelevations()[reservoir],
-    }
+    data['elevations'] = get_reservoirelevations(reservoir)
     data['averages'] = {
         'monthly': 0,
         'lastyr': 0,

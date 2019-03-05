@@ -92,7 +92,7 @@ def get_historicaldata(reservoir_name):
     You give it the name of a reservoir and it will read the excel sheet in the app workspace making a list of all the
     levels recorded so that you can plot them
     """
-    from .app import Embalses as app
+    from .app import Embalses as App
     import os, pandas, datetime, calendar
 
     # change the names for two reservoirs who are listed under different names in spreadsheets
@@ -102,8 +102,8 @@ def get_historicaldata(reservoir_name):
         reservoir_name = 'Tavera'
 
     # open the sheet with historical levels
-    app_workspace = app.get_app_workspace()
-    damsheet = os.path.join(app_workspace.path, 'DamLevel_DR_BYU 2018.xlsx')
+    app_workspace = App.get_app_workspace()
+    damsheet = os.path.join(app_workspace.path, 'elevations.xlsx')
     # read the sheet, get the water level info (nivel) corresponding to the correct reservoir name
     dfnan = pandas.read_excel(damsheet)
     df1 = dfnan[['Nivel', reservoir_name]]
@@ -135,13 +135,13 @@ def get_lastelevations():
     """
     Returns the most recently reported ELEVATION for each of the reservoirs as listed in the excel sheet
     """
-    from .app import Embalses as app
+    from .app import Embalses as App
     import os, pandas
     elevations = {}
 
     # open the sheet with historical levels
-    app_workspace = app.get_app_workspace()
-    damsheet = os.path.join(app_workspace.path, 'DamLevel_DR_BYU 2018.xlsx')
+    app_workspace = App.get_app_workspace()
+    damsheet = os.path.join(app_workspace.path, 'elevations.xlsx')
     dfnan = pandas.read_excel(damsheet)
 
 
@@ -171,17 +171,19 @@ def get_reservoirvolumes(reservoir_name):
     You give it the name of a reservoir and it returns total volume and usable volume using the bathymetry data gained
     by reading the bathymetry spreadsheet
     """
-    from .app import Embalses as app
+    from .app import Embalses as App
     import os, pandas
 
     curr_elev = get_lastelevations()[reservoir_name]
     info = operations()[reservoir_name]
-    min_elev = info['minlvl']
-    max_elev = info['maxlvl']
     volumes = {}
 
-    app_workspace = app.get_app_workspace()
-    bath = os.path.join(app_workspace.path, 'BATIMETRIA PRESAS RD.xlsx')
+    if reservoir_name == 'Sabana Yegua':    # change the names for two reservoirs who are
+        reservoir_name = 'Sabana_Yegua'         # listed under different names in spreadsheets
+    elif reservoir_name == 'Tavera-Bao':
+        reservoir_name = 'Tavera'
+    app_workspace = App.get_app_workspace()
+    bath = os.path.join(app_workspace.path, 'bathymetry.xlsx')
     df = pandas.read_excel(bath)[[reservoir_name + '_Elev', reservoir_name + '_Vol']]
     volumes['current'] = df.loc[df[reservoir_name + '_Elev'] == curr_elev].values[0, 1]
     volumes['min'] = df.loc[df[reservoir_name + '_Elev'] == info['minlvl']].values[0, 1]
@@ -191,3 +193,14 @@ def get_reservoirvolumes(reservoir_name):
     del df
 
     return volumes
+
+
+def get_reservoirelevations(reservoir_name):
+    """
+    You give it the name of a reservoir and it gives you all the possible relevant elevations associated with it
+    """
+    elevations = {}
+    elevations['current'] = get_lastelevations()[reservoir_name]
+    elevations['min'] = operations()[reservoir_name]['minlvl']
+    elevations['max'] = operations()[reservoir_name]['maxlvl']
+    return elevations

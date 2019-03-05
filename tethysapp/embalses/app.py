@@ -1,5 +1,21 @@
 from tethys_sdk.base import TethysAppBase, url_map_maker
 
+# todo style the statistics divs
+# todo implement google sheets as a spreadsheet alternative
+# todo finish the simulation table math
+# todo reorganize the controllersajax stuff into models or tools
+# todo make sure the sfpt query section works
+# todo translate the instructions
+# todo make the sync button work
+# todo OPTIONAL- generate a report based on the simulations
+# todo OPTIONAL- create a persistent store of old reports
+# todo OPTIONAL- add the sync button to many pages
+# todo OPTIONAL- add a modal button for finding help videos for each page
+# todo OPTIONAL- make the forecasting more complicated based on heights (warnings, etc)
+# todo OPTIONAL- give an option to email the finished report to someone
+# todo OPTIONAL- let the user toggle between elevations and depths on the historical charts
+
+
 class Embalses(TethysAppBase):
     """
     Tethys app class for Herramientas de Operaciones de los Embalses.
