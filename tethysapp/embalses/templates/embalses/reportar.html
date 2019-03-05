@@ -1,6 +1,24 @@
 {% extends "embalses/base.html" %}
 
 {% block app_content %}
-<h2>THIS PAGE MAY NOT BE NECESSARY</h2>
-the spreadsheet project might be able to update this for me automatically
+    <div id="reporting_spanish">
+    <h2>Reportar Nivels</h2>
+        Los datos en esta aplicación provienen de una spreadsheet que contiene un base de datos storicos de las elevaciones para cada embalse. Puedes
+        <a href="https://docs.google.com/spreadsheets/d/1RxYxkP3mQvffaEIJQwp3K3QHPTCbvNXCvXLUnBcgUw4/edit?usp=sharing">ver y actualizar los datos en esta spreadsheet</a>
+        con Google Sheets. Debe actualizar la información en esa spreadsheet de Google todos los días. Cuando inicie la aplicación, debe usar el botón en esta pagina para
+        sincronizar los datos de Google con los datos que tiene este app.
+    </div>
+
+    <div id="reporting_english">
+    <h2>Reporting Levels</h2>
+        The data in this app comes from a spreadsheet that contains a simple database of historical elevation levels for each of the reservoirs. You can
+        <a href="https://docs.google.com/spreadsheets/d/1RxYxkP3mQvffaEIJQwp3K3QHPTCbvNXCvXLUnBcgUw4/edit?usp=sharing">view and update the data on that spreadsheet</a>
+        on Google Sheets. You should update the information on that Google Sheet every day. When you launch the app, you should use the synchronize data
+        button available on this page to update the local database of information maintained by the app.
+    </div>
+
+    <div id="reporting_controls" style="text-align: center;">
+        <button id="synchronize">Sincronizar Los Datos</button>
+    </div>
+
 {% endblock %}

@@ -1,21 +1,55 @@
 {% extends "embalses/base.html" %}
 
 {% block app_content %}
-<h2>How To Use This Application</h2>
+    <h1>Administracion de los Embalses</h1>
+    descripcion en espanol ya no esta pronta
 
-Features
-<ul>
-    <li>View summary data and maps (Maps and Summary Page)</li>
-    <li>Report daily levels and view tabulated levels (Report Levels Page)</li>
-    <li>Make simple simulations of water levels based on forecasted use and inflow</li>
-    <li>Pages for each reservoir with charts of historical data and statistics</li>
-</ul>
+    <h1>Reservoir Management</h1>
+    <p>A Tethys application built for INDRHI officials and other water related personnel in the Dominican Republic.
+        This application <b>(1)</b> provides maps and general overview information for major reservoirs, <b>(2)</b> has an interface
+        for performing simulations based on forecasted rain and streamflow and <b>(3)</b> shows historical data and statistics.
+    <p>This application is the product of a collaboration between INDRHI and senior students from the BYU Civil and
+        Environmental Engineering program.
 
+    <h2>Overview</h2>
+    <p>There are 3 pages for viewing summary data, reporting new data, and getting instructions to use the app.
+        The overview page has a map with markers indicating the locations of each of the reservoirs in the country and a table
+        with some relevant information about each reservoir including current elevation and usable volume.
 
-Things that need to be here
-<ul>
-    <li>links to youtube videos</li>
-    <li>english and spanish instructions</li>
-    <li>step by steps for each of the functions</li>
-</ul>
+    <p><b>Report page: </b>How to use the reporting page
+
+    <p><b>Instruction page: </b>Contains most of this information including links to youtube videos that demonstrate using each of these functions.
+
+    <h2>Simulations</h2>
+    <p>This application can perform simple simulations of reservoirs based on <b>(1)</b> current information about the reservoir,
+        <b>(2)</b> forecasted rain and streamflow, and <b>(3)</b> user supplied values for outflows from the reservoir.
+
+    <p>Video Demonstrations can be found
+        <li>In english: (youtube link)</li>
+        <li>In spanish: (youtube link)</li>
+
+    <br><p>Using The Simulations Tool
+    <ul>
+        <li>Choose a reservoir. Using the drop down menu located toward the top of the screen, pick a reservoir to do simulations
+            for. When you pick a reservoir, the space below the drop down menu will fill with some of the recent, relevant statistics
+            about the reservoir such as current level, current volume, or usable volume.</li>
+        <li>Fill out the table</li>
+        <li>Press the simulate button</li>
+    </ul>
+
+    <h2>Historical Data</h2>
+    The Reservoir Administration App has pages that show historical data and statistics for each of the reservoirs being
+    tracked. To view this information, find and click on the name of the reservoir in the menu column found on the left hand
+    side of the screen.The page you will be redirected to has 2 major components; <b>(1)</b> a graph of historical data and
+    <b>(2)</b> a table of statistics and summary information.
+
+    <h4>Historical Data Plot</h4>
+    The graph shows all the data thats is available to the app. The graph linearly connects spaces between missing data. If
+    you see a large, straight segment, check the data. If you click and drag, you can select areas of the chart you’re
+    interested in to zoom in on. The axes of the graphs have been changed to show depth rather than elevation so that the
+    trends are still available but is more zoomed to the curves representing changes in elevation of the reservoir.
+
+    <h4>Statistics Section</h4>
+    The statistics and summary section shows variables to try to give a better context to the data shown in the graph.
+
 {% endblock %}
