@@ -27,6 +27,7 @@ $(document).ready(function() {
     if ($('#hist_data_chart').length) {
         placeholderchart();
         getChart();
+        statisticalReport();
     }
 
 

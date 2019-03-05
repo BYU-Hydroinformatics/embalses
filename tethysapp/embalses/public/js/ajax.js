@@ -35,13 +35,40 @@ function dataOverview() {
 function simulationTable() {
     $.ajax({
         url:'/apps/embalses/ajax/simulationTable/',
-        data: 'feed me ur info',
+        data: 'setting up the simulation table',
+        dataType: 'json',
+        contentType: "application/json",
+        method: 'POST',
+        success: function(dates) {
+            console.log(dates);
+            tabulatorOutflows(dates['result']);
+            $.ajax({
+                url:'/apps/embalses/ajax/getSFPTflows/',
+                data: $("#reservoir").val(),
+                dataType: 'json',
+                contentType: "application/json",
+                method: 'POST',
+                success: function(flows) {
+                    console.log(flows);
+                    }
+                })
+            }
+        })
+}
+
+
+function statisticalReport() {
+    $.ajax({
+        url:'/apps/embalses/ajax/reservoirstatistics/',
+        data: 'get some stats yo',
         dataType: 'json',
         contentType: "application/json",
         method: 'POST',
         success: function(results) {
             console.log(results);
-            tabulatorOutflows(results['result']);
+            $("#volumes").innerHTML += results['volumes'];
+            $("#levels").innerHTML += results['levels'];
+            $("#averages").innerHTML += results['averages'];
             }
         })
 }

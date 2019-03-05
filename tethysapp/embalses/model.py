@@ -87,7 +87,7 @@ def reservoirs():
     return names
 
 
-def gethistoricaldata(reservoir_name):
+def get_historicaldata(reservoir_name):
     """
     You give it the name of a reservoir and it will read the excel sheet in the app workspace making a list of all the
     levels recorded so that you can plot them
@@ -131,7 +131,7 @@ def gethistoricaldata(reservoir_name):
     return histdata
 
 
-def getlastelevation():
+def get_lastelevations():
     """
     Returns the most recently reported ELEVATION for each of the reservoirs as listed in the excel sheet
     """
@@ -166,7 +166,7 @@ def getlastelevation():
     return elevations
 
 
-def getCurrentVolumes(reservoir_name):
+def get_reservoirvolumes(reservoir_name):
     """
     You give it the name of a reservoir and it returns total volume and usable volume using the bathymetry data gained
     by reading the bathymetry spreadsheet
@@ -174,79 +174,20 @@ def getCurrentVolumes(reservoir_name):
     from .app import Embalses as app
     import os, pandas
 
-    elevs = getlastelevation()
+    curr_elev = get_lastelevations()[reservoir_name]
     info = operations()[reservoir_name]
+    min_elev = info['minlvl']
+    max_elev = info['maxlvl']
+    volumes = {}
 
     app_workspace = app.get_app_workspace()
     bath = os.path.join(app_workspace.path, 'BATIMETRIA PRESAS RD.xlsx')
-    df = pandas.read_excel(bath)
-    df1 = df[[reservoir_name + '_Elev', reservoir_name + '_Vol']]
+    df = pandas.read_excel(bath)[[reservoir_name + '_Elev', reservoir_name + '_Vol']]
+    volumes['current'] = df.loc[df[reservoir_name + '_Elev'] == curr_elev].values[0, 1]
+    volumes['min'] = df.loc[df[reservoir_name + '_Elev'] == info['minlvl']].values[0, 1]
+    volumes['max'] = df.loc[df[reservoir_name + '_Elev'] == info['maxlvl']].values[0, 1]
+    volumes['available'] = volumes['current'] - volumes['min']
 
-    data = {}
+    del df
 
-    return data
-
-
-def make_overviewtable():
-    """
-    A function that creates the data needed for the overview table on the app home page.
-    The format for that data is a list of dictionaries
-    """
-
-    # variables declaration
-    tabledata = {}              # the response dictionary
-    entries = []                # tabulator expects a list with one dictionary per row
-    res_ops = operations()
-    lastelevation = getlastelevation()
-
-    for reservoir in res_ops:
-        new_entry = {
-            'name': reservoir,
-            'maxlvl': res_ops[reservoir]['maxlvl'],
-            'actlvl': lastelevation[reservoir],
-            'minlvl': res_ops[reservoir]['minlvl'],
-        }
-        entries.append(new_entry)
-
-    del lastelevation
-
-    tabledata['result'] = entries
-
-    return tabledata
-
-
-def make_simulationtable():
-    """
-    A function that gets called when the simulations page is opened that creates the list of entries for the table
-    """
-    import datetime
-
-    # variables declaration
-    tabledata = {}          # the response dictionary
-    entries = []            # tabulator expects a list with one dictionary per row
-    res_ops = operations()
-
-    # For each day in the next 7 days
-    for i in range(0, 7):
-        # set the date we're working on
-        date = (datetime.datetime.today() + datetime.timedelta(i)).strftime('%m-%d-%Y')
-
-        # get the forecasted streamflow into the reservoir for today
-        # for comid in res_ops[reservoir_name]['comids']:
-            # query the streamflow prediction tool api to get the forcasted inflow
-            # inflow = sum of the queried flows
-            # you'll need to use the date variable just assigned
-            # inflow = 500
-        new_entry = {
-            'date': date,
-            'inflow': 'cargando...',
-            'release': 0,
-            'units': 'mcs',
-            'time': 0,
-        }
-        entries.append(new_entry)
-
-    tabledata['result'] = entries
-    del new_entry, res_ops, entries
-
-    return tabledata
+    return volumes

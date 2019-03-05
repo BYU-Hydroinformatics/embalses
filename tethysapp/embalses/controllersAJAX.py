@@ -7,7 +7,7 @@ def reservoir_pg_info(request):
     """
     Called when the reservoir stats page is opened to give data to the historical data chart
     """
-    from .model import operations, gethistoricaldata
+    from .model import operations, get_historicaldata
     from .app import Embalses as app
     import datetime
 
@@ -16,7 +16,7 @@ def reservoir_pg_info(request):
     responsedata = {}
 
     # GET THE DATA FOR THE CHART--------------------------------------------------------------------------
-    historical = gethistoricaldata(name)
+    historical = get_historicaldata(name)
     hist_data = historical['values']
     for i in range(len(hist_data)):
         hist_data[i][1] -= info['ymin']         # change the values from elevations to depths
@@ -45,14 +45,57 @@ def overviewpage(request):
     """
     called when the home page with the map is loaded. gets overview data about total volume, current levels, etc
     """
-    from .model import make_overviewtable
+    from .tools import make_overviewtable
     return JsonResponse(make_overviewtable())
 
 
 @login_required()
-def simulationTable(request):
+def simulationtable(request):
     """
     called when the simulation page starts to get used
     """
-    from .model import make_simulationtable
+    from .tools import make_simulationtable
     return JsonResponse(make_simulationtable())
+
+
+@login_required()
+def getsfptflows(request):
+    """
+    called when the simulation page starts to get used
+    """
+    from .model import reservoirs
+    from .tools import get_sfpt_flows
+
+    # convert to the right name syntax so you can get the COM ids from the database
+    selected_reservoir = request.body.decode("utf-8")
+    reservoirs = reservoirs()
+    for reservoir in reservoirs:
+        if reservoirs[reservoir] == selected_reservoir:
+            selected_reservoir = reservoir
+            break
+    return JsonResponse(get_sfpt_flows(selected_reservoir))
+
+
+@login_required()
+def reservoirstatistics(request):
+    """
+    called when the simulation page starts to get used
+    """
+    from .model import operations, get_reservoirvolumes, get_lastelevations
+    from .app import Embalses as app
+
+    reservoir = app.currentpage
+    info = operations()
+    data = {}
+    data['volumes'] = get_reservoirvolumes(reservoir)
+    data['elevations'] = {
+        'min': info[reservoir]['minlvl'],
+        'max': info[reservoir]['maxlvl'],
+        'current': get_lastelevations()[reservoir],
+    }
+    data['averages'] = {
+        'monthly': 0,
+        'lastyr': 0,
+    }
+
+    return JsonResponse(data)

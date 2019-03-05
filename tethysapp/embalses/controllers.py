@@ -5,7 +5,7 @@ from tethys_sdk.permissions import has_permission
 from .tools import generate_app_urls
 from .model import reservoirs
 
-from tethys_sdk.gizmos import TableView, SelectInput
+from tethys_sdk.gizmos import SelectInput
 
 reservoirs = reservoirs()
 
@@ -119,7 +119,7 @@ def reservoirviewer(request, name):
         if reservoirs[reservoir] == name:
             name = reservoir
             App.currentpage = name
-
+            break
 
     context = {
         'admin': has_permission(request, 'update_data'),

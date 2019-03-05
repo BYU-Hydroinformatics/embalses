@@ -1,12 +1,5 @@
 from tethys_sdk.base import TethysAppBase, url_map_maker
 
-# todo: finish the getvolumefrombathymetry function in the model
-# todo: make the reservoir page ajax controller send it and the ajax.js print it
-# todo: make the table have a calculate button
-# todo: make the calculate button work
-# todo: finish the overviewinfo ajax function (depends on the getvolumefrombathymetry)
-
-
 class Embalses(TethysAppBase):
     """
     Tethys app class for Herramientas de Operaciones de los Embalses.
@@ -25,9 +18,6 @@ class Embalses(TethysAppBase):
     currentpage = ''        # a custom attribute added for keeping track of which reservoir is being viewed
 
     def url_maps(self):
-        """
-        Add controllers
-        """
         UrlMap = url_map_maker(self.root_url)
 
         url_maps = (
@@ -80,9 +70,19 @@ class Embalses(TethysAppBase):
                 controller='embalses.controllersAJAX.overviewpage'
             ),
             UrlMap(
-                name='simulationTable',
+                name='simulationtable',
                 url='embalses/ajax/simulationTable',
-                controller='embalses.controllersAJAX.simulationTable'
+                controller='embalses.controllersAJAX.simulationtable'
+            ),
+            UrlMap(
+                name='getsfptflows',
+                url='embalses/ajax/getSFPTflows',
+                controller='embalses.controllersAJAX.getsfptflows'
+            ),
+            UrlMap(
+                name='reservoirstatistics',
+                url='embalses/ajax/reservoirstatistics',
+                controller='embalses.controllersAJAX.reservoirstatistics'
             ),
         )
 

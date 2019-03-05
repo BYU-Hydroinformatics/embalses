@@ -32,3 +32,126 @@ def generate_app_urls(request, res_dict):
     }), res_dict))
 
     return site_urls
+
+
+def get_sfpt_flows(reservoir_name):
+    """
+    Queries the SFPT API for the rivers going into the reservoir specified for the next 7 days. Returns a dictionary of
+    the dates of the flows and their magnitudes.
+    """
+    import requests, datetime, pprint
+    from .model import operations
+
+    flows = {}
+    info = operations()
+
+    api_url = 'http://tethys.byu.edu/apps/streamflow-prediction-tool/api/GetForecast/'
+    api_token = {'Authorization': 'Token 054ba636689eb081fd9ba75401fc77544a0496e3'}
+    parameters = {
+        'watershed_name': 'Dominican Republic',
+        'subbasin_name': 'National',
+        'forecast_folder': 'most_recent',
+        'stat_type': 'mean'
+    }
+
+    for comid in info[reservoir_name]['comids']:
+        parameters['reach_id'] = comid
+        content = requests.get(api_url, params=parameters, headers=api_token).content
+        pprint.pprint(content)
+        data = content.split('dateTimeUTC="')
+        data.pop(0)
+
+        values = []
+        timestep = []
+
+        for e in data:
+            parser = e.split('"  methodCode="1"  sourceCode="1"  qualityControlLevelCode="1" >')
+            dateraw = parser[0]
+            dates = datetime.datetime.strptime(dateraw, "%Y-%m-%dT%H:%M:%S")
+            if str(dates).endswith("00:00:00"):
+                value = float(parser[1].split('<')[0])
+                values.append(value)
+                timestep.append(str(dates)[5:-9])
+        flows[comid] = values
+
+        import pprint
+        pprint.pprint(flows)
+
+
+        newseries = []
+        allformvalues = {}
+        for x in flows:
+            newseries.append(flows[x])
+
+        total = [sum(x) for x in zip(*newseries)]
+        flows['total'] = total
+
+        for x in flows:
+            formattedtotal = ["%.2f" % elem for elem in flows[x]]
+            allformvalues[x] = formattedtotal
+
+        allformvalues['timestep'] = timestep
+
+    pprint.pprint(allformvalues)
+
+    return flows
+
+
+def make_simulationtable():
+    """
+    A function that gets called when the simulations page is opened that creates the list of entries for the table
+    """
+    import datetime
+    from .model import operations
+
+    # variables declaration
+    tabledata = {}          # the response dictionary
+    entries = []            # tabulator expects a list with one dictionary per row
+    res_ops = operations()
+
+    # For each day in the next 7 days
+    for i in range(0, 7):
+        # set the date we're working on
+        date = (datetime.datetime.today() + datetime.timedelta(i)).strftime('%m-%d-%Y')
+
+        new_entry = {
+            'date': date,
+            'inflow': 'cargando...',
+            'release': 0,
+            'units': 'mcs',
+            'time': 0,
+        }
+        entries.append(new_entry)
+
+    tabledata['result'] = entries
+    del new_entry, res_ops, entries
+
+    return tabledata
+
+
+def make_overviewtable():
+    """
+    A function that creates the data needed for the overview table on the app home page.
+    The format for that data is a list of dictionaries
+    """
+    from .model import operations, get_lastelevations
+    # variables declaration
+    tabledata = {}              # the response dictionary
+    entries = []                # tabulator expects a list with one dictionary per row
+    res_ops = operations()
+    lastelevation = get_lastelevations()
+
+    for reservoir in res_ops:
+        new_entry = {
+            'name': reservoir,
+            'maxlvl': res_ops[reservoir]['maxlvl'],
+            'actlvl': lastelevation[reservoir],
+            'minlvl': res_ops[reservoir]['minlvl'],
+        }
+        entries.append(new_entry)
+
+    del lastelevation
+
+    tabledata['result'] = entries
+
+    return tabledata
