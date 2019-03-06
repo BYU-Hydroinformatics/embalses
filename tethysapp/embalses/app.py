@@ -100,6 +100,11 @@ class Embalses(TethysAppBase):
                 url='embalses/ajax/reservoirstatistics',
                 controller='embalses.controllersAJAX.reservoirstatistics'
             ),
+            UrlMap(
+                name='updatesheet',
+                url='embalses/ajax/updatesheet',
+                controller='embalses.controllersAJAX.updatesheet'
+            ),
         )
 
         return url_maps

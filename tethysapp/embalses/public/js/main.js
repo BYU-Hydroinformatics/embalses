@@ -23,13 +23,19 @@ $(document).ready(function() {
         dataOverview();
     }
 
+    ///////////////////////////////////////////// REPORTING PAGE
+    if ($('#reporting_controls').length) {
+        $('#synchronize').click(function() {
+            updatesheet();
+        })
+    }
+
     ///////////////////////////////////////////// APP SUMMARY PAGE
     if ($('#hist_data_chart').length) {
         placeholderchart();
         getChart();
         statisticalReport();
     }
-
 
     if ($('#outflowTable').length) {
         $('#reservoir').change(function() {

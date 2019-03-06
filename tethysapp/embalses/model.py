@@ -204,3 +204,33 @@ def get_reservoirelevations(reservoir_name):
     elevations['min'] = operations()[reservoir_name]['minlvl']
     elevations['max'] = operations()[reservoir_name]['maxlvl']
     return elevations
+
+
+def updatefromGoogleSheets():
+    """
+    The function that gets called when you want to upd
+    """
+    # from __future__ import print_function
+    import os, pprint, pandas, numpy
+    from googleapiclient.discovery import build
+    from google_auth_oauthlib.flow import InstalledAppFlow
+
+    # the spreadsheet info
+    scopes = ['https://www.googleapis.com/auth/spreadsheets.readonly']
+    sheetID = '1RxYxkP3mQvffaEIJQwp3K3QHPTCbvNXCvXLUnBcgUw4'
+    sheetrange = 'elevaciones!A:O'
+    excelpath = os.path.join(os.path.dirname(__file__), 'workspaces/app_workspace/elevations.xlsx')
+
+    # api query info
+    credentialspath = os.path.join(os.path.dirname(__file__), 'workspaces/app_workspace/sheetscredentials.json')
+    credentials = InstalledAppFlow.from_client_secrets_file(credentialspath, scopes).run_local_server()
+    service = build('sheets', 'v4', credentials=credentials)
+
+    # Call the Sheets API
+    data = service.spreadsheets().values().get(spreadsheetId=sheetID, range=sheetrange).execute()
+    array = data.get('values', []) if data.get('values')is not None else 0
+    df = pandas.DataFrame(array, columns=array[0])
+    df = df.drop(df.index[0])
+    df.to_excel(excelpath)
+
+    return

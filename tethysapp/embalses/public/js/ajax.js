@@ -78,3 +78,17 @@ function statisticalReport() {
         }
     })
 }
+
+
+function updatesheet() {
+    $.ajax({
+        url:'/apps/embalses/ajax/updatesheet/',
+        data: 'getting new data from google',
+        dataType: 'json',
+        contentType: "application/json",
+        method: 'POST',
+        success: function(status) {
+            console.log(status);
+            }
+        })
+}

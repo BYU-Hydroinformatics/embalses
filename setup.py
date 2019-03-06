@@ -9,7 +9,7 @@ app_class = 'embalses.app:Embalses'
 app_package_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'tethysapp', app_package)
 
 ### Python Dependencies ###
-dependencies = ['datetime', 'requests', 'pandas']
+dependencies = ['datetime', 'requests', 'pandas', 'google-api-python-client', 'openpyxl']
 
 setup(
     name=release_package,

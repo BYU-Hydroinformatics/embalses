@@ -94,3 +94,13 @@ def reservoirstatistics(request):
     }
 
     return JsonResponse(data)
+
+
+@login_required()
+def updatesheet(request):
+    """
+    called when the simulation page starts to get used
+    """
+    from .model import updatefromGoogleSheets
+    updatefromGoogleSheets()
+    return JsonResponse({'update': True})
