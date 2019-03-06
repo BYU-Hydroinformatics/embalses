@@ -112,7 +112,7 @@ def get_historicaldata(reservoir_name):
 
     # convert the date listed under nivel to a python usable form and make an entry with the date/value to the list
     for index, row in df.iterrows():
-        time = row["Nivel"].to_pydatetime()
+        time = row["Nivel"]
         time = datetime.datetime.strptime(str(time)[0:10], "%Y-%m-%d")
         timestep = calendar.timegm(time.utctimetuple()) * 1000
         values.append([timestep, row[reservoir_name]])
@@ -189,7 +189,6 @@ def get_reservoirvolumes(reservoir_name):
     volumes['min'] = df.loc[df[reservoir_name + '_Elev'] == info['minlvl']].values[0, 1]
     volumes['max'] = df.loc[df[reservoir_name + '_Elev'] == info['maxlvl']].values[0, 1]
     volumes['available'] = volumes['current'] - volumes['min']
-
     del df
 
     return volumes
@@ -208,10 +207,10 @@ def get_reservoirelevations(reservoir_name):
 
 def updatefromGoogleSheets():
     """
-    The function that gets called when you want to upd
+    The function that gets called when you want to update the elevations excel sheet from google
     """
-    # from __future__ import print_function
-    import os, pprint, pandas, numpy
+    import os
+    import pandas
     from googleapiclient.discovery import build
     from google_auth_oauthlib.flow import InstalledAppFlow
 
@@ -232,5 +231,6 @@ def updatefromGoogleSheets():
     df = pandas.DataFrame(array, columns=array[0])
     df = df.drop(df.index[0])
     df.to_excel(excelpath)
+    del df
 
     return

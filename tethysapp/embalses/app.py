@@ -1,12 +1,9 @@
 from tethys_sdk.base import TethysAppBase, url_map_maker
 
-# todo style the statistics divs
-# todo implement google sheets as a spreadsheet alternative
+# todo style the statistics divs/make them show up
 # todo finish the simulation table math
-# todo reorganize the controllersajax stuff into models or tools
 # todo make sure the sfpt query section works
 # todo translate the instructions
-# todo make the sync button work
 # todo OPTIONAL- generate a report based on the simulations
 # todo OPTIONAL- create a persistent store of old reports
 # todo OPTIONAL- add the sync button to many pages
