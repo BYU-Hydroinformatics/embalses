@@ -9,19 +9,21 @@ app_class = 'embalses.app:Embalses'
 app_package_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'tethysapp', app_package)
 
 ### Python Dependencies ###
-dependencies = ['datetime', 'requests', 'pandas', 'google-api-python-client', 'openpyxl']
+dependencies = ['datetime', 'requests', 'pandas', 'google-api-python-client']
 
 setup(
     name=release_package,
-    version='0.0.1',
-    tags='',
-    description='',
-    long_description='',
-    keywords='',
+    version='1.0.0',
+    tags='reservoirs, hydrology, streamflow prediction',
+    description='An application for forecasting future reservoir levels in the Dominican Republic',
+    long_description='Uses the Streamflow Prediction Tool, user supplied water release information, and rule curves to '
+                     'forecast the levels of any reservoir in the Domincan Republic. Developed in 2018 and 2019 by two '
+                     'groups of BYU Civil Engineering Capstone students.',
+    keywords='Reservoir',
     author='Riley Hales',
     author_email='',
-    url='',
-    license='',
+    url='https://www.github.com/rileyhales/embalses',
+    license='MIT License',
     packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
     namespace_packages=['tethysapp', 'tethysapp.' + app_package],
     include_package_data=True,

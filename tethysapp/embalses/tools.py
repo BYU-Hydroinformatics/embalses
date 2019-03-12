@@ -34,7 +34,7 @@ def generate_app_urls(request, res_dict):
     return site_urls
 
 
-def get_sfpt_flows(reservoir_name):
+def get_sfptflows(reservoir_name):
     """
     Queries the SFPT API for the rivers going into the reservoir specified for the next 7 days. Returns a dictionary of
     the dates of the flows and their magnitudes.
@@ -42,7 +42,6 @@ def get_sfpt_flows(reservoir_name):
     import requests, datetime
     from .model import operations
     import codecs
-    import pprint
 
     flows = {}
     info = operations()
@@ -60,41 +59,30 @@ def get_sfpt_flows(reservoir_name):
         parameters['reach_id'] = comid
         content = requests.get(api_url, params=parameters, headers=api_token).content       # returns a bytes object
         content = codecs.decode(content)                                                    # decode into a string
-
-        data = content.split('dateTimeUTC="')
-        data.pop(0)
+        data = content.split('dateTimeUTC="')      # split the xml into a list of strings that start with dateTimeUTC="
+        data.pop(0)                                # get rid of the first string, everything before the first date
 
         values = []
         timestep = []
-
         for e in data:
+            # split the strings into substrings with the metadata
             parser = e.split('"  methodCode="1"  sourceCode="1"  qualityControlLevelCode="1" >')
+            # keep the first part that has the date
             dateraw = parser[0]
+            # make it a datetime object
             dates = datetime.datetime.strptime(dateraw, "%Y-%m-%dT%H:%M:%S")
             if str(dates).endswith("00:00:00"):
                 value = float(parser[1].split('<')[0])
                 values.append(value)
                 timestep.append(str(dates)[5:-9])
+        # save a dictionary entry in the form {'comid': [list of flows on each day]}
         flows[comid] = values
 
-        pprint.pprint(flows)
-
-
-        newseries = []
-        allformvalues = {}
-        for x in flows:
-            newseries.append(flows[x])
-
-        total = [sum(x) for x in zip(*newseries)]
-        flows['total'] = total
-
-        for x in flows:
-            formattedtotal = ["%.2f" % elem for elem in flows[x]]
-            allformvalues[x] = formattedtotal
-
-        allformvalues['timestep'] = timestep
-
-    pprint.pprint(allformvalues)
+    total = [0 for i in range(7)]
+    for comid in flows:
+        for i in range(7):
+            total[i] += flows[comid][i]
+    flows['total'] = total
 
     return flows
 
@@ -112,10 +100,9 @@ def make_simulationtable():
     res_ops = operations()
 
     # For each day in the next 7 days
-    for i in range(0, 7):
+    for i in range(7):
         # set the date we're working on
         date = (datetime.datetime.today() + datetime.timedelta(i)).strftime('%m-%d-%Y')
-
         new_entry = {
             'date': date,
             'inflow': 'cargando...',

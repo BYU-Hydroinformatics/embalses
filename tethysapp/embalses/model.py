@@ -184,7 +184,7 @@ def get_reservoirvolumes(reservoir_name):
     app_workspace = App.get_app_workspace()
     bath = os.path.join(app_workspace.path, 'bathymetry.xlsx')
     df = pandas.read_excel(bath)[[reservoir_name + '_Elev', reservoir_name + '_Vol']]
-    volumes['current'] = df.loc[df[reservoir_name + '_Elev'] == curr_elev].values[0, 1]
+    volumes['current'] = df.loc[df[reservoir_name + '_Elev'] == float(curr_elev)].values[0, 1]
     volumes['min'] = df.loc[df[reservoir_name + '_Elev'] == info['minlvl']].values[0, 1]
     volumes['max'] = df.loc[df[reservoir_name + '_Elev'] == info['maxlvl']].values[0, 1]
     volumes['available'] = volumes['current'] - volumes['min']

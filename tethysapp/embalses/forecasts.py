@@ -1,3 +1,9 @@
+"""
+
+This is the function written for the 2018 group's application that queries the streamflow prediction tool and tries to
+estimate the reservoir volume
+
+
 def forecastdata(comids, reservoir, outflow):
 
     outtime = 24.0
@@ -115,3 +121,5 @@ def forecastdata(comids, reservoir, outflow):
     dataformatted['dates'] = dates
 
     return dataformatted
+
+"""

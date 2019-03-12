@@ -3,39 +3,30 @@ from django.http import JsonResponse
 
 
 @login_required()
-def reservoir_pg_info(request):
+def reservoirpageplot(request):
     """
-    Called when the reservoir stats page is opened to give data to the historical data chart
+    Called when the reservoir stats page is opened, formats get_historicaldata for a highcharts plot
     """
     from .model import operations, get_historicaldata
-    from .app import Embalses as app
-    import datetime
+    from .app import Embalses as App
 
-    name = app.currentpage
+    name = App.currentpage
     info = operations()[name]
     responsedata = {}
 
     # GET THE DATA FOR THE CHART--------------------------------------------------------------------------
-    historical = get_historicaldata(name)
-    hist_data = historical['values']
-    for i in range(len(hist_data)):
-        hist_data[i][1] -= info['ymin']         # change the values from elevations to depths
-    responsedata['values'] = hist_data
+    historical = get_historicaldata(name)['values']
+
+    for i in range(len(historical)):
+        historical[i][1] -= info['ymin']         # change the values from elevations to depths
+    responsedata['values'] = historical
 
     min = info['minlvl'] - info['ymin']         # lines for the min/max levels
     max = info['maxlvl'] - info['ymin']
-    firstday = hist_data[0][0]
-    lastday = hist_data[len(hist_data)-1][0]
+    firstday = historical[0][0]
+    lastday = historical[len(historical)-1][0]
     responsedata['minimum'] = [[firstday, min], [lastday, min]]
     responsedata['maximum'] = [[firstday, max], [lastday, max]]
-
-    # GET DATA FOR THE STATS SECTION BELOW THE CHART------------------------------------------------------
-    responsedata['minlvl'] = "Nivel MINIMO: " + str(min) + " metros"
-    responsedata['maxlvl'] = "Nivel MAXIMO: " + str(max) + " metros"
-    responsedata['currentlvl'] = "Nivel actual: " + str(hist_data[len(hist_data) - 1][1]) + " metros"
-
-    lastdate = datetime.datetime.strftime(historical['lastdate'], "%d %B %Y")
-    responsedata['lastreport'] = "Fecha de la ultima entrada: " + lastdate
 
     return JsonResponse(responsedata)
 
@@ -64,7 +55,7 @@ def getsfptflows(request):
     called when the simulation page starts to get used
     """
     from .model import reservoirs
-    from .tools import get_sfpt_flows
+    from .tools import get_sfptflows
 
     # convert to the right name syntax so you can get the COM ids from the database
     selected_reservoir = request.body.decode("utf-8")
@@ -73,7 +64,7 @@ def getsfptflows(request):
         if reservoirs[reservoir] == selected_reservoir:
             selected_reservoir = reservoir
             break
-    return JsonResponse(get_sfpt_flows(selected_reservoir))
+    return JsonResponse(get_sfptflows(selected_reservoir))
 
 
 @login_required()

@@ -15,7 +15,7 @@ function dataOverview() {
 /////////////////////////////////////////////////////////////////// HISTORICAL RESERVOIR DATA PAGE
 function getChart() {
     $.ajax({
-        url:'/apps/embalses/ajax/respageinfo/',
+        url:'/apps/embalses/ajax/respgplot/',
         data: 'please make me a chart',
         dataType: 'json',
         contentType: "application/json",

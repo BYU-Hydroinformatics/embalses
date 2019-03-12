@@ -1,6 +1,5 @@
 from tethys_sdk.base import TethysAppBase, url_map_maker
 
-# todo style the statistics divs/make them show up
 # todo finish the simulation table math
 # todo make sure the sfpt query section works
 # todo translate the instructions
@@ -24,8 +23,8 @@ class Embalses(TethysAppBase):
     package = 'embalses'
     root_url = 'embalses'
     color = '#01AEBF'
-    description = ''
-    tags = ''
+    description = 'An application for forecasting future reservoir levels in the Dominican Republic'
+    tags = 'reservoirs, hydrology, streamflow prediction'
     enable_feedback = False
     feedback_emails = []
     currentpage = ''        # a custom attribute added for keeping track of which reservoir is being viewed
@@ -74,33 +73,33 @@ class Embalses(TethysAppBase):
             # CONTROLLERS FOR AJAX PAGES
             UrlMap(
                 name='chartdata',
-                url='embalses/ajax/respageinfo',
-                controller='embalses.controllersAJAX.reservoir_pg_info'
+                url='embalses/ajax/respgplot',
+                controller='embalses.ajax.reservoirpageplot'
             ),
             UrlMap(
                 name='overview',
                 url='embalses/ajax/overviewpage',
-                controller='embalses.controllersAJAX.overviewpage'
+                controller='embalses.ajax.overviewpage'
             ),
             UrlMap(
                 name='simulationtable',
                 url='embalses/ajax/simulationTable',
-                controller='embalses.controllersAJAX.simulationtable'
+                controller='embalses.ajax.simulationtable'
             ),
             UrlMap(
                 name='getsfptflows',
                 url='embalses/ajax/getSFPTflows',
-                controller='embalses.controllersAJAX.getsfptflows'
+                controller='embalses.ajax.getsfptflows'
             ),
             UrlMap(
                 name='reservoirstatistics',
                 url='embalses/ajax/reservoirstatistics',
-                controller='embalses.controllersAJAX.reservoirstatistics'
+                controller='embalses.ajax.reservoirstatistics'
             ),
             UrlMap(
                 name='updatesheet',
                 url='embalses/ajax/updatesheet',
-                controller='embalses.controllersAJAX.updatesheet'
+                controller='embalses.ajax.updatesheet'
             ),
         )
 
