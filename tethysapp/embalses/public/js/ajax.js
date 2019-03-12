@@ -1,17 +1,4 @@
-function getChart() {
-    $.ajax({
-        url:'/apps/embalses/ajax/respageinfo/',
-        data: 'please make me a chart',
-        dataType: 'json',
-        contentType: "application/json",
-        method: 'POST',
-        success: function(result) {
-            newHighchart(result);
-            }
-        });
-}
-
-
+/////////////////////////////////////////////////////////////////// HOME PAGE
 function dataOverview() {
     $.ajax({
         url:'/apps/embalses/ajax/overviewpage/',
@@ -25,7 +12,46 @@ function dataOverview() {
         })
 }
 
+/////////////////////////////////////////////////////////////////// HISTORICAL RESERVOIR DATA PAGE
+function getChart() {
+    $.ajax({
+        url:'/apps/embalses/ajax/respageinfo/',
+        data: 'please make me a chart',
+        dataType: 'json',
+        contentType: "application/json",
+        method: 'POST',
+        success: function(result) {
+            newHighchart(result);
+            }
+        });
+}
 
+function statisticalReport() {
+    $.ajax({
+        url:'/apps/embalses/ajax/reservoirstatistics/',
+        data: 'get some stats yo',
+        dataType: 'json',
+        contentType: "application/json",
+        method: 'POST',
+        success: function(results) {
+            console.log(results);
+            $("#volumes").append("<h3>Volumes</h3>");
+            $("#elevations").append("<h3>Elevaciones</h3>");
+            $("#averages").append("<h3>Promedios</h3>");
+            for (var key in results['volumes']) {
+                $("#volumes").append("<li>" + key + ": " + results['volumes'][key] + "</li>");
+            }
+            for (var key in results['elevations']) {
+                $("#elevations").append("<li>" + key + ": " + results['elevations'][key] + "</li>");
+            }
+            for (var key in results['averages']) {
+                $("#averages").append("<li>" + key + ": " + results['averages'][key] + "</li>");
+            }
+        }
+    })
+}
+
+/////////////////////////////////////////////////////////////////// SHORT TERM SIMULATIONS PAGE
 function simulationTable() {
     $.ajax({
         url:'/apps/embalses/ajax/simulationTable/',
@@ -50,36 +76,7 @@ function simulationTable() {
         })
 }
 
-
-function statisticalReport() {
-    $.ajax({
-        url:'/apps/embalses/ajax/reservoirstatistics/',
-        data: 'get some stats yo',
-        dataType: 'json',
-        contentType: "application/json",
-        method: 'POST',
-        success: function(results) {
-            console.log(results);
-            for (entry in results['volumes']) {
-                console.log(entry);
-                console.log(results['volumes'][entry]);
-                $("#volumes").innerHTML += "<li>" + entry + ": " + results['volumes'][entry] + "</li>";
-            }
-            for (entry in results['levels']) {
-                console.log(entry);
-                console.log(results['elevations'][entry]);
-                $("#elevations").innerHTML += "<li>" + entry + ": " + results['elevations'][entry] + "</li>";
-            }
-            for (entry in results['averages']) {
-                console.log(entry);
-                console.log(results['averages'][entry]);
-                $("#averages").innerHTML += "<li>" + entry + ": " + results['averages'][entry] + "</li>";
-            }
-        }
-    })
-}
-
-
+/////////////////////////////////////////////////////////////////// REPORT RESERVOIR LEVELS PAGE
 function updatesheet() {
     $.ajax({
         url:'/apps/embalses/ajax/updatesheet/',

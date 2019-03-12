@@ -60,7 +60,7 @@ def simulations_short(request):
 
     # list of reservoirs to choose from for the simulation
     res_list = SelectInput(
-        display_text='Escoger un Embalse',
+        display_text='',
         name='reservoir',
         multiple=False,
         options=[(reservoir, reservoirs[reservoir]) for reservoir in reservoirs],

@@ -1,34 +1,3 @@
-def gettabledates(comid):
-    """
-    DEPRECATED, using datetime to load table dates so there is less load time
-
-    You give it a comid and this returns a list of the next available forecast dates for that reach
-    """
-    import requests, datetime
-    timeseries = []
-    dates = []
-
-    comid = comid[0]
-    request_params = dict(watershed_name='Dominican Republic', subbasin_name='National', reach_id=comid,
-                          forecast_folder='most_recent', stat_type='mean', return_format='csv')
-    request_headers = dict(Authorization='Token fa7fa9f7d35eddb64011913ef8a27129c9740f3c')
-    res = requests.get('https://tethys-staging.byu.edu/apps/streamflow-prediction-tool/api/GetForecast/',
-                       params=request_params, headers=request_headers)
-
-    content = res.content.splitlines()
-    for i in content:
-        timeseries.append(i.split(','))
-    timeseries.pop(0)
-    for i in range(len(timeseries)):
-        if '12:00:00' in timeseries[i][0]:
-            date = str(timeseries[i][0]).replace('Timestamp', '').replace(' 12:00:00', '')
-            date = date.replace('(', '').replace(')', '').replace('"', '').replace("'", '')
-            date = datetime.datetime.strptime(date, '%Y-%m-%d').strftime('%B %d %Y')
-            dates.append(date)
-
-    return dates
-
-
 def forecastdata(comids, reservoir, outflow):
 
     outtime = 24.0

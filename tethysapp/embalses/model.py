@@ -144,7 +144,6 @@ def get_lastelevations():
     damsheet = os.path.join(app_workspace.path, 'elevations.xlsx')
     dfnan = pandas.read_excel(damsheet)
 
-
     reservoirs = operations()
     for reservoir in reservoirs:
         if reservoir == 'Sabana Yegua':                 # change the names for two reservoirs who are
@@ -178,10 +177,10 @@ def get_reservoirvolumes(reservoir_name):
     info = operations()[reservoir_name]
     volumes = {}
 
-    if reservoir_name == 'Sabana Yegua':    # change the names for two reservoirs who are
+    if reservoir_name == 'Sabana Yegua':        # change the names for two reservoirs who are
         reservoir_name = 'Sabana_Yegua'         # listed under different names in spreadsheets
-    elif reservoir_name == 'Tavera-Bao':
-        reservoir_name = 'Tavera'
+    if reservoir_name == 'Tavera-Bao':
+        reservoir_name = 'Bao'
     app_workspace = App.get_app_workspace()
     bath = os.path.join(app_workspace.path, 'bathymetry.xlsx')
     df = pandas.read_excel(bath)[[reservoir_name + '_Elev', reservoir_name + '_Vol']]
@@ -231,6 +230,6 @@ def updatefromGoogleSheets():
     df = pandas.DataFrame(array, columns=array[0])
     df = df.drop(df.index[0])
     df.to_excel(excelpath)
-    del df
+    del df, array, data, service, credentials, credentialspath
 
     return

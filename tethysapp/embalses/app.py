@@ -4,6 +4,7 @@ from tethys_sdk.base import TethysAppBase, url_map_maker
 # todo finish the simulation table math
 # todo make sure the sfpt query section works
 # todo translate the instructions
+# todo make the update button not ask for login every time
 # todo OPTIONAL- generate a report based on the simulations
 # todo OPTIONAL- create a persistent store of old reports
 # todo OPTIONAL- add the sync button to many pages
@@ -17,7 +18,6 @@ class Embalses(TethysAppBase):
     """
     Tethys app class for Herramientas de Operaciones de los Embalses.
     """
-
     name = 'Administracion de los Embalses'
     index = 'embalses:home'
     icon = 'embalses/images/indrhi.png'

@@ -39,8 +39,10 @@ def get_sfpt_flows(reservoir_name):
     Queries the SFPT API for the rivers going into the reservoir specified for the next 7 days. Returns a dictionary of
     the dates of the flows and their magnitudes.
     """
-    import requests, datetime, pprint
+    import requests, datetime
     from .model import operations
+    import codecs
+    import pprint
 
     flows = {}
     info = operations()
@@ -56,8 +58,9 @@ def get_sfpt_flows(reservoir_name):
 
     for comid in info[reservoir_name]['comids']:
         parameters['reach_id'] = comid
-        content = requests.get(api_url, params=parameters, headers=api_token).content
-        pprint.pprint(content)
+        content = requests.get(api_url, params=parameters, headers=api_token).content       # returns a bytes object
+        content = codecs.decode(content)                                                    # decode into a string
+
         data = content.split('dateTimeUTC="')
         data.pop(0)
 
@@ -74,7 +77,6 @@ def get_sfpt_flows(reservoir_name):
                 timestep.append(str(dates)[5:-9])
         flows[comid] = values
 
-        import pprint
         pprint.pprint(flows)
 
 
