@@ -70,6 +70,9 @@ function simulationTable() {
                 method: 'POST',
                 success: function(flows) {
                     console.log(flows);
+                    // add the flows to the simulation table
+                    // prompt the user to fill out the outflows, units, and times
+                    // add the calculate button to the page or make it visible if its already there on the html
                     }
                 })
             }

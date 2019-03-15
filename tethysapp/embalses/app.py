@@ -1,7 +1,6 @@
 from tethys_sdk.base import TethysAppBase, url_map_maker
 
-# todo finish the simulation table math
-# todo make sure the sfpt query section works
+# todo finish the simulation table math (see the ajax.js function for the simulation table for notes)
 # todo translate the instructions
 # todo make the update button not ask for login every time
 # todo OPTIONAL- generate a report based on the simulations
