@@ -53,7 +53,7 @@ def instructions(request):
 
 
 @login_required()
-def simulations_short(request):
+def simulations(request):
     """
     controller for the instructions page
     """
@@ -76,34 +76,7 @@ def simulations_short(request):
         'res_list': res_list,
     }
 
-    return render(request, 'embalses/sims_short.html', context)
-
-
-@login_required()
-def simulations_long(request):
-    """
-    controller for the instructions page
-    """
-
-    # list of reservoirs to choose from for the simulation
-    res_list = SelectInput(
-        display_text='Escoger un Embalse',
-        name='reservoir',
-        multiple=False,
-        options=[(reservoir, reservoirs[reservoir]) for reservoir in reservoirs],
-        select2_options={
-            'placeholder': 'Escoger un Embalse',
-            'allowClear': True
-        },
-    )
-
-    context = {
-        'admin': has_permission(request, 'update_data'),
-        'urls': generate_app_urls(request, reservoirs),
-        'res_list': res_list,
-    }
-
-    return render(request, 'embalses/sims_long.html', context)
+    return render(request, 'embalses/simulations.html', context)
 
 
 @login_required()

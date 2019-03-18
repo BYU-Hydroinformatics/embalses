@@ -55,28 +55,20 @@ function statisticalReport() {
 function simulationTable() {
     $.ajax({
         url:'/apps/embalses/ajax/simulationTable/',
-        data: 'setting up the simulation table',
+        data: $("#reservoir").val(),
         dataType: 'json',
         contentType: "application/json",
         method: 'POST',
-        success: function(dates) {
-            console.log(dates);
-            tabulatorOutflows(dates['result']);
-            $.ajax({
-                url:'/apps/embalses/ajax/getSFPTflows/',
-                data: $("#reservoir").val(),
-                dataType: 'json',
-                contentType: "application/json",
-                method: 'POST',
-                success: function(flows) {
-                    console.log(flows);
-                    // add the flows to the simulation table
-                    // prompt the user to fill out the outflows, units, and times
-                    // add the calculate button to the page or make it visible if its already there on the html
-                    }
-                })
+        success: function(info) {
+            console.log(info);
+            tabulatorOutflows(info['result']);
+            $("#calculatebutton").append("<button id='button' onclick='performsimulation()' class='button'>Hacer un Pronostico</button>")
             }
         })
+}
+
+function performsimulation() {
+    $("#simulationresults").html("<h1>Los Resultados Del Simulacion Se Apareceran Aqui</h1>")
 }
 
 /////////////////////////////////////////////////////////////////// REPORT RESERVOIR LEVELS PAGE

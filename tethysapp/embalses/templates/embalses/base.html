@@ -17,8 +17,7 @@
     {% url 'embalses:home' as home_url %}
     {% url 'embalses:reportar' as reportar_url %}
     {% url 'embalses:instrucciones' as instrucciones_url %}
-    {% url 'embalses:simulations_short' as simulacionesbreves_url %}
-    {% url 'embalses:simulations_long' as simulacionesprolongados_url %}
+    {% url 'embalses:simulations' as simulaciones_url %}
     {% url 'embalses:reportes' as reportes_url %}
 
     <li class="title">Navigación</li>
@@ -31,8 +30,7 @@
 
     <!-- The page for forcasts -->
     <li class="title">Simulaciones y Prevision</li>
-    <li class="{% if request.path == simulacionesbreves_url %}active{% endif %}"><a href="{{ simulacionesbreves_url }}">Pronósticos Breves</a></li>
-    <li class="{% if request.path == simulacionesprolongados_url %}active{% endif %}"><a href="{{ simulacionesprolongados_url }}">Pronósticos Prolongados</a></li>
+    <li class="{% if request.path == simulaciones_url %}active{% endif %}"><a href="{{ simulaciones_url }}">Pronósticos Breves</a></li>
 
     <!-- generate links to pages for each of the reservoirs -->
     <li class="title">Datos Historicos</li>

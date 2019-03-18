@@ -87,17 +87,17 @@ def get_sfptflows(reservoir_name):
     return flows
 
 
-def make_simulationtable():
+def make_simulationtable(reservoir):
     """
     A function that gets called when the simulations page is opened that creates the list of entries for the table
     """
     import datetime
-    from .model import operations
+    import math
 
     # variables declaration
     tabledata = {}          # the response dictionary
     entries = []            # tabulator expects a list with one dictionary per row
-    res_ops = operations()
+    flows = get_sfptflows(reservoir)
 
     # For each day in the next 7 days
     for i in range(7):
@@ -105,7 +105,7 @@ def make_simulationtable():
         date = (datetime.datetime.today() + datetime.timedelta(i)).strftime('%m-%d-%Y')
         new_entry = {
             'date': date,
-            'inflow': 'cargando...',
+            'inflow': round(flows['total'][i], 2),
             'release': 0,
             'units': 'mcs',
             'time': 0,
@@ -113,7 +113,7 @@ def make_simulationtable():
         entries.append(new_entry)
 
     tabledata['result'] = entries
-    del new_entry, res_ops, entries
+    del new_entry, entries
 
     return tabledata
 

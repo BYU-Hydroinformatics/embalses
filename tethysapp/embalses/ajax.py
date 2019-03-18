@@ -45,8 +45,18 @@ def simulationtable(request):
     """
     called when the simulation page starts to get used
     """
-    from .tools import make_simulationtable
-    return JsonResponse(make_simulationtable())
+    from .tools import make_simulationtable, get_sfptflows
+    from .model import reservoirs
+    from .tools import get_sfptflows
+
+    # convert to the right name syntax so you can get the COM ids from the database
+    selected_reservoir = request.body.decode("utf-8")
+    reservoirs = reservoirs()
+    for reservoir in reservoirs:
+        if reservoirs[reservoir] == selected_reservoir:
+            selected_reservoir = reservoir
+            break
+    return JsonResponse(make_simulationtable(reservoir))
 
 
 @login_required()

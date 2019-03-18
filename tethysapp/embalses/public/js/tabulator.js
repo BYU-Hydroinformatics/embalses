@@ -35,8 +35,6 @@ function tabulatorOutflows(result) {
     var unitOpts = {
         'mcs': 'Metros Cubicos Segundo',
         'cfs': 'Cubic Feet per Second',
-        'horas': 'hours',
-        'minutos': 'minutes'
     };
 
     var outflowtable = new Tabulator("#outflowTable", {
