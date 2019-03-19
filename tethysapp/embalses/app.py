@@ -95,6 +95,11 @@ class Embalses(TethysAppBase):
                 url='embalses/ajax/updatesheet',
                 controller='embalses.ajax.updatesheet'
             ),
+            UrlMap(
+                name='performsimulation',
+                url='embalses/ajax/performsimulation',
+                controller='embalses.ajax.performsimulation'
+            ),
         )
 
         return url_maps

@@ -45,9 +45,9 @@ def simulationtable(request):
     """
     called when the simulation page starts to get used
     """
-    from .tools import make_simulationtable, get_sfptflows
+    from .tools import make_simulationtable
     from .model import reservoirs
-    from .tools import get_sfptflows
+    from .app import Embalses as App
 
     # convert to the right name syntax so you can get the COM ids from the database
     selected_reservoir = request.body.decode("utf-8")
@@ -56,7 +56,8 @@ def simulationtable(request):
         if reservoirs[reservoir] == selected_reservoir:
             selected_reservoir = reservoir
             break
-    return JsonResponse(make_simulationtable(reservoir))
+    App.currentpage = selected_reservoir
+    return JsonResponse(make_simulationtable(selected_reservoir))
 
 
 @login_required()
@@ -105,3 +106,48 @@ def updatesheet(request):
     from .model import updatefromGoogleSheets
     updatefromGoogleSheets()
     return JsonResponse({'update': True})
+
+
+@login_required()
+def performsimulation(request):
+    """
+    called when you press the button to perform the reservoir simulation
+    Things this will return
+    - the pre simulation volume, elevation
+    - the post simulation volume, elevation
+    - the total amount of volume difference
+    - the meters of difference in elevation
+    - how many days you can use water at this average rate before running out
+    - the total amount of consumption
+    - the total amount of inflow
+    """
+    from .model import get_elevationbyvolume, get_lastelevations, get_reservoirvolumes
+    from .app import Embalses as App
+
+    warnings = []
+
+    # calculate the inflow/day and total
+
+    # calculate the outflow/day and total
+
+    # check to see if you cross the max/min value each day
+    # warnings.append(whichever error you got)
+
+    # calculate the total difference
+
+    response = {
+        'lastelevation': get_lastelevations(),
+        'lastvolume': get_reservoirvolumes(App.currentpage),
+        'newelevation': get_elevationbyvolume(),
+        'newvolume': 'number calculated in steps above',
+        'dailyinflows': '',
+        'dailyoutflows': '',
+        'dailytotals': '',
+        'daysremaining': '',
+        'elevchange': '',
+        'volchange': '',
+        'totalin': '',
+        'totalout': '',
+        'warnings': warnings,
+    }
+    return JsonResponse({'message': 'hello world'})

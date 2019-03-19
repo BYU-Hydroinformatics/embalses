@@ -69,6 +69,16 @@ function simulationTable() {
 
 function performsimulation() {
     $("#simulationresults").html("<h1>Los Resultados Del Simulacion Se Apareceran Aqui</h1>")
+    $.ajax({
+        url:'/apps/embalses/ajax/performsimulation/',
+        data: outflowtable.getData(),
+        dataType: 'json',
+        contentType: "application/json",
+        method: 'POST',
+        success: function(info) {
+            console.log(info);
+            }
+        })
 }
 
 /////////////////////////////////////////////////////////////////// REPORT RESERVOIR LEVELS PAGE

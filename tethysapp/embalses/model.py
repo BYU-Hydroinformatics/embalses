@@ -233,3 +233,11 @@ def updatefromGoogleSheets():
     del df, array, data, service, credentials, credentialspath
 
     return
+
+
+def get_elevationbyvolume():
+    """
+    part of the perform reservoir simulation calculation that will get the new elevation based on change in volume
+    """
+    newvolume = ''
+    return newvolume
