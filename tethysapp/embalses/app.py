@@ -10,6 +10,7 @@ from tethys_sdk.base import TethysAppBase, url_map_maker
 # todo OPTIONAL- make the forecasting more complicated based on heights (warnings, etc)
 # todo OPTIONAL- give an option to email the finished report to someone
 # todo OPTIONAL- let the user toggle between elevations and depths on the historical charts
+# todo OPTIONAL- add hydrologic factors to analysis like evaporation or infiltration?
 
 
 class Embalses(TethysAppBase):

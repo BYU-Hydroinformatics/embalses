@@ -92,7 +92,6 @@ def make_simulationtable(reservoir):
     A function that gets called when the simulations page is opened that creates the list of entries for the table
     """
     import datetime
-    import math
 
     # variables declaration
     tabledata = {}          # the response dictionary
