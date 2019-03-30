@@ -2,26 +2,42 @@
 
 {% block app_content %}
     <h1>Administracion de los Embalses</h1>
-    <p>
-        Un applicacion Tethys de BYU para el INDRHI en La Republica Dominicana. Este applicacion <b>(1)</b> hace las mapas y datos summarios
-        para los embalses mas grande del pais <b>(2)</b> tiene una pagina para hacer simulaciones del use de agua para un embalse hecho con
-        cuadales del Streamflow Prediction Tool y del usante y <b>(3)</b> dimuestra datos storicos y estatisticas para cada embalse.
-
     <h2>Sumario</h2>
-    <p>Hay 3 paginas para visualizar datos sumarios, reportar datos nuevos con Google Sheets, y leer instrucciones para el app.
-        The overview page has a map with markers indicating the locations of each of the reservoirs in the country and a table
-        with some relevant information about each reservoir including current elevation and usable volume.
+        <p>
+            Una aplicacion Tethys de BYU para el INDRHI en La Republica Dominicana. Este applicacion <b>(1)</b> tiene una mapa de la
+            posición de todos los embalses en RD y una tabla de datos sumarios, <b>(2)</b> tiene una pagina para hacer simulaciones del use
+            de agua para un embalse hecho con cuadales del Streamflow Prediction Tool y del usante y, <b>(3)</b> dimuestra datos historicos
+            y estatisticas para cada embalse.
+        </p>
+        <p>
+            Hay videos tutoriales en YouTube que dimonstran como usar esta pagina disponible <a href="https://www.youtube.com/channel/UC6B62KhB-Cd34ad6pGBldQQ/videos">en este link</a>
+            . Tambien hay un botón en la parte superior derecha de la página para ver estes videos.
+        </p>
+
+    <h2>Reportar Niveles</h2>
+        <p>
+            Los datos para esta aplicación provienen de una spreadsheet que contiene un base de datos historicos de las elevaciones para cada embalse. Puedes
+            <a href="https://docs.google.com/spreadsheets/d/1RxYxkP3mQvffaEIJQwp3K3QHPTCbvNXCvXLUnBcgUw4/edit?usp=sharing" target="_blank">ver y actualizar los datos en esta spreadsheet</a>
+            con Google Sheets. Debe actualizar la información en esa spreadsheet de Google todos los días. Cuando inicie la aplicación, debe usar el botón en esta pagina para
+            sincronizar los datos de Google con los datos que tiene este app. Tambien hay un botón en la parte superior derecha de la página para sincronizar los datos.
+        </p>
+    <h2>Instrucciones</h2>
+        <p>
+            Esta pagina. Tiene informacion sobre todas las paginas del app.
+        </p>
+    <h2>Simulaciones y Prevision</h2>
+        <p>
+            Esta pagina tiene tablas para hacer simulaciones de los niveles para cada embalse. Esta pagina utiliza datos del Streamflow Prediction Tool y datos del usuario.
+        </p>
+    <h2>Datos Historicos</h2>
+        <p>
+            Hay una pagina para cada embalse con graficos, tablas, y estatisticas de los datos historicos. Estos datos provienen de la spreadsheet en Google Sheets que se necesita reactualizar cada dia.
+        </p>
 
 
 
 
-
-
-
-
-
-
-<br><br><br><br><br><br><br>
+<br><br><br>
     <h1>Reservoir Management</h1>
     <p>A Tethys application built for INDRHI officials and other water related personnel in the Dominican Republic.
         This application <b>(1)</b> provides maps and general overview information for major reservoirs, <b>(2)</b> has an interface

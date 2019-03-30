@@ -1,14 +1,13 @@
 from tethys_sdk.base import TethysAppBase, url_map_maker
 
-# todo finish the simulation table math (see the ajax.js function for the simulation table for notes)
+# todo finish the simulation table math and warnings
 # todo translate the instructions
-# todo make the update button not ask for login every time
-# todo OPTIONAL- generate a report based on the simulations
+# todo make the update button not ask for login every time (make it work on the server???)
+# todo record demonstration videos
+# todo styling on the historical data and simulation reports
+
 # todo OPTIONAL- create a persistent store of old reports
-# todo OPTIONAL- add the sync button to many pages
-# todo OPTIONAL- add a modal button for finding help videos for each page
-# todo OPTIONAL- make the forecasting more complicated based on heights (warnings, etc)
-# todo OPTIONAL- give an option to email the finished report to someone
+# todo OPTIONAL- give an option to email/download the finished report
 # todo OPTIONAL- let the user toggle between elevations and depths on the historical charts
 # todo OPTIONAL- add hydrologic factors to analysis like evaporation or infiltration?
 
@@ -23,7 +22,8 @@ class Embalses(TethysAppBase):
     package = 'embalses'
     root_url = 'embalses'
     color = '#01AEBF'
-    description = 'An application for forecasting future reservoir levels in the Dominican Republic'
+    description = 'Una aplicación para visualizar datos históricos y hacer simulaciones de elevaciones ' \
+                  'para los embalses en la Republica Dominicana.'
     tags = 'reservoirs, hydrology, streamflow prediction'
     enable_feedback = False
     feedback_emails = []
