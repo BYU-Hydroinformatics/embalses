@@ -123,31 +123,47 @@ def performsimulation(request):
     """
     from .model import get_elevationbyvolume, get_lastelevations, get_reservoirvolumes
     from .app import Embalses as App
+    import ast
 
-    warnings = []
+    tabledata = ast.literal_eval(request.body.decode('UTF-8'))  # data is a list of dictionaries for each row
+    print(type(tabledata))
+    print(tabledata)
 
-    # calculate the inflow/day and total
-
-    # calculate the outflow/day and total
-
-    # check to see if you cross the max/min value each day
-    # warnings.append(whichever error you got)
+    warnings = {
+        'maxlevel': [],             # a list of the days when the reservoir will be above max capacity
+        'minlevel': [],             # a list of the days when the reservoir will be below min capacity
+        'estimatedloss': '',        # how much will be lost when the reservoir goes over capacity if spillway used
+    }
+    total_inflow = 0
+    total_outflow = 0
+    for i in range(len(tabledata)):
+        # calculate the inflow/day and total
+        total_inflow += tabledata[i]['inflow']
+        # calculate the outflow/day and total
+        total_outflow += tabledata[i]['release'] * tabledata[i]['time'] * 3600
+        # check to see if you cross the max/min value each day
 
     # calculate the total difference
+    volume_change = total_inflow - total_outflow
+    print(volume_change)
+    # warnings.append(whichever error you got)
 
     response = {
-        'lastelevation': get_lastelevations(),
+        'totalin': total_inflow,
+        'totalout': total_outflow,
+        'volchange': volume_change,
+        'lastelevation': get_lastelevations()[App.currentpage],
         'lastvolume': get_reservoirvolumes(App.currentpage),
         'newelevation': get_elevationbyvolume(),
         'newvolume': 'number calculated in steps above',
+        'elevchange': '',
+
         'dailyinflows': '',
         'dailyoutflows': '',
         'dailytotals': '',
         'daysremaining': '',
-        'elevchange': '',
-        'volchange': '',
-        'totalin': '',
-        'totalout': '',
+
         'warnings': warnings,
     }
-    return JsonResponse({'message': 'hello world'})
+    print(response)
+    return JsonResponse(response)

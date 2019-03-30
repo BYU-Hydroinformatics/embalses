@@ -39,8 +39,11 @@ def get_sfptflows(reservoir_name):
     Queries the SFPT API for the rivers going into the reservoir specified for the next 7 days. Returns a dictionary of
     the dates of the flows and their magnitudes.
     """
-    import requests, datetime
+
     from .model import operations
+    from .app import Embalses as App
+    import requests
+    import datetime
     import codecs
 
     flows = {}
@@ -83,6 +86,9 @@ def get_sfptflows(reservoir_name):
         for i in range(7):
             total[i] += flows[comid][i]
     flows['total'] = total
+
+    # set the current page to the reservoir you're requesting information for so ajax.performsimulation knows
+    App.currentpage = reservoir_name
 
     return flows
 

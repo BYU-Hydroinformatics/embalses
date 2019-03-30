@@ -60,23 +60,28 @@ function simulationTable() {
         contentType: "application/json",
         method: 'POST',
         success: function(info) {
-            console.log(info);
-            tabulatorOutflows(info['result']);
-            $("#calculatebutton").append("<button id='button' onclick='performsimulation()' class='button'>Hacer un Pronostico</button>")
+            var outflowtable = tabulatorOutflows(info['result']);
+            $("#calculatebutton").append("<button id='button' onclick='performsimulation()' class='button'>Hacer un Pronostico</button>");
+            return outflowtable;
             }
         })
 }
 
 function performsimulation() {
-    $("#simulationresults").html("<h1>Los Resultados Del Simulacion Se Apareceran Aqui</h1>")
+    $("#simulationresults").html("<h1>Los Resultados Se Apareceran Aqui</h1>");
     $.ajax({
         url:'/apps/embalses/ajax/performsimulation/',
-        data: outflowtable.getData(),
+        data: JSON.stringify(outflowtable.getData()),
         dataType: 'json',
         contentType: "application/json",
         method: 'POST',
         success: function(info) {
+            $("#simulationresults").html("<h1>Creando un informe con los resultados</h1>");
             console.log(info);
+            $("#simulationresults").html('');
+                for (var key in info) {
+                    $("#simulationresults").append("<li>" + key + ": " + info[key] + "</li>");
+                }
             }
         })
 }

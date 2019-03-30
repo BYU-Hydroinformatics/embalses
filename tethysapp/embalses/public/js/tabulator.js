@@ -21,7 +21,7 @@ function tabulatorResStats(result) {
             {title:"Nombre", field:"name", editor:false},
             {title:"Nivel MAXIMO", field:"maxlvl", align:"center"},
             {title:"Nivel ACTUAL", field:"actlvl", align:"center"},
-            {title:"Nivel MINIMO", field:"minlvl", align:"center"},
+            {title:"Nivel MINIMO", field:"minlvl", align:"center"}
             // {title:"Promedio Anual", field:"yrAvg", align:"left", formatter:"progress", editor:true},
             // {title:"Volumen ACTUAL", field:"volAct", width:130, editor:"input"},
             // {title:"Volumen UTIL", field:"volUtil", align:"center"}
@@ -34,10 +34,10 @@ function tabulatorOutflows(result) {
 
     var unitOpts = {
         'mcs': 'Metros Cubicos Segundo',
-        'cfs': 'Cubic Feet per Second',
+        'cfs': 'Cubic Feet per Second'
     };
 
-    var outflowtable = new Tabulator("#outflowTable", {
+    return outflowtable = new Tabulator("#outflowTable", {
         data:result,                //load row data from array
         layout:"fitColumns",      //fit columns to width of table
         responsiveLayout:"hide",  //hide columns that dont fit on the table
@@ -56,7 +56,7 @@ function tabulatorOutflows(result) {
             {title:"Entradas (pronosticadas)", field:"inflow", align:"center"},
             {title:"Caudales de Salida", field:"release", align:"center", formatter:"plaintext", editor:true},
             {title:"Unidades", field:"units", align:"center", editor:"select", editorParams:unitOpts},
-            {title:"Tiempo de Salida (Horas)", field:"time", align:"center", formatter:"plaintext", editor:true},
+            {title:"Tiempo de Salida (Horas)", field:"time", align:"center", formatter:"plaintext", editor:true}
         ]
     });
 }
