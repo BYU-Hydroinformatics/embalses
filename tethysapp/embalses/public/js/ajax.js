@@ -76,12 +76,11 @@ function performsimulation() {
         contentType: "application/json",
         method: 'POST',
         success: function(info) {
-            $("#simulationresults").html("<h1>Creando un informe con los resultados</h1>");
-            console.log(info);
-            $("#simulationresults").html('');
-                for (var key in info) {
-                    $("#simulationresults").append("<li>" + key + ": " + info[key] + "</li>");
-                }
+            $("#simulationresults").html('<table id="resultstable">');
+            for (var key in info) {
+                $("#simulationresults").append("<tr><td>" + key + "</td><td>" + info[key] + "</td></tr>");
+            }
+            $("#simulationresults").append("</table>");
             }
         })
 }

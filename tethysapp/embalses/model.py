@@ -235,9 +235,28 @@ def updatefromGoogleSheets():
     return
 
 
-def get_elevationbyvolume():
+def get_elevationbyvolume(reservoir_name, newvolume):
     """
     part of the perform reservoir simulation calculation that will get the new elevation based on change in volume
     """
-    newvolume = ''
-    return newvolume
+    from .app import Embalses as App
+    import os
+    import pandas
+
+    if reservoir_name == 'Sabana Yegua':        # change the names for two reservoirs who are
+        reservoir_name = 'Sabana_Yegua'         # listed under different names in spreadsheets
+    if reservoir_name == 'Tavera-Bao':
+        reservoir_name = 'Bao'
+    app_workspace = App.get_app_workspace()
+    bath = os.path.join(app_workspace.path, 'bathymetry.xlsx')
+    df = pandas.read_excel(bath)[[reservoir_name + '_Elev', reservoir_name + '_Vol']].dropna()
+
+    volume_index = 0
+    newelevation = 0
+    for row in df[reservoir_name + '_Vol']:
+        if row > newvolume:
+            newelevation = df.loc[df[reservoir_name + '_Vol'] == volume_index].values[0, 0]
+            break
+        else:
+            volume_index = row
+    return newelevation

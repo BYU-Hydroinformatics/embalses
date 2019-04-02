@@ -1,10 +1,9 @@
 from tethys_sdk.base import TethysAppBase, url_map_maker
 
-# todo finish the simulation table math and warnings
+# todo add warnings/quality assurance to the simulation button
 # todo translate the instructions
 # todo make the update button not ask for login every time (make it work on the server???)
 # todo record demonstration videos
-# todo styling on the historical data and simulation reports
 
 # todo OPTIONAL- create a persistent store of old reports
 # todo OPTIONAL- give an option to email/download the finished report

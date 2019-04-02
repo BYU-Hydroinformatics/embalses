@@ -126,8 +126,6 @@ def performsimulation(request):
     import ast
 
     tabledata = ast.literal_eval(request.body.decode('UTF-8'))  # data is a list of dictionaries for each row
-    print(type(tabledata))
-    print(tabledata)
 
     warnings = {
         'maxlevel': [],             # a list of the days when the reservoir will be above max capacity
@@ -145,25 +143,20 @@ def performsimulation(request):
 
     # calculate the total difference
     volume_change = total_inflow - total_outflow
-    print(volume_change)
     # warnings.append(whichever error you got)
 
+    lastvolume = get_reservoirvolumes(App.currentpage)['current']
+    lastelevation = get_lastelevations()[App.currentpage]
+
     response = {
-        'totalin': total_inflow,
-        'totalout': total_outflow,
-        'volchange': volume_change,
-        'lastelevation': get_lastelevations()[App.currentpage],
-        'lastvolume': get_reservoirvolumes(App.currentpage),
-        'newelevation': get_elevationbyvolume(),
-        'newvolume': 'number calculated in steps above',
-        'elevchange': '',
-
-        'dailyinflows': '',
-        'dailyoutflows': '',
-        'dailytotals': '',
-        'daysremaining': '',
-
-        'warnings': warnings,
+        'Volumen Entrada': total_inflow,
+        'Volumen Salida': total_outflow,
+        'Cambio de Volumen': volume_change,
+        'Elevacion Actual': lastelevation,
+        'Volumen Actual': lastvolume,
+        'Elevacion Simulada': get_elevationbyvolume(App.currentpage, lastvolume + volume_change),
+        'Volumen Simulada': lastvolume + volume_change,
+        'Cambio de Elevacion': lastelevation + volume_change,
     }
-    print(response)
+
     return JsonResponse(response)

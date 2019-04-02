@@ -59,11 +59,13 @@ def simulations(request):
     """
 
     # list of reservoirs to choose from for the simulation
+    options = [(reservoir, reservoirs[reservoir]) for reservoir in reservoirs]
+    options.sort()
     res_list = SelectInput(
         display_text='',
         name='reservoir',
         multiple=False,
-        options=[(reservoir, reservoirs[reservoir]) for reservoir in reservoirs],
+        options=options,
         select2_options={
             'placeholder': 'Escoger un Embalse',
             'allowClear': True
