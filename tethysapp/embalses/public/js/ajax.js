@@ -61,26 +61,50 @@ function simulationTable() {
         method: 'POST',
         success: function(info) {
             var outflowtable = tabulatorOutflows(info['result']);
-            $("#calculatebutton").append("<button id='button' onclick='performsimulation()' class='button'>Hacer un Pronostico</button>");
+            $("#calculatebutton").html("<button id='button' onclick='performsimulation()' class='button'>Hacer un Pronostico</button>");
             return outflowtable;
             }
         })
 }
 
 function performsimulation() {
-    $("#simulationresults").html("<h1>Los Resultados Se Apareceran Aqui</h1>");
+    $("#numericalresults").html('');
+    $("#warningresults").html('');
+    $("#statisticalresults").html('');
+    $("#calculatebutton").html("<img src='https://media.giphy.com/media/8RyJliVfFM6ac/giphy.gif' style='width: 200px'>");
     $.ajax({
         url:'/apps/embalses/ajax/performsimulation/',
         data: JSON.stringify(outflowtable.getData()),
         dataType: 'json',
         contentType: "application/json",
         method: 'POST',
-        success: function(info) {
-            $("#simulationresults").html('<table id="resultstable">');
-            for (var key in info) {
-                $("#simulationresults").append("<tr><td>" + key + "</td><td>" + info[key] + "</td></tr>");
+        success: function(simulationresults) {
+            // Replace the Calculate Button
+            $("#calculatebutton").html("<button id='button' onclick='performsimulation()' class='button'>Hacer un Pronostico</button>");
+
+            // Fill the numerical results table
+            $("#numericalresults").html('<h3 style="text-align: center">Resultados Numericos</h3><table id="resultstable">');
+            for (var key in simulationresults['numericalresults']) {
+                $("#numericalresults").append("<tr><td>" + key + "</td><td>" + simulationresults['numericalresults'][key] + "</td></tr>");
             }
-            $("#simulationresults").append("</table>");
+            $("#numericalresults").append("</table>");
+
+            // Fill a bullet list of warnings
+            $("#warningresults").html('<h3 style="text-align: center">Avisos Sobre Pronostico</h3>');
+            for (var key in simulationresults['warningresults']) {
+                $("#warningresults").append("<li>" + key + ": " + simulationresults['warningresults'][key] + "</li>");
+            }
+
+            // Fill the graphic warnings
+            $("#statisticalresults").html('<h3 style="text-align: center">Statisticas del Embalse</h3>');
+            for (var key in simulationresults['statisticalresults']) {
+                $("#statisticalresults").append("<h5>" + key + "</h5>" + "<ul>");
+                for (var subkey in simulationresults['statisticalresults'][key]){
+                    $("#statisticalresults").append("<li>" + subkey + ": " + simulationresults['statisticalresults'][key][subkey] + "</li>");
+                }
+                $("#statisticalresults").append("</ul>");
+            }
+
             }
         })
 }

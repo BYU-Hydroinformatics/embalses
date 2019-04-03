@@ -1,11 +1,11 @@
 from tethys_sdk.base import TethysAppBase, url_map_maker
 
-# todo add warnings/quality assurance to the simulation button
+# todo add warnings/quality assurance to the simulation button (skim from hec models)
 # todo translate the instructions
 # todo make the update button not ask for login every time (make it work on the server???)
 # todo record demonstration videos
 
-# todo OPTIONAL- create a persistent store of old reports
+# todo OPTIONAL- create a persistent store of old reports (header button)
 # todo OPTIONAL- give an option to email/download the finished report
 # todo OPTIONAL- let the user toggle between elevations and depths on the historical charts
 # todo OPTIONAL- add hydrologic factors to analysis like evaporation or infiltration?
@@ -84,11 +84,6 @@ class Embalses(TethysAppBase):
                 name='getsfptflows',
                 url='embalses/ajax/getSFPTflows',
                 controller='embalses.ajax.getsfptflows'
-            ),
-            UrlMap(
-                name='reservoirstatistics',
-                url='embalses/ajax/reservoirstatistics',
-                controller='embalses.ajax.reservoirstatistics'
             ),
             UrlMap(
                 name='updatesheet',

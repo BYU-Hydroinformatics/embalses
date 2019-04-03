@@ -79,26 +79,6 @@ def getsfptflows(request):
 
 
 @login_required()
-def reservoirstatistics(request):
-    """
-    called when the simulation page starts to get used
-    """
-    from .model import get_reservoirvolumes, get_reservoirelevations
-    from .app import Embalses as app
-
-    reservoir = app.currentpage
-    data = {}
-    data['volumes'] = get_reservoirvolumes(reservoir)
-    data['elevations'] = get_reservoirelevations(reservoir)
-    data['averages'] = {
-        'monthly': 0,
-        'lastyr': 0,
-    }
-
-    return JsonResponse(data)
-
-
-@login_required()
 def updatesheet(request):
     """
     called when the simulation page starts to get used
@@ -121,7 +101,7 @@ def performsimulation(request):
     - the total amount of consumption
     - the total amount of inflow
     """
-    from .model import get_elevationbyvolume, get_lastelevations, get_reservoirvolumes
+    from .model import get_elevationbyvolume, get_lastelevations, get_reservoirvolumes, get_reservoirelevations
     from .app import Embalses as App
     import ast
 
@@ -138,25 +118,35 @@ def performsimulation(request):
         # calculate the inflow/day and total
         total_inflow += tabledata[i]['inflow']
         # calculate the outflow/day and total
-        total_outflow += tabledata[i]['release'] * tabledata[i]['time'] * 3600
+        total_outflow += float(tabledata[i]['release']) * float(tabledata[i]['time']) * 3600
         # check to see if you cross the max/min value each day
 
     # calculate the total difference
     volume_change = total_inflow - total_outflow
     # warnings.append(whichever error you got)
 
-    lastvolume = get_reservoirvolumes(App.currentpage)['current']
+    lastvolume = get_reservoirvolumes(App.currentpage)['Actual']
     lastelevation = get_lastelevations()[App.currentpage]
 
     response = {
-        'Volumen Entrada': total_inflow,
-        'Volumen Salida': total_outflow,
-        'Cambio de Volumen': volume_change,
-        'Elevacion Actual': lastelevation,
-        'Volumen Actual': lastvolume,
-        'Elevacion Simulada': get_elevationbyvolume(App.currentpage, lastvolume + volume_change),
-        'Volumen Simulada': lastvolume + volume_change,
-        'Cambio de Elevacion': lastelevation + volume_change,
+        'numericalresults': {
+            'Volumen Entrada': total_inflow,
+            'Volumen Salida': total_outflow,
+            'Cambio de Volumen': volume_change,
+            'Elevacion Actual': lastelevation,
+            'Volumen Actual': lastvolume,
+            'Elevacion Simulada': get_elevationbyvolume(App.currentpage, lastvolume + volume_change),
+            'Volumen Simulada': lastvolume + volume_change,
+            'Cambio de Elevacion': lastelevation + volume_change,
+        },
+        'warningresults': {
+            'Niveles': 'Sin Problemas',
+            'Volumenes': 'Sin Problemas'
+        },
+        'statisticalresults': {
+            'Volumenes': get_reservoirvolumes(App.currentpage),
+            'Niveles': get_reservoirelevations(App.currentpage)
+        }
     }
 
     return JsonResponse(response)

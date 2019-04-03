@@ -184,10 +184,10 @@ def get_reservoirvolumes(reservoir_name):
     app_workspace = App.get_app_workspace()
     bath = os.path.join(app_workspace.path, 'bathymetry.xlsx')
     df = pandas.read_excel(bath)[[reservoir_name + '_Elev', reservoir_name + '_Vol']]
-    volumes['current'] = df.loc[df[reservoir_name + '_Elev'] == float(curr_elev)].values[0, 1]
-    volumes['min'] = df.loc[df[reservoir_name + '_Elev'] == info['minlvl']].values[0, 1]
-    volumes['max'] = df.loc[df[reservoir_name + '_Elev'] == info['maxlvl']].values[0, 1]
-    volumes['available'] = volumes['current'] - volumes['min']
+    volumes['Actual'] = df.loc[df[reservoir_name + '_Elev'] == float(curr_elev)].values[0, 1]
+    volumes['Min'] = df.loc[df[reservoir_name + '_Elev'] == info['minlvl']].values[0, 1]
+    volumes['Max'] = df.loc[df[reservoir_name + '_Elev'] == info['maxlvl']].values[0, 1]
+    volumes['Util'] = volumes['Actual'] - volumes['Min']
     del df
 
     return volumes
@@ -198,9 +198,9 @@ def get_reservoirelevations(reservoir_name):
     You give it the name of a reservoir and it gives you all the possible relevant elevations associated with it
     """
     elevations = {}
-    elevations['current'] = get_lastelevations()[reservoir_name]
-    elevations['min'] = operations()[reservoir_name]['minlvl']
-    elevations['max'] = operations()[reservoir_name]['maxlvl']
+    elevations['Actual'] = get_lastelevations()[reservoir_name]
+    elevations['Min'] = operations()[reservoir_name]['minlvl']
+    elevations['Max'] = operations()[reservoir_name]['maxlvl']
     return elevations
 
 

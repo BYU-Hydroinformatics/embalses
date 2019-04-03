@@ -41,7 +41,9 @@ $(document).ready(function() {
         $('#reservoir').change(function() {
             $("#outflowTable").html("<h1 style='text-align: center'>Carcicando tabla de datos...</h1>");
             $("#calculatebutton").html('');
-            $("#simulationresults").html('');
+            $("#numericalresults").html('');
+            $("#warningresults").html('');
+            $("#statisticalresults").html('');
             simulationTable();
         })
     }
