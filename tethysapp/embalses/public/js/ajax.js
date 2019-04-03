@@ -35,9 +35,9 @@ function statisticalReport() {
         method: 'POST',
         success: function(results) {
             console.log(results);
-            $("#volumes").append("<h3>Volumes</h3>");
-            $("#elevations").append("<h3>Elevaciones</h3>");
-            $("#averages").append("<h3>Promedios</h3>");
+            $("#volumes").append("<h2>Volumes</h2>");
+            $("#elevations").append("<h2>Elevaciones</h2>");
+            $("#averages").append("<h2>Promedios</h2>");
             for (var key in results['volumes']) {
                 $("#volumes").append("<li>" + key + ": " + results['volumes'][key] + "</li>");
             }

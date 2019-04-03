@@ -86,6 +86,11 @@ class Embalses(TethysAppBase):
                 controller='embalses.ajax.getsfptflows'
             ),
             UrlMap(
+                name='reservoirstatistics',
+                url='embalses/ajax/reservoirstatistics',
+                controller='embalses.ajax.reservoirstatistics'
+            ),
+            UrlMap(
                 name='updatesheet',
                 url='embalses/ajax/updatesheet',
                 controller='embalses.ajax.updatesheet'

@@ -8,10 +8,17 @@
     <h2 style="text-align: center">Datos Historicos para {{name}}</h2>
     <div id="hist_data_chart"></div>
     <div id="reservoir_info"><h2 style="text-align: center">Estatisticas para {{name}}</h2></div>
-    <div id="summary-table"></div>
 
-    <div id="volumes"></div>
-    <div id="elevations"></div>
-    <div id="averages"></div>
+    <div id="columnswrapper" style="width: 75%; margin-left: auto; margin-right: auto">
+        <div style="float: left; width:32%; margin: 1px">
+            <div id="volumes"></div>
+        </div>
+        <div style="float: left; width: 32%; margin: 1px">
+            <div id="elevations"></div>
+        </div>
+        <div style="float: left; width: 32%; margin: 1px">
+            <div id="averages"></div>
+        </div>
+    </div>
 
 {% endblock %}

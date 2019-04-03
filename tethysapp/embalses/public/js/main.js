@@ -30,13 +30,14 @@ $(document).ready(function() {
         })
     }
 
-    ///////////////////////////////////////////// APP SUMMARY PAGE
+    ///////////////////////////////////////////// RESERVOIR SUMMARY PAGE
     if ($('#hist_data_chart').length) {
         placeholderchart();
         getChart();
         statisticalReport();
     }
 
+    ///////////////////////////////////////////// FUTURE SIMULATION PAGE
     if ($('#outflowTable').length) {
         $('#reservoir').change(function() {
             $("#outflowTable").html("<h1 style='text-align: center'>Carcicando tabla de datos...</h1>");

@@ -79,6 +79,26 @@ def getsfptflows(request):
 
 
 @login_required()
+def reservoirstatistics(request):
+    """
+    called when the simulation page starts to get used
+    """
+    from .model import get_reservoirvolumes, get_reservoirelevations
+    from .app import Embalses as app
+
+    reservoir = app.currentpage
+    data = {}
+    data['volumes'] = get_reservoirvolumes(reservoir)
+    data['elevations'] = get_reservoirelevations(reservoir)
+    data['averages'] = {
+        'Mensual': 27.6,
+        'Ultimo Año': 29.11,
+    }
+
+    return JsonResponse(data)
+
+
+@login_required()
 def updatesheet(request):
     """
     called when the simulation page starts to get used
