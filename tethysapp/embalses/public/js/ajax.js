@@ -35,7 +35,7 @@ function statisticalReport() {
         method: 'POST',
         success: function(results) {
             console.log(results);
-            $("#volumes").append("<h2>Volumes</h2>");
+            $("#volumes").append("<h2>Volumenes</h2>");
             $("#elevations").append("<h2>Elevaciones</h2>");
             $("#averages").append("<h2>Promedios</h2>");
             for (var key in results['volumes']) {
@@ -83,7 +83,7 @@ function performsimulation() {
             $("#calculatebutton").html("<button id='button' onclick='performsimulation()' class='button'>Hacer un Pronostico</button>");
 
             // Fill the numerical results table
-            $("#numericalresults").html('<h3 style="text-align: center">Resultados Numericos</h3><table id="resultstable">');
+            $("#numericalresults").html('<h3 style="text-align: center">Resultados Numericos</h3><table id="resultstable" align="center">');
             for (var key in simulationresults['numericalresults']) {
                 $("#numericalresults").append("<tr><td>" + key + "</td><td>" + simulationresults['numericalresults'][key] + "</td></tr>");
             }
@@ -92,13 +92,17 @@ function performsimulation() {
             // Fill a bullet list of warnings
             $("#warningresults").html('<h3 style="text-align: center">Avisos Sobre Pronostico</h3>');
             for (var key in simulationresults['warningresults']) {
-                $("#warningresults").append("<li>" + key + ": " + simulationresults['warningresults'][key] + "</li>");
+                $("#warningresults").append('<h5>' + key + '</h5><ul>');
+                for (subkey in simulationresults['warningresults'][key]) {
+                    $("#warningresults").append("<li>" + subkey + ": " + simulationresults['warningresults'][key][subkey] + "</li>");
+                }
             }
+            $("#warningresults").append('</ul>');
 
             // Fill the graphic warnings
             $("#statisticalresults").html('<h3 style="text-align: center">Statisticas del Embalse</h3>');
             for (var key in simulationresults['statisticalresults']) {
-                $("#statisticalresults").append("<h5>" + key + "</h5>" + "<ul>");
+                $("#statisticalresults").append("<h5>" + key + "</h5><ul>");
                 for (var subkey in simulationresults['statisticalresults'][key]){
                     $("#statisticalresults").append("<li>" + subkey + ": " + simulationresults['statisticalresults'][key][subkey] + "</li>");
                 }

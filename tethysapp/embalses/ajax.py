@@ -83,17 +83,14 @@ def reservoirstatistics(request):
     """
     called when the simulation page starts to get used
     """
-    from .model import get_reservoirvolumes, get_reservoirelevations
-    from .app import Embalses as app
+    from .model import get_reservoirvolumes, get_reservoirelevations, get_historicalaverages
+    from .app import Embalses as App
 
-    reservoir = app.currentpage
+    reservoir = App.currentpage
     data = {}
     data['volumes'] = get_reservoirvolumes(reservoir)
     data['elevations'] = get_reservoirelevations(reservoir)
-    data['averages'] = {
-        'Mensual': 27.6,
-        'Ultimo Año': 29.11,
-    }
+    data['averages'] = get_historicalaverages(reservoir)
 
     return JsonResponse(data)
 
@@ -125,8 +122,6 @@ def performsimulation(request):
     from .app import Embalses as App
     import ast
 
-    tabledata = ast.literal_eval(request.body.decode('UTF-8'))  # data is a list of dictionaries for each row
-
     warnings = {
         'maxlevel': [],             # a list of the days when the reservoir will be above max capacity
         'minlevel': [],             # a list of the days when the reservoir will be below min capacity
@@ -134,38 +129,48 @@ def performsimulation(request):
     }
     total_inflow = 0
     total_outflow = 0
+
+    tabledata = ast.literal_eval(request.body.decode('UTF-8'))  # data is a list of dictionaries for each row
     for i in range(len(tabledata)):
-        # calculate the inflow/day and total
+        # calculate the sum of the inflows and outflows
         total_inflow += tabledata[i]['inflow']
-        # calculate the outflow/day and total
-        total_outflow += float(tabledata[i]['release']) * float(tabledata[i]['time']) * 3600
-        # check to see if you cross the max/min value each day
+        total_outflow += (float(tabledata[i]['release']) * float(tabledata[i]['time']))
+    # adjust for time conversions from cubic meters per second to cubic meters
+    total_inflow = total_inflow * 3600 * 24
+    total_outflow = total_outflow * 3600
 
     # calculate the total difference
-    volume_change = total_inflow - total_outflow
+    volume_change = round(total_inflow - total_outflow, 2)
     # warnings.append(whichever error you got)
 
-    lastvolume = get_reservoirvolumes(App.currentpage)['Actual']
+    alllastvolumes = get_reservoirvolumes(App.currentpage)
     lastelevation = get_lastelevations()[App.currentpage]
+    newvolume = alllastvolumes['Actual'] + volume_change / 1000000
+    newelevation = get_elevationbyvolume(App.currentpage, newvolume)
+    elevationchange = newelevation - lastelevation
 
     response = {
         'numericalresults': {
-            'Volumen Entrada': total_inflow,
-            'Volumen Salida': total_outflow,
-            'Cambio de Volumen': volume_change,
-            'Elevacion Actual': lastelevation,
-            'Volumen Actual': lastvolume,
-            'Elevacion Simulada': get_elevationbyvolume(App.currentpage, lastvolume + volume_change),
-            'Volumen Simulada': lastvolume + volume_change,
-            'Cambio de Elevacion': lastelevation + volume_change,
+            'Volumen Actual (MMC)': alllastvolumes['Actual'],
+            'Volumen Entrada (M^3)': round(total_inflow, 2),
+            'Volumen Salida (M^3)': round(total_outflow, 2),
+            'Volumen Nuevo (Simulado MMC)': newvolume,
+            'Cambio de Volumen (M^3)': volume_change,
+            'Elevacion Actual (M)': lastelevation,
+            'Elevacion Nueva (Simulada M)': newelevation,
+            'Cambio de Elevacion (M)': round(elevationchange, 2),
         },
         'warningresults': {
-            'Niveles': 'Sin Problemas',
-            'Volumenes': 'Sin Problemas'
+            'Elevaciones': {
+                'Supera Nivel Máximo': 'No hay problema'
+            },
+            'Volumenes': {
+                'Not enough water': 'No hay problem'
+            },
         },
         'statisticalresults': {
-            'Volumenes': get_reservoirvolumes(App.currentpage),
-            'Niveles': get_reservoirelevations(App.currentpage)
+            'Volumenes': alllastvolumes,
+            'Elevaciones': get_reservoirelevations(App.currentpage)
         }
     }
 

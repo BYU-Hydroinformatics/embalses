@@ -1,6 +1,6 @@
 from tethys_sdk.base import TethysAppBase, url_map_maker
 
-# todo add warnings/quality assurance to the simulation button (skim from hec models)
+# todo add warnings to the simulation button (skim from hec models)
 # todo translate the instructions
 # todo make the update button not ask for login every time (make it work on the server???)
 # todo record demonstration videos

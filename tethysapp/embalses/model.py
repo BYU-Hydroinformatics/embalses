@@ -136,22 +136,21 @@ def get_lastelevations():
     Returns the most recently reported ELEVATION for each of the reservoirs as listed in the excel sheet
     """
     from .app import Embalses as App
-    import os, pandas
-    elevations = {}
+    import os
+    import pandas
 
     # open the sheet with historical levels
     app_workspace = App.get_app_workspace()
     damsheet = os.path.join(app_workspace.path, 'elevations.xlsx')
-    dfnan = pandas.read_excel(damsheet)
+    df1 = pandas.read_excel(damsheet)
+    elevations = {}
 
-    reservoirs = operations()
-    for reservoir in reservoirs:
+    for reservoir in reservoirs():
         if reservoir == 'Sabana Yegua':                 # change the names for two reservoirs who are
             reservoir = 'S. Yegua'                      # listed under different names in spreadsheets
         elif reservoir == 'Tavera-Bao':
             reservoir = 'Tavera'
-
-        df = dfnan[['Nivel', reservoir]].dropna()       # load the right columns of data and drop the null values
+        df = df1[['Nivel', reservoir]].dropna()       # load the right columns of data
         df = df.tail(1)
         for index, row in df.iterrows():
             elev = row[reservoir]
@@ -189,6 +188,8 @@ def get_reservoirvolumes(reservoir_name):
     volumes['Max'] = df.loc[df[reservoir_name + '_Elev'] == info['maxlvl']].values[0, 1]
     volumes['Util'] = volumes['Actual'] - volumes['Min']
     del df
+    for key in volumes:
+        volumes[key] = round(volumes[key], 3)
 
     return volumes
 
@@ -260,3 +261,31 @@ def get_elevationbyvolume(reservoir_name, newvolume):
         else:
             volume_index = row
     return newelevation
+
+
+def get_historicalaverages(reservoir_name):
+    """
+    Get the average elevation for the last 365 days and last 31 days
+    """
+    from .app import Embalses as App
+    import os
+    import pandas
+    averages = {}
+
+    # open the sheet with historical levels
+    app_workspace = App.get_app_workspace()
+    damsheet = os.path.join(app_workspace.path, 'elevations.xlsx')
+    df = pandas.read_excel(damsheet)
+
+    if reservoir_name == 'Sabana Yegua':    # change the names for two reservoirs who are
+        reservoir_name = 'S. Yegua'         # listed under different names in spreadsheets
+    elif reservoir_name == 'Tavera-Bao':
+        reservoir_name = 'Tavera'
+
+    df = df[['Nivel', reservoir_name]].dropna()  # load the right columns of data and drop the null values
+    df = df.tail(365)
+    averages['Elevacion, Ultimo Año'] = round(df[reservoir_name].mean(), 2)
+    df = df.tail(31)
+    averages['Elevacion, Ultimo Mes'] = round(df[reservoir_name].mean(), 2)
+
+    return averages
