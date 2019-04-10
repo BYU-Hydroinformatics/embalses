@@ -1,3 +1,5 @@
+# -*- coding: UTF-8 -*-
+
 def operations():
     """
     A list of dams with all their relevant data

@@ -1,3 +1,5 @@
+# -*- coding: UTF-8 -*-
+
 from tethys_sdk.base import TethysAppBase, url_map_maker
 
 # todo add warnings to the simulation button (skim from hec models)
@@ -23,7 +25,7 @@ class Embalses(TethysAppBase):
     color = '#01AEBF'
     # description = 'Una aplicación para visualizar datos históricos y hacer simulaciones de elevaciones ' \
     #               'para los embalses en la Republica Dominicana.'
-    description = 'Una aplicacion para visualizar datos históricos y hacer simulaciones de elevaciones para los ' \
+    description = 'Una aplicacion para visualizar datos historicos y hacer simulaciones de elevaciones para los ' \
                   'embalses en la Republica Dominicana.'
     tags = 'reservoirs, hydrology, streamflow prediction'
     enable_feedback = False
