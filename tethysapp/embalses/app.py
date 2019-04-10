@@ -21,8 +21,10 @@ class Embalses(TethysAppBase):
     package = 'embalses'
     root_url = 'embalses'
     color = '#01AEBF'
-    description = 'Una aplicación para visualizar datos históricos y hacer simulaciones de elevaciones ' \
-                  'para los embalses en la Republica Dominicana.'
+    # description = 'Una aplicación para visualizar datos históricos y hacer simulaciones de elevaciones ' \
+    #               'para los embalses en la Republica Dominicana.'
+    description = 'Una aplicacion para visualizar datos históricos y hacer simulaciones de elevaciones para los ' \
+                  'embalses en la Republica Dominicana.'
     tags = 'reservoirs, hydrology, streamflow prediction'
     enable_feedback = False
     feedback_emails = []
