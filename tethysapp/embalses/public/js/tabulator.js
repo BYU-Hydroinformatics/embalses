@@ -19,12 +19,13 @@ function tabulatorResStats(result) {
         ],
         columns:[                 //define the table columns
             {title:"Nombre", field:"name", editor:false},
-            {title:"Nivel MAXIMO", field:"maxlvl", align:"center"},
+            {title:"Nivel MÁXIMO", field:"maxlvl", align:"center"},
             {title:"Nivel ACTUAL", field:"actlvl", align:"center"},
-            {title:"Nivel MINIMO", field:"minlvl", align:"center"}
-            // {title:"Promedio Anual", field:"yrAvg", align:"left", formatter:"progress", editor:true},
-            // {title:"Volumen ACTUAL", field:"volAct", width:130, editor:"input"},
-            // {title:"Volumen UTIL", field:"volUtil", align:"center"}
+            {title:"Nivel MÍNIMO", field:"minlvl", align:"center"},
+            {title:"Volumen MÁXIMO", field:"maxvol", align:"center"},
+            {title:"Volumen ACTUAL", field:"actvol", align:"center"},
+            {title:"Volumen UTIL", field:"utilvol", align:"center"},
+            {title:"Volumen MÍNIMO", field:"minvol", align:"center"},
         ]
     });
 }

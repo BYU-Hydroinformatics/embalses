@@ -128,7 +128,7 @@ def make_overviewtable():
     A function that creates the data needed for the overview table on the app home page.
     The format for that data is a list of dictionaries
     """
-    from .model import operations, get_lastelevations
+    from .model import operations, get_lastelevations, get_reservoirvolumes
     # variables declaration
     tabledata = {}              # the response dictionary
     entries = []                # tabulator expects a list with one dictionary per row
@@ -136,11 +136,17 @@ def make_overviewtable():
     lastelevation = get_lastelevations()
 
     for reservoir in res_ops:
+        # append the max, min, current (actual in spanish), and available (util) elevations and volume
+        volumes = get_reservoirvolumes(reservoir)
         new_entry = {
             'name': reservoir,
             'maxlvl': res_ops[reservoir]['maxlvl'],
             'actlvl': lastelevation[reservoir],
             'minlvl': res_ops[reservoir]['minlvl'],
+            'maxvol': volumes['Max'],
+            'actvol': volumes['Actual'],
+            'minvol': volumes['Min'],
+            'utilvol': volumes['Util'],
         }
         entries.append(new_entry)
 
