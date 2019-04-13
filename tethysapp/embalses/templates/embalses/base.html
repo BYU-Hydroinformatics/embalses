@@ -15,14 +15,17 @@
 {#    <div class="header-button glyphicon-button" data-toggle="tooltip" data-placement="bottom" title="Visualizar Ultimo Informe">#}
 {#        <a data-toggle="modal" data-target="#simulation-modal"><span class="glyphicon glyphicon-list-alt"></span></a>#}
 {#    </div>#}
+    <div class="header-button glyphicon-button" data-toggle="tooltip" data-placement="bottom" title="Instrucciones Para Esta Pagina">
+        <a data-toggle="modal" data-target="#pageinstructions-modal"><span class="glyphicon glyphicon-question-sign"></span></a>
+    </div>
     <div class="header-button glyphicon-button" data-toggle="tooltip" data-placement="bottom" title="Sincronizar Datos con Google">
         <a onclick="updatesheet()"><span class="glyphicon glyphicon-refresh"></span></a>
     </div>
     <div class="header-button glyphicon-button" data-toggle="tooltip" data-placement="bottom" title="Ver una Tutoría en YouTube">
-        <a href="https://www.youtube.com/channel/UC6B62KhB-Cd34ad6pGBldQQ/videos" target="_blank"><span class="glyphicon glyphicon-play-circle"></span></a>
+        <a href="{{ youtubelink }}" target="_blank"><span class="glyphicon glyphicon-play-circle"></span></a>
     </div>
-    <div class="header-button glyphicon-button" data-toggle="tooltip" data-placement="bottom" title="Preguntar Ayuda">
-        <a href="https://github.com/rileyhales/embalses/issues" target="_blank"><span class="glyphicon glyphicon-question-sign"></span></a>
+    <div class="header-button glyphicon-button" data-toggle="tooltip" data-placement="bottom" title="Reportar Problemas en el App">
+        <a href="https://github.com/rileyhales/embalses/issues" target="_blank"><span class="glyphicon glyphicon-exclamation-sign"></span></a>
     </div>
 {% endblock %}
 

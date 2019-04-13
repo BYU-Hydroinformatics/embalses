@@ -6,6 +6,7 @@ from tethys_sdk.permissions import has_permission
 
 from .tools import generate_app_urls
 from .model import reservoirs
+from .app import Embalses as App
 
 from tethys_sdk.gizmos import SelectInput
 
@@ -20,7 +21,8 @@ def home(request):
     # The map on this page is handled entirely using leaflet and javascript
     context = {
         'admin': has_permission(request, 'update_data'),
-        'urls': generate_app_urls(request, reservoirs)
+        'urls': generate_app_urls(request, reservoirs),
+        'youtubelink': App.youtubelink
     }
 
     return render(request, 'embalses/home.html', context)
@@ -34,7 +36,8 @@ def reportar(request):
 
     context = {
         'admin': has_permission(request, 'update_data'),
-        'urls': generate_app_urls(request, reservoirs)
+        'urls': generate_app_urls(request, reservoirs),
+        'youtubelink': App.youtubelink
     }
 
     return render(request, 'embalses/reportar.html', context)
@@ -48,7 +51,8 @@ def instructions(request):
 
     context = {
         'admin': has_permission(request, 'update_data'),
-        'urls': generate_app_urls(request, reservoirs)
+        'urls': generate_app_urls(request, reservoirs),
+        'youtubelink': App.youtubelink
     }
 
     return render(request, 'embalses/instructions.html', context)
@@ -78,6 +82,7 @@ def simulations(request):
         'admin': has_permission(request, 'update_data'),
         'urls': generate_app_urls(request, reservoirs),
         'res_list': res_list,
+        'youtubelink': App.youtubelink
     }
 
     return render(request, 'embalses/simulations.html', context)
@@ -102,6 +107,7 @@ def reservoirviewer(request, name):
         'admin': has_permission(request, 'update_data'),
         'urls': generate_app_urls(request, reservoirs),
         'name': name,
+        'youtubelink': App.youtubelink
     }
 
     return render(request, 'embalses/reservoir.html', context)

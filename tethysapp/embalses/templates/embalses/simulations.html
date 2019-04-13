@@ -21,3 +21,37 @@
         </div>
     </div>
 {% endblock %}
+
+
+{% block after_app_content %}
+    <div class="modal fade" id="pageinstructions-modal" tabindex="-1" role="dialog" aria-labelledby="pageinstructions-modal-label">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h5 class="modal-title" id="pageinstructions-modal-label">Instrucciones para esta página</h5>
+                </div>
+                <div class="modal-body">
+                    <div id="pageinstructions">
+                        <p>
+                            Esta página tiene controles para hacer prnosticos breves para un embalse.
+                            <ol>
+                                <li>Escoger un embalse. Espera a que la tabla se cargue.</li>
+                                <li>Llenar la tabla de datos. Los caudales de entrada ya estan calculados. Entrar los caudales de salida estimados y el tiempo de salida.</li>
+                                <li>Clic Hacer un Pronostico</li>
+                                <li>Repasar los resultados del simulación</li>
+                            </ol>
+                        </p>
+                        <p>
+                            Hay una tutoría del app <a href="{{ youtubelink }}" target="_blank">su YouTube</a>
+                        </p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

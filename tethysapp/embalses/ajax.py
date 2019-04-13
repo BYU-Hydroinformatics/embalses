@@ -134,34 +134,39 @@ def performsimulation(request):
     from .app import Embalses as App
     import ast
 
+    # get some preliminary information
     reservoirinfo = operations()[App.currentpage]
     maxelevation = reservoirinfo['maxlvl']
     minelevation = reservoirinfo['minlvl']
 
+    # declare some variables that i'm going to use later
     volumewarning = {}
     elevationwarning = {}
-
     total_inflow = 0
     total_outflow = 0
 
+    # figure out what all the information in the table said
     tabledata = ast.literal_eval(request.body.decode('UTF-8'))  # data is a list of dictionaries for each row
     for i in range(len(tabledata)):
         # calculate the sum of the inflows and outflows
         total_inflow += tabledata[i]['inflow']
         total_outflow += (float(tabledata[i]['release']) * float(tabledata[i]['time']))
+
     # adjust for time conversions from cubic meters per second to cubic meters
     total_inflow = total_inflow * 3600 * 24
     total_outflow = total_outflow * 3600
 
-    # calculate the total difference
-    volume_change = round(total_inflow - total_outflow, 2)
-
+    # calculate the changes in elevations
     alllastvolumes = get_reservoirvolumes(App.currentpage)
-    lastelevation = get_lastelevations()[App.currentpage]
+    volume_change = round(total_inflow - total_outflow, 2)
     newvolume = alllastvolumes['Actual'] + volume_change / 1000000
+
+    # calculate the changes in volumes
     newelevation = get_elevationbyvolume(App.currentpage, newvolume)
+    lastelevation = get_lastelevations()[App.currentpage]
     elevationchange = newelevation - lastelevation
 
+    # give warnings based on the results of the analysis
     if volume_change < 0:
         volumewarning['Cambio de Volumen'] = 'Esta simulación resulta en una pérdida de agua. Las salidas son mayores '\
                                              'que las entradas.'
@@ -170,6 +175,8 @@ def performsimulation(request):
     if newelevation < minelevation:
         elevationwarning['Nivel Mínimo'] = 'El nivel ha rebasado el mínimo por ' + str(minelevation - newelevation)
 
+    # create a dictionary with all the results that can be returned as a JSON object.
+    # The 3 keys correspond to the columns of information to be printed in the results section
     response = {
         'numericalresults': {
             'Volumen Actual (MMC)': alllastvolumes['Actual'],

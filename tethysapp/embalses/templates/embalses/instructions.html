@@ -10,7 +10,7 @@
             y estatisticas para cada embalse.
         </p>
         <p>
-            Hay videos tutoriales en YouTube que dimonstran como usar esta pagina disponible <a href="https://www.youtube.com/channel/UC6B62KhB-Cd34ad6pGBldQQ/videos">en este link</a>
+            Hay videos tutoriales en YouTube que dimonstran como usar esta pagina disponible <a href="{{ youtubelink }}" target="_blank">en este link</a>
             . Tambien hay un botón en la parte superior derecha de la página para ver estes videos.
         </p>
 
@@ -86,4 +86,31 @@
     <h4>Statistics Section</h4>
     The statistics and summary section shows variables to try to give a better context to the data shown in the graph.
 
+{% endblock %}
+
+{% block after_app_content %}
+    <div class="modal fade" id="pageinstructions-modal" tabindex="-1" role="dialog" aria-labelledby="pageinstructions-modal-label">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h5 class="modal-title" id="pageinstructions-modal-label">Instrucciones para esta página</h5>
+                </div>
+                <div class="modal-body">
+                    <div id="pageinstructions">
+                        <p>
+                            Esta página tiene un breve summario para cada página del app.
+                        </p>
+                        <p>
+                            Hay una tutoría del app <a href="{{ youtubelink }}" target="_blank">su YouTube</a>
+                        </p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
