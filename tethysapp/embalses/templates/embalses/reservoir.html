@@ -5,10 +5,12 @@
 {% load staticfiles %}
 
 {% block app_content %}
-    <h2 style="text-align: center">Datos Historicos para {{name}}</h2>
-    <div id="hist_data_chart"></div>
-    <div id="reservoir_info"><h2 style="text-align: center">Estatisticas para {{name}}</h2></div>
-
+    <h2 style="text-align: center">Datos Summarios y Estatisticas para {{name}}</h2>
+    <div id="chartwrapper" style="width: 100%; margin-left: auto; margin-right: auto">
+        <div id="hist_data_chart" style="width: 50%; float: left"></div>
+        <div id="storagecapacity" style="width: 50%; float: left;"></div>
+    </div>
+    
     <div id="columnswrapper" style="width: 75%; margin-left: auto; margin-right: auto">
         <div style="float: left; width:32%; margin: 1px">
             <div id="volumes"></div>

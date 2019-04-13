@@ -5,7 +5,7 @@ from django.http import JsonResponse
 
 
 @login_required()
-def reservoirpageplot(request):
+def reservoirhistoricalplot(request):
     """
     Called when the reservoir stats page is opened, formats get_historicaldata for a highcharts plot
     """
@@ -31,6 +31,16 @@ def reservoirpageplot(request):
     responsedata['maximum'] = [[firstday, max], [lastday, max]]
 
     return JsonResponse(responsedata)
+
+
+@login_required()
+def reservoirstorageplot(request):
+    """
+    Called when the reservoir stats page is opened, formats get_historicaldata for a highcharts plot
+    """
+    from .app import Embalses as App
+    from .model import make_storagecapcitycurve
+    return JsonResponse({'curvedata': make_storagecapcitycurve(App.currentpage)})
 
 
 @login_required()

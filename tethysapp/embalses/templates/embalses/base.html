@@ -70,7 +70,7 @@
     <li class="{% if request.path == simulaciones_url %}active{% endif %}"><a href="{{ simulaciones_url }}">Pronósticos Breves</a></li>
 
     <!-- generate links to pages for each of the reservoirs -->
-    <li class="title">Datos Historicos</li>
+    <li class="title">Datos Historicos y Estatisticas</li>
     {%if urls%}         <!-- if the controller returned a urls object, then for each one make an entry -->
         {% for url in urls %}
           <li class="{% if url.active %}active{% endif %}"><a href="{{ url.url }}">{{url.name}}</a></li>

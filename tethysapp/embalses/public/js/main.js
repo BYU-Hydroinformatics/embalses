@@ -32,9 +32,11 @@ $(document).ready(function() {
 
     ///////////////////////////////////////////// RESERVOIR SUMMARY PAGE
     if ($('#hist_data_chart').length) {
-        placeholderchart();
-        getChart();
+        tempHistoricalChart();
+        tempStorageChart();
+        getHistoricalChart();
         statisticalReport();
+        getStorageCapacity();
     }
 
     ///////////////////////////////////////////// FUTURE SIMULATION PAGE

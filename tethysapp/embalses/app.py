@@ -68,9 +68,14 @@ class Embalses(TethysAppBase):
 
             # CONTROLLERS FOR AJAX PAGES
             UrlMap(
-                name='chartdata',
-                url='embalses/ajax/respgplot',
-                controller='embalses.ajax.reservoirpageplot'
+                name='historicalchart',
+                url='embalses/ajax/reshistplot',
+                controller='embalses.ajax.reservoirhistoricalplot'
+            ),
+            UrlMap(
+                name='storageplot',
+                url='embalses/ajax/resstorageplot',
+                controller='embalses.ajax.reservoirstorageplot'
             ),
             UrlMap(
                 name='overview',

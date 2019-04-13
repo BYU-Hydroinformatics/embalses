@@ -89,6 +89,37 @@ def reservoirs():
     return names
 
 
+def updatefromGoogleSheets():
+    """
+    The function that gets called when you want to update the elevations excel sheet from google
+    """
+    import os
+    import pandas
+    from googleapiclient.discovery import build
+    from google_auth_oauthlib.flow import InstalledAppFlow
+
+    # the spreadsheet info
+    scopes = ['https://www.googleapis.com/auth/spreadsheets.readonly']
+    sheetID = '1RxYxkP3mQvffaEIJQwp3K3QHPTCbvNXCvXLUnBcgUw4'
+    sheetrange = 'elevaciones!A:O'
+    excelpath = os.path.join(os.path.dirname(__file__), 'workspaces/app_workspace/elevations.xlsx')
+
+    # api query info
+    credentialspath = os.path.join(os.path.dirname(__file__), 'workspaces/app_workspace/sheetscredentials.json')
+    credentials = InstalledAppFlow.from_client_secrets_file(credentialspath, scopes).run_local_server()
+    service = build('sheets', 'v4', credentials=credentials)
+
+    # Call the Sheets API
+    data = service.spreadsheets().values().get(spreadsheetId=sheetID, range=sheetrange).execute()
+    array = data.get('values', []) if data.get('values')is not None else 0
+    df = pandas.DataFrame(array, columns=array[0])
+    df = df.drop(df.index[0])
+    df.to_excel(excelpath)
+    del df, array, data, service, credentials, credentialspath
+
+    return
+
+
 def get_historicaldata(reservoir_name):
     """
     You give it the name of a reservoir and it will read the excel sheet in the app workspace making a list of all the
@@ -207,37 +238,6 @@ def get_reservoirelevations(reservoir_name):
     return elevations
 
 
-def updatefromGoogleSheets():
-    """
-    The function that gets called when you want to update the elevations excel sheet from google
-    """
-    import os
-    import pandas
-    from googleapiclient.discovery import build
-    from google_auth_oauthlib.flow import InstalledAppFlow
-
-    # the spreadsheet info
-    scopes = ['https://www.googleapis.com/auth/spreadsheets.readonly']
-    sheetID = '1RxYxkP3mQvffaEIJQwp3K3QHPTCbvNXCvXLUnBcgUw4'
-    sheetrange = 'elevaciones!A:O'
-    excelpath = os.path.join(os.path.dirname(__file__), 'workspaces/app_workspace/elevations.xlsx')
-
-    # api query info
-    credentialspath = os.path.join(os.path.dirname(__file__), 'workspaces/app_workspace/sheetscredentials.json')
-    credentials = InstalledAppFlow.from_client_secrets_file(credentialspath, scopes).run_local_server()
-    service = build('sheets', 'v4', credentials=credentials)
-
-    # Call the Sheets API
-    data = service.spreadsheets().values().get(spreadsheetId=sheetID, range=sheetrange).execute()
-    array = data.get('values', []) if data.get('values')is not None else 0
-    df = pandas.DataFrame(array, columns=array[0])
-    df = df.drop(df.index[0])
-    df.to_excel(excelpath)
-    del df, array, data, service, credentials, credentialspath
-
-    return
-
-
 def get_elevationbyvolume(reservoir_name, newvolume):
     """
     part of the perform reservoir simulation calculation that will get the new elevation based on change in volume
@@ -291,3 +291,22 @@ def get_historicalaverages(reservoir_name):
     averages['Elevacion, Ultimo Mes'] = round(df[reservoir_name].mean(), 2)
 
     return averages
+
+
+def make_storagecapcitycurve(reservoir_name):
+    """
+    Creates an array with the values from the bathymetry.xlsx file that can be plotted as a storage capacity curve
+    """
+    from .app import Embalses as App
+    import os
+    import pandas
+
+    if reservoir_name == 'Sabana Yegua':  # change the names for two reservoirs who are
+        reservoir_name = 'Sabana_Yegua'  # listed under different names in spreadsheets
+    if reservoir_name == 'Tavera-Bao':
+        reservoir_name = 'Bao'
+    app_workspace = App.get_app_workspace()
+    bath = os.path.join(app_workspace.path, 'bathymetry.xlsx')
+    df = pandas.read_excel(bath)[[reservoir_name + '_Elev', reservoir_name + '_Vol']].dropna()
+    df = df.values.tolist()
+    return df

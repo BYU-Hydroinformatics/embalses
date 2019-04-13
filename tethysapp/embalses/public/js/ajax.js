@@ -13,15 +13,28 @@ function dataOverview() {
 }
 
 /////////////////////////////////////////////////////////////////// HISTORICAL RESERVOIR DATA PAGE
-function getChart() {
+function getHistoricalChart() {
     $.ajax({
-        url:'/apps/embalses/ajax/respgplot/',
+        url:'/apps/embalses/ajax/reshistplot/',
         data: 'please make me a chart',
         dataType: 'json',
         contentType: "application/json",
         method: 'POST',
         success: function(result) {
-            newHighchart(result);
+            newHistoricalChart(result);
+            }
+        });
+}
+
+function getStorageCapacity() {
+    $.ajax({
+        url:'/apps/embalses/ajax/resstorageplot/',
+        data: 'please make me a chart',
+        dataType: 'json',
+        contentType: "application/json",
+        method: 'POST',
+        success: function(result) {
+            newStorageChart(result);
             }
         });
 }
@@ -34,7 +47,6 @@ function statisticalReport() {
         contentType: "application/json",
         method: 'POST',
         success: function(results) {
-            console.log(results);
             $("#volumes").append("<h2>Volumenes</h2>");
             $("#elevations").append("<h2>Elevaciones</h2>");
             $("#averages").append("<h2>Promedios</h2>");
