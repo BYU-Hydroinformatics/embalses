@@ -12,7 +12,7 @@ function dataOverview() {
         })
 }
 
-/////////////////////////////////////////////////////////////////// HISTORICAL RESERVOIR DATA PAGE
+/////////////////////////////////////////////////////////////////// RESERVOIR DATA PAGE
 function getHistoricalChart() {
     $.ajax({
         url:'/apps/embalses/ajax/reshistplot/',

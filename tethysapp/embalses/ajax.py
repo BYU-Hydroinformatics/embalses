@@ -130,15 +130,17 @@ def performsimulation(request):
     - the total amount of consumption
     - the total amount of inflow
     """
-    from .model import get_elevationbyvolume, get_lastelevations, get_reservoirvolumes, get_reservoirelevations
+    from .model import get_elevationbyvolume, get_lastelevations, get_reservoirvolumes, get_reservoirelevations, operations
     from .app import Embalses as App
     import ast
 
-    warnings = {
-        'maxlevel': [],             # a list of the days when the reservoir will be above max capacity
-        'minlevel': [],             # a list of the days when the reservoir will be below min capacity
-        'estimatedloss': '',        # how much will be lost when the reservoir goes over capacity if spillway used
-    }
+    reservoirinfo = operations()[App.currentpage]
+    maxelevation = reservoirinfo['maxlvl']
+    minelevation = reservoirinfo['minlvl']
+
+    volumewarning = {}
+    elevationwarning = {}
+
     total_inflow = 0
     total_outflow = 0
 
@@ -153,7 +155,6 @@ def performsimulation(request):
 
     # calculate the total difference
     volume_change = round(total_inflow - total_outflow, 2)
-    # warnings.append(whichever error you got)
 
     alllastvolumes = get_reservoirvolumes(App.currentpage)
     lastelevation = get_lastelevations()[App.currentpage]
@@ -161,24 +162,28 @@ def performsimulation(request):
     newelevation = get_elevationbyvolume(App.currentpage, newvolume)
     elevationchange = newelevation - lastelevation
 
+    if volume_change < 0:
+        volumewarning['Cambio de Volumen'] = 'Esta simulación resulta en una pérdida de agua. Las salidas son mayores '\
+                                             'que las entradas.'
+    if newelevation > maxelevation:
+        elevationwarning['Nivel Máximo'] = 'El nivel ha superado el máximo por ' + str(newelevation - maxelevation)
+    if newelevation < minelevation:
+        elevationwarning['Nivel Mínimo'] = 'El nivel ha rebasado el mínimo por ' + str(minelevation - newelevation)
+
     response = {
         'numericalresults': {
             'Volumen Actual (MMC)': alllastvolumes['Actual'],
             'Volumen Entrada (M^3)': round(total_inflow, 2),
             'Volumen Salida (M^3)': round(total_outflow, 2),
             'Volumen Nuevo (Simulado MMC)': newvolume,
-            'Cambio de Volumen (M^3)': volume_change,
+            'Cambio de Volumen (M^3)': round(volume_change, 2),
             'Elevacion Actual (M)': lastelevation,
             'Elevacion Nueva (Simulada M)': newelevation,
             'Cambio de Elevacion (M)': round(elevationchange, 2),
         },
         'warningresults': {
-            'Elevaciones': {
-                'Supera Nivel Máximo': 'No hay problema'
-            },
-            'Volumenes': {
-                'Not enough water': 'No hay problem'
-            },
+            'Elevaciones': elevationwarning,
+            'Volumenes': volumewarning,
         },
         'statisticalresults': {
             'Volumenes': alllastvolumes,

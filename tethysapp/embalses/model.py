@@ -295,7 +295,8 @@ def get_historicalaverages(reservoir_name):
 
 def make_storagecapcitycurve(reservoir_name):
     """
-    Creates an array with the values from the bathymetry.xlsx file that can be plotted as a storage capacity curve
+    Creates an array with the values from the bathymetry.xlsx file that can be plotted as a storage capacity curve on
+    the historical data and statistics page
     """
     from .app import Embalses as App
     import os
