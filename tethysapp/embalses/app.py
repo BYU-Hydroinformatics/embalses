@@ -6,8 +6,7 @@ from tethys_sdk.base import TethysAppBase, url_map_maker
 # todo record demonstration videos
 
 # todo OPTIONAL- improve the written instructions section
-# todo OPTIONAL- create a persistent store of old reports (header button)
-# todo OPTIONAL- give an option to email/download the finished reports
+# todo OPTIONAL- create a persistent store of old reports and email/download/print option (header button)
 # todo OPTIONAL- let the user toggle between elevations and depths on the historical charts
 # todo OPTIONAL- add hydrologic factors to analysis like evaporation or infiltration?
 
@@ -28,7 +27,7 @@ class Embalses(TethysAppBase):
     enable_feedback = False
     feedback_emails = []
     currentpage = ''        # a custom attribute added for keeping track of which reservoir is being viewed
-    youtubelink = r'https://www.youtube.com/channel/UC6B62KhB-Cd34ad6pGBldQQ/videos'    # link to the tutorials
+    youtubelink = r'https://youtu.be/aWU-x75_g1U'    # link to the tutorials
 
     def url_maps(self):
         UrlMap = url_map_maker(self.root_url)
