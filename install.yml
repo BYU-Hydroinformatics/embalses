@@ -1,0 +1,14 @@
+# This file may be committed to your app code.
+version: 1.0
+# This should match the app - package name in your setup.py
+name: embalses
+
+conda:
+  skip: false
+  # Putting in a skip true param will skip the entire section
+  channels:
+  dependencies:
+    - requests
+    - pandas
+    - google-api-python-client
+
