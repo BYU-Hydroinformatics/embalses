@@ -8,6 +8,8 @@ release_package = 'tethysapp-' + app_package
 app_class = 'embalses.app:Embalses'
 app_package_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'tethysapp', app_package)
 
+dependencies = ['requests', 'pandas', 'google-api-python-client']
+
 
 setup(
     name=release_package,
