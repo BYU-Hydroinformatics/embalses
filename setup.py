@@ -8,8 +8,6 @@ release_package = 'tethysapp-' + app_package
 app_class = 'embalses.app:Embalses'
 app_package_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'tethysapp', app_package)
 
-### Python Dependencies ###
-dependencies = ['datetime', 'requests', 'pandas', 'google-api-python-client']
 
 setup(
     name=release_package,
@@ -28,7 +26,7 @@ setup(
     namespace_packages=['tethysapp', 'tethysapp.' + app_package],
     include_package_data=True,
     zip_safe=False,
-    install_requires=dependencies,
+    install_requires=[],
     cmdclass={
         'install': custom_install_command(app_package, app_package_dir, dependencies),
         'develop': custom_develop_command(app_package, app_package_dir, dependencies)
