@@ -7,8 +7,10 @@ conda:
   skip: false
   # Putting in a skip true param will skip the entire section
   channels:
+    - conda-forge
   dependencies:
     - requests
     - pandas
     - google-api-python-client
+    - xlrd
 
