@@ -21,6 +21,7 @@ MOUNT_PATH = os.path.join(MOUNT_PATH, '')
 
 def render_with_mount_path(request, templateURL, context):
     context['mount_path'] = MOUNT_PATH
+    context['url_path'] = MOUNT_PATH.rstrip('\\')
     return render(request, templateURL, context)
 
 
