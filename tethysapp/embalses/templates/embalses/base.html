@@ -76,7 +76,7 @@
     <li class="title">Datos Historicos y Estatisticas</li>
     {%if urls%}         <!-- if the controller returned a urls object, then for each one make an entry -->
         {% for url in urls %}
-          <li class="{% if url.active %}active{% endif %}"><a href="{{url_path}}{{ url.url }}">{{url.name}}</a></li>
+          <li class="{% if url.active %}active{% endif %}"><a href="{{ url.url }}">{{url.name}}</a></li>
         {% endfor %}
     {%endif%}
 {% endblock %}

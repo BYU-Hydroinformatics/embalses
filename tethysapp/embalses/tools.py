@@ -1,3 +1,4 @@
+
 def generate_app_urls(request, res_dict):
     """
     This function creates urls for every app installed on the portal this app is on.
@@ -20,14 +21,12 @@ def generate_app_urls(request, res_dict):
 
     current_site = get_current_site(request)
 
-    if (settings.FORCE_SCRIPT_NAME):
-        base = settings.FORCE_SCRIPT_NAME
-    else:
-        base = str(current_site)
+    MOUNT_PATH = os.environ.get('TETHYS_MOUNT_PATH') or '/'
+    MOUNT_PATH = os.path.join(MOUNT_PATH, '')
+
     site_urls = list(map((lambda x: {
         'name': x,
-        'url': request.build_absolute_uri(
-            '//' + base + '/apps/embalses/' + res_dict[x].replace(" ", "_") + '/'),
+        'url': MOUNT_PATH + 'apps/embalses/' + res_dict[x].replace(" ", "_") + '/',
         'active': request.path.endswith('embalses/' + res_dict[x] + '/')
     }), res_dict))
 
