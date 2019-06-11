@@ -1,3 +1,5 @@
+import os
+
 
 def generate_app_urls(request, res_dict):
     """
