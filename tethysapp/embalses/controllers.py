@@ -15,7 +15,7 @@ import os
 
 reservoirs = reservoirs()
 
-MOUNT_PATH = get_environment_value('TETHYS_MOUNT_PATH') or '/'
+MOUNT_PATH = os.environ.get('TETHYS_MOUNT_PATH') or '/'
 MOUNT_PATH = os.path.join(MOUNT_PATH, '')
 
 
