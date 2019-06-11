@@ -19,7 +19,7 @@ class Embalses(TethysAppBase):
     index = 'embalses:home'
     icon = 'embalses/images/indrhi.png'
     package = 'embalses'
-    root_url = '/tethys/indrhi/apps/embalses'
+    root_url = 'embalses'
     color = '#01AEBF'
     description = 'Una aplicación para visualizar datos históricos y hacer simulaciones de elevaciones para los ' \
                   'embalses en la Republica Dominicana.'
