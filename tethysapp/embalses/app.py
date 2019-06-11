@@ -37,73 +37,73 @@ class Embalses(TethysAppBase):
             # OVERVIEW PAGES
             UrlMap(
                 name='home',
-                url='embalses',
+                url='/embalses',
                 controller='embalses.controllers.home'
             ),
             UrlMap(
                 name='reportar',
-                url='embalses/reportar',
+                url='/embalses/reportar',
                 controller='embalses.controllers.reportar'
             ),
             UrlMap(
                 name='instrucciones',
-                url='embalses/instrucciones',
+                url='/embalses/instrucciones',
                 controller='embalses.controllers.instructions'
             ),
 
             # SIMULATIONS PAGES
             UrlMap(
                 name='simulations',
-                url='embalses/simulaciones',
+                url='/embalses/simulaciones',
                 controller='embalses.controllers.simulations'
             ),
 
             # RESERVOIR SPECIFIC PAGES
             UrlMap(                     # this is the controller for the page that shows reservoir specific stats
                 name='template',        # {name} is an argument the controller needs to accept second
-                url='embalses/{name}',
+                url='/embalses/{name}',
                 controller='embalses.controllers.reservoirviewer'
             ),
 
             # CONTROLLERS FOR AJAX PAGES
             UrlMap(
                 name='historicalchart',
-                url='embalses/ajax/reshistplot',
+                url='/embalses/ajax/reshistplot',
                 controller='embalses.ajax.reservoirhistoricalplot'
             ),
             UrlMap(
                 name='storageplot',
-                url='embalses/ajax/resstorageplot',
+                url='/embalses/ajax/resstorageplot',
                 controller='embalses.ajax.reservoirstorageplot'
             ),
             UrlMap(
                 name='overview',
-                url='embalses/ajax/overviewpage',
+                url='/embalses/ajax/overviewpage',
                 controller='embalses.ajax.overviewpage'
             ),
             UrlMap(
                 name='simulationtable',
-                url='embalses/ajax/simulationTable',
+                url='/embalses/ajax/simulationTable',
                 controller='embalses.ajax.simulationtable'
             ),
             UrlMap(
                 name='getsfptflows',
-                url='embalses/ajax/getSFPTflows',
+                url='/embalses/ajax/getSFPTflows',
                 controller='embalses.ajax.getsfptflows'
             ),
             UrlMap(
                 name='reservoirstatistics',
-                url='embalses/ajax/reservoirstatistics',
+                url='/embalses/ajax/reservoirstatistics',
                 controller='embalses.ajax.reservoirstatistics'
             ),
             UrlMap(
                 name='updatesheet',
-                url='embalses/ajax/updatesheet',
+                url='/embalses/ajax/updatesheet',
                 controller='embalses.ajax.updatesheet'
             ),
             UrlMap(
                 name='performsimulation',
-                url='embalses/ajax/performsimulation',
+                url='/embalses/ajax/performsimulation',
                 controller='embalses.ajax.performsimulation'
             ),
         )
