@@ -52,3 +52,10 @@
         </div>
     </div>
 {% endblock %}
+
+{% block scripts %}
+    <script>
+        const resName = "{{name}}";
+    </script>
+    {{ block.super }}
+{% endblock %}

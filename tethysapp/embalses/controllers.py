@@ -108,16 +108,17 @@ def reservoirviewer(request, name):
     """
     from .app import Embalses as App
 
+    reservoir_name = ""
+
     for reservoir in reservoirs:
         if reservoirs[reservoir] == name:
-            name = reservoir
-            App.currentpage = name
+            reservoir_name = reservoir
             break
 
     context = {
         'admin': has_permission(request, 'update_data'),
         'urls': generate_app_urls(request, reservoirs),
-        'name': name,
+        'name': reservoir_name,
         'youtubelink': App.youtubelink
     }
 

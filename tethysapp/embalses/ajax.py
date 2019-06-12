@@ -3,6 +3,8 @@
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 
+import json
+
 
 @login_required()
 def reservoirhistoricalplot(request):
@@ -12,7 +14,13 @@ def reservoirhistoricalplot(request):
     from .model import operations, get_historicaldata
     from .app import Embalses as App
 
-    name = App.currentpage
+    if request.method == 'POST':
+        json_data = json.loads(request.body.decode("utf-8"))
+        try:
+            name = json_data['name']
+        except KeyError:
+            HttpResponseServerError("Malformed data!")
+
     info = operations()[name]
     responsedata = {}
 
@@ -40,7 +48,15 @@ def reservoirstorageplot(request):
     """
     from .app import Embalses as App
     from .model import make_storagecapcitycurve
-    return JsonResponse({'curvedata': make_storagecapcitycurve(App.currentpage)})
+
+    if request.method == 'POST':
+        json_data = json.loads(request.body.decode("utf-8"))
+        try:
+            name = json_data['name']
+        except KeyError:
+            HttpResponseServerError("Malformed data!")
+
+    return JsonResponse({'curvedata': make_storagecapcitycurve(name)})
 
 
 @login_required()
@@ -68,7 +84,6 @@ def simulationtable(request):
         if reservoirs[reservoir] == selected_reservoir:
             selected_reservoir = reservoir
             break
-    App.currentpage = selected_reservoir
     return JsonResponse(make_simulationtable(selected_reservoir))
 
 
@@ -98,7 +113,14 @@ def reservoirstatistics(request):
     from .model import get_reservoirvolumes, get_reservoirelevations, get_historicalaverages
     from .app import Embalses as App
 
-    reservoir = App.currentpage
+    if request.method == 'POST':
+        json_data = json.loads(request.body.decode("utf-8"))
+        try:
+            name = json_data['name']
+        except KeyError:
+            HttpResponseServerError("Malformed data!")
+
+    reservoir = name
     data = {}
     data['volumes'] = get_reservoirvolumes(reservoir)
     data['elevations'] = get_reservoirelevations(reservoir)
@@ -134,8 +156,15 @@ def performsimulation(request):
     from .app import Embalses as App
     import ast
 
+    if request.method == 'POST':
+        json_data = json.loads(request.body.decode("utf-8"))
+        try:
+            name = json_data['name']
+        except KeyError:
+            HttpResponseServerError("Malformed data!")
+
     # get some preliminary information
-    reservoirinfo = operations()[App.currentpage]
+    reservoirinfo = operations()[name]
     maxelevation = reservoirinfo['maxlvl']
     minelevation = reservoirinfo['minlvl']
 
@@ -157,13 +186,13 @@ def performsimulation(request):
     total_outflow = total_outflow * 3600
 
     # calculate the changes in elevations
-    alllastvolumes = get_reservoirvolumes(App.currentpage)
+    alllastvolumes = get_reservoirvolumes(name)
     volume_change = round(total_inflow - total_outflow, 2)
     newvolume = alllastvolumes['Actual'] + volume_change / 1000000
 
     # calculate the changes in volumes
-    newelevation = get_elevationbyvolume(App.currentpage, newvolume)
-    lastelevation = get_lastelevations()[App.currentpage]
+    newelevation = get_elevationbyvolume(name, newvolume)
+    lastelevation = get_lastelevations()[name]
     elevationchange = newelevation - lastelevation
 
     # give warnings based on the results of the analysis
@@ -194,7 +223,7 @@ def performsimulation(request):
         },
         'statisticalresults': {
             'Volumenes': alllastvolumes,
-            'Elevaciones': get_reservoirelevations(App.currentpage)
+            'Elevaciones': get_reservoirelevations(name)
         }
     }
 

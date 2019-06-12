@@ -2,7 +2,6 @@
 function dataOverview() {
     $.ajax({
         url: mount_path + "apps/embalses/ajax/overviewpage/",
-        data: "get some infos",
         dataType: "json",
         contentType: "application/json",
         method: "POST",
@@ -16,7 +15,7 @@ function dataOverview() {
 function getHistoricalChart() {
     $.ajax({
         url: mount_path + "apps/embalses/ajax/reshistplot/",
-        data: "please make me a chart",
+        data: JSON.stringify({name: resName}),
         dataType: "json",
         contentType: "application/json",
         method: "POST",
@@ -29,7 +28,7 @@ function getHistoricalChart() {
 function getStorageCapacity() {
     $.ajax({
         url: mount_path + "apps/embalses/ajax/resstorageplot/",
-        data: "please make me a chart",
+        data: JSON.stringify({name: resName}),
         dataType: "json",
         contentType: "application/json",
         method: "POST",
@@ -42,7 +41,7 @@ function getStorageCapacity() {
 function statisticalReport() {
     $.ajax({
         url: mount_path + "apps/embalses/ajax/reservoirstatistics/",
-        data: "get some stats yo",
+        data: JSON.stringify({name: resName}),
         dataType: "json",
         contentType: "application/json",
         method: "POST",
