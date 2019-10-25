@@ -23,12 +23,11 @@ def generate_app_urls(request, res_dict):
 
     current_site = get_current_site(request)
 
-    MOUNT_PATH = os.environ.get('TETHYS_MOUNT_PATH') or '/'
-    MOUNT_PATH = os.path.join(MOUNT_PATH, '')
+    BASE_APP_PATH = reverse('embalses:home')
 
     site_urls = list(map((lambda x: {
         'name': x,
-        'url': MOUNT_PATH + 'apps/embalses/' + res_dict[x].replace(" ", "_") + '/',
+        'url': os.path.join(BASE_APP_PATH, res_dict[x].replace(" ", "_"), '')
         'active': request.path.endswith('embalses/' + res_dict[x] + '/')
     }), res_dict))
 

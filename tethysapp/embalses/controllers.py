@@ -15,14 +15,6 @@ import os
 
 reservoirs = reservoirs()
 
-MOUNT_PATH = os.environ.get('TETHYS_MOUNT_PATH') or '/'
-MOUNT_PATH = os.path.join(MOUNT_PATH, '')
-
-
-def render_with_mount_path(request, templateURL, context):
-    context['mount_path'] = MOUNT_PATH
-    return render(request, templateURL, context)
-
 
 @login_required()
 def home(request):
@@ -36,7 +28,7 @@ def home(request):
         'youtubelink': App.youtubelink
     }
 
-    return render_with_mount_path(request, 'embalses/home.html', context)
+    return render(request, 'embalses/home.html', context)
 
 
 @login_required()
@@ -51,7 +43,7 @@ def reportar(request):
         'youtubelink': App.youtubelink
     }
 
-    return render_with_mount_path(request, 'embalses/reportar.html', context)
+    return render(request, 'embalses/reportar.html', context)
 
 
 @login_required()
@@ -66,7 +58,7 @@ def instructions(request):
         'youtubelink': App.youtubelink
     }
 
-    return render_with_mount_path(request, 'embalses/instructions.html', context)
+    return render(request, 'embalses/instructions.html', context)
 
 
 @login_required()
@@ -96,7 +88,7 @@ def simulations(request):
         'youtubelink': App.youtubelink
     }
 
-    return render_with_mount_path(request, 'embalses/simulations.html', context)
+    return render(request, 'embalses/simulations.html', context)
 
 
 @login_required()
@@ -122,4 +114,4 @@ def reservoirviewer(request, name):
         'youtubelink': App.youtubelink
     }
 
-    return render_with_mount_path(request, 'embalses/reservoir.html', context)
+    return render(request, 'embalses/reservoir.html', context)
