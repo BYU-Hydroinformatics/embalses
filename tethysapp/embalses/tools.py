@@ -1,4 +1,5 @@
 import os
+from django.urls import reverse
 
 
 def generate_app_urls(request, res_dict):
