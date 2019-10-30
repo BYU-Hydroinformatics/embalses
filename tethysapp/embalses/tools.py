@@ -27,7 +27,7 @@ def generate_app_urls(request, res_dict):
 
     site_urls = list(map((lambda x: {
         'name': x,
-        'url': os.path.join(BASE_APP_PATH, res_dict[x].replace(" ", "_"), '')
+        'url': os.path.join(BASE_APP_PATH, res_dict[x].replace(" ", "_"), ''),
         'active': request.path.endswith('embalses/' + res_dict[x] + '/')
     }), res_dict))
 
