@@ -1,12 +1,14 @@
-import os
-from setuptools import setup, find_packages
-from tethys_apps.app_installation import custom_develop_command, custom_install_command
+from setuptools import setup, find_namespace_packages
+from tethys_apps.app_installation import find_resource_files
 
 ### Apps Definition ###
 app_package = 'embalses'
 release_package = 'tethysapp-' + app_package
-app_class = 'embalses.app:Embalses'
-app_package_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'tethysapp', app_package)
+
+# -- Get Resource File -- #
+resource_files = find_resource_files('tethysapp/' + app_package + '/templates', 'tethysapp/' + app_package)
+resource_files += find_resource_files('tethysapp/' + app_package + '/public', 'tethysapp/' + app_package)
+resource_files += find_resource_files('tethysapp/' + app_package + '/workspaces', 'tethysapp/' + app_package)
 
 ### Python Dependencies ###
 dependencies = []
@@ -23,13 +25,9 @@ setup(
     author_email='',
     url='https://www.github.com/rileyhales/embalses',
     license='MIT License',
-    packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
-    namespace_packages=['tethysapp', 'tethysapp.' + app_package],
+    packages=find_namespace_packages(),
+    package_data={'': resource_files},
     include_package_data=True,
     zip_safe=False,
     install_requires=dependencies,
-    cmdclass={
-        'install': custom_install_command(app_package, app_package_dir, dependencies),
-        'develop': custom_develop_command(app_package, app_package_dir, dependencies)
-    }
 )
