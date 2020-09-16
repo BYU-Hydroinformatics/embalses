@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////// HOME PAGE
 function dataOverview() {
     $.ajax({
-        url: `${apiServer}/ajax/overviewpage/`,
+        url: `${apiServer}ajax/overviewpage/`,
         dataType: "json",
         contentType: "application/json",
         method: "POST",
@@ -14,8 +14,8 @@ function dataOverview() {
 /////////////////////////////////////////////////////////////////// RESERVOIR DATA PAGE
 function getHistoricalChart() {
     $.ajax({
-        url: `${apiServer}/ajax/reshistplot/`,
-        data: JSON.stringify({name: resName}),
+        url: `${apiServer}ajax/reshistplot/`,
+        data: JSON.stringify({ name: resName }),
         dataType: "json",
         contentType: "application/json",
         method: "POST",
@@ -27,8 +27,8 @@ function getHistoricalChart() {
 
 function getStorageCapacity() {
     $.ajax({
-        url: `${apiServer}/ajax/resstorageplot/`,
-        data: JSON.stringify({name: resName}),
+        url: `${apiServer}ajax/resstorageplot/`,
+        data: JSON.stringify({ name: resName }),
         dataType: "json",
         contentType: "application/json",
         method: "POST",
@@ -40,8 +40,8 @@ function getStorageCapacity() {
 
 function statisticalReport() {
     $.ajax({
-        url: `${apiServer}/ajax/reservoirstatistics/`,
-        data: JSON.stringify({name: resName}),
+        url: `${apiServer}ajax/reservoirstatistics/`,
+        data: JSON.stringify({ name: resName }),
         dataType: "json",
         contentType: "application/json",
         method: "POST",
@@ -71,7 +71,7 @@ function statisticalReport() {
 /////////////////////////////////////////////////////////////////// SHORT TERM SIMULATIONS PAGE
 function simulationTable() {
     $.ajax({
-        url: `${apiServer}/ajax/simulationTable/`,
+        url: `${apiServer}ajax/simulationTable/`,
         data: $("#reservoir").val(),
         dataType: "json",
         contentType: "application/json",
@@ -94,7 +94,7 @@ function performsimulation() {
         "<img src='https://media.giphy.com/media/8RyJliVfFM6ac/giphy.gif' style='width: 200px'>"
     )
     $.ajax({
-        url: `${apiServer}/ajax/performsimulation/`,
+        url: `${apiServer}ajax/performsimulation/`,
         data: JSON.stringify(outflowtable.getData()),
         dataType: "json",
         contentType: "application/json",
@@ -162,7 +162,7 @@ function performsimulation() {
 /////////////////////////////////////////////////////////////////// REPORT RESERVOIR LEVELS PAGE
 function updatesheet() {
     $.ajax({
-        url: `${apiServer}/ajax/updatesheet/`,
+        url: `${apiServer}ajax/updatesheet/`,
         data: "getting new data from google",
         dataType: "json",
         contentType: "application/json",
