@@ -1,12 +1,13 @@
 version: 1.0
 name: embalses
 
-conda:
+requirements:
   skip: false
-  channels:
-    - conda-forge
-  dependencies:
-    - requests
-    - pandas
-    - google-api-python-client
-    - xlrd
+  conda:
+    channels:
+      - conda-forge
+    packages:
+      - requests
+      - pandas
+      - google-api-python-client
+      - xlrd
