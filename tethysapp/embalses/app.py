@@ -26,7 +26,6 @@ class Embalses(TethysAppBase):
     tags = 'reservoirs, hydrology, streamflow prediction'
     enable_feedback = False
     feedback_emails = []
-    currentpage = ''        # a custom attribute added for keeping track of which reservoir is being viewed
     youtubelink = r'https://youtu.be/aWU-x75_g1U'    # link to the tutorials
 
     def url_maps(self):

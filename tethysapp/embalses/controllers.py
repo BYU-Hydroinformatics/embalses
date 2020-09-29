@@ -2,6 +2,7 @@
 
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+
 from tethys_sdk.permissions import has_permission
 
 from .tools import generate_app_urls
@@ -9,6 +10,8 @@ from .model import reservoirs
 from .app import Embalses as App
 
 from tethys_sdk.gizmos import SelectInput
+
+import os
 
 reservoirs = reservoirs()
 
@@ -97,16 +100,17 @@ def reservoirviewer(request, name):
     """
     from .app import Embalses as App
 
+    reservoir_name = ""
+
     for reservoir in reservoirs:
         if reservoirs[reservoir] == name:
-            name = reservoir
-            App.currentpage = name
+            reservoir_name = reservoir
             break
 
     context = {
         'admin': has_permission(request, 'update_data'),
         'urls': generate_app_urls(request, reservoirs),
-        'name': name,
+        'name': reservoir_name,
         'youtubelink': App.youtubelink
     }
 

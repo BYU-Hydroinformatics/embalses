@@ -115,8 +115,8 @@ def updatefromGoogleSheets():
     service = build('sheets', 'v4', credentials=credentials)
 
     # Call the Sheets API
-    data = service.spreadsheets().values().get(spreadsheetId=sheetID, range=sheetrange).execute()
-    array = data.get('values', []) if data.get('values') is not None else 0
+    data = list(service.spreadsheets().values()).get(spreadsheetId=sheetID, range=sheetrange).execute()
+    array = data.get('values', []) if data.get('values')is not None else 0
     df = pandas.DataFrame(array, columns=array[0])
     df = df.drop(df.index[0])
     df.to_excel(excelpath)

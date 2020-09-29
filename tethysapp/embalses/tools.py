@@ -1,9 +1,11 @@
 import codecs
 import datetime
+import os
 
 import requests
 from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
+from django.urls import reverse
 
 from .app import Embalses as App
 from .model import operations, get_lastelevations, get_reservoirvolumes
@@ -27,14 +29,11 @@ def generate_app_urls(request, res_dict):
     """
     current_site = get_current_site(request)
 
-    if (settings.FORCE_SCRIPT_NAME):
-        base = settings.FORCE_SCRIPT_NAME
-    else:
-        base = str(current_site)
+    BASE_APP_PATH = reverse('embalses:home')
+
     site_urls = list(map((lambda x: {
         'name': x,
-        'url': request.build_absolute_uri(
-            '//' + base + '/apps/embalses/' + res_dict[x].replace(" ", "_") + '/'),
+        'url': os.path.join(BASE_APP_PATH, res_dict[x].replace(" ", "_"), ''),
         'active': request.path.endswith('embalses/' + res_dict[x] + '/')
     }), res_dict))
 
