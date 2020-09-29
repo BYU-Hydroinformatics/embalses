@@ -11,3 +11,4 @@ requirements:
       - pandas
       - google-api-python-client
       - xlrd
+      - google-auth-oauthlib
