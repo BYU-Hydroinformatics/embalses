@@ -1,4 +1,14 @@
 # -*- coding: UTF-8 -*-
+import calendar
+import datetime
+import os
+
+import pandas
+from google_auth_oauthlib.flow import InstalledAppFlow
+from googleapiclient.discovery import build
+
+from .app import Embalses as App
+
 
 def operations():
     """
@@ -93,11 +103,6 @@ def updatefromGoogleSheets():
     """
     The function that gets called when you want to update the elevations excel sheet from google
     """
-    import os
-    import pandas
-    from googleapiclient.discovery import build
-    from google_auth_oauthlib.flow import InstalledAppFlow
-
     # the spreadsheet info
     scopes = ['https://www.googleapis.com/auth/spreadsheets.readonly']
     sheetID = '1RxYxkP3mQvffaEIJQwp3K3QHPTCbvNXCvXLUnBcgUw4'
@@ -115,7 +120,6 @@ def updatefromGoogleSheets():
     df = pandas.DataFrame(array, columns=array[0])
     df = df.drop(df.index[0])
     df.to_excel(excelpath)
-    del df, array, data, service, credentials, credentialspath
 
     return
 
@@ -125,9 +129,6 @@ def get_historicaldata(reservoir_name):
     You give it the name of a reservoir and it will read the excel sheet in the app workspace making a list of all the
     levels recorded so that you can plot them
     """
-    from .app import Embalses as App
-    import os, pandas, datetime, calendar
-
     # change the names for two reservoirs who are listed under different names in spreadsheets
     if reservoir_name == 'Sabana Yegua':
         reservoir_name = 'S. Yegua'
@@ -140,7 +141,7 @@ def get_historicaldata(reservoir_name):
     # read the sheet, get the water level info (nivel) corresponding to the correct reservoir name
     dfnan = pandas.read_excel(damsheet)
     df1 = dfnan[['Nivel', reservoir_name]]
-    df = df1.dropna()       # drop null values from the series
+    df = df1.dropna()  # drop null values from the series
     values = []
 
     # convert the date listed under nivel to a python usable form and make an entry with the date/value to the list
@@ -168,10 +169,6 @@ def get_lastelevations():
     """
     Returns the most recently reported ELEVATION for each of the reservoirs as listed in the excel sheet
     """
-    from .app import Embalses as App
-    import os
-    import pandas
-
     # open the sheet with historical levels
     app_workspace = App.get_app_workspace()
     damsheet = os.path.join(app_workspace.path, 'elevations.xlsx')
@@ -179,11 +176,11 @@ def get_lastelevations():
     elevations = {}
 
     for reservoir in reservoirs():
-        if reservoir == 'Sabana Yegua':                 # change the names for two reservoirs who are
-            reservoir = 'S. Yegua'                      # listed under different names in spreadsheets
+        if reservoir == 'Sabana Yegua':  # change the names for two reservoirs who are
+            reservoir = 'S. Yegua'  # listed under different names in spreadsheets
         elif reservoir == 'Tavera-Bao':
             reservoir = 'Tavera'
-        df = df1[['Nivel', reservoir]].dropna()       # load the right columns of data
+        df = df1[['Nivel', reservoir]].dropna()  # load the right columns of data
         df = df.tail(1)
         for index, row in df.iterrows():
             elev = row[reservoir]
@@ -209,8 +206,8 @@ def get_reservoirvolumes(reservoir_name):
     info = operations()[reservoir_name]
     volumes = {}
 
-    if reservoir_name == 'Sabana Yegua':        # change the names for two reservoirs who are
-        reservoir_name = 'Sabana_Yegua'         # listed under different names in spreadsheets
+    if reservoir_name == 'Sabana Yegua':  # change the names for two reservoirs who are
+        reservoir_name = 'Sabana_Yegua'  # listed under different names in spreadsheets
     if reservoir_name == 'Tavera-Bao':
         reservoir_name = 'Bao'
     app_workspace = App.get_app_workspace()
@@ -242,12 +239,8 @@ def get_elevationbyvolume(reservoir_name, newvolume):
     """
     part of the perform reservoir simulation calculation that will get the new elevation based on change in volume
     """
-    from .app import Embalses as App
-    import os
-    import pandas
-
-    if reservoir_name == 'Sabana Yegua':        # change the names for two reservoirs who are
-        reservoir_name = 'Sabana_Yegua'         # listed under different names in spreadsheets
+    if reservoir_name == 'Sabana Yegua':  # change the names for two reservoirs who are
+        reservoir_name = 'Sabana_Yegua'  # listed under different names in spreadsheets
     if reservoir_name == 'Tavera-Bao':
         reservoir_name = 'Bao'
     app_workspace = App.get_app_workspace()
@@ -269,9 +262,6 @@ def get_historicalaverages(reservoir_name):
     """
     Get the average elevation for the last 365 days and last 31 days
     """
-    from .app import Embalses as App
-    import os
-    import pandas
     averages = {}
 
     # open the sheet with historical levels
@@ -279,8 +269,8 @@ def get_historicalaverages(reservoir_name):
     damsheet = os.path.join(app_workspace.path, 'elevations.xlsx')
     df = pandas.read_excel(damsheet)
 
-    if reservoir_name == 'Sabana Yegua':    # change the names for two reservoirs who are
-        reservoir_name = 'S. Yegua'         # listed under different names in spreadsheets
+    if reservoir_name == 'Sabana Yegua':  # change the names for two reservoirs who are
+        reservoir_name = 'S. Yegua'  # listed under different names in spreadsheets
     elif reservoir_name == 'Tavera-Bao':
         reservoir_name = 'Tavera'
 
@@ -298,10 +288,6 @@ def make_storagecapcitycurve(reservoir_name):
     Creates an array with the values from the bathymetry.xlsx file that can be plotted as a storage capacity curve on
     the historical data and statistics page
     """
-    from .app import Embalses as App
-    import os
-    import pandas
-
     if reservoir_name == 'Sabana Yegua':  # change the names for two reservoirs who are
         reservoir_name = 'Sabana_Yegua'  # listed under different names in spreadsheets
     if reservoir_name == 'Tavera-Bao':

@@ -1,5 +1,14 @@
+import codecs
+import datetime
 import os
+
+import requests
+from django.conf import settings
+from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
+
+from .app import Embalses as App
+from .model import operations, get_lastelevations, get_reservoirvolumes
 
 
 def generate_app_urls(request, res_dict):
@@ -18,10 +27,6 @@ def generate_app_urls(request, res_dict):
             check whether or not the current url is the url generated). active needs to be this verbose otherwise the
             analytics app link will be highlighted all the time.
     """
-
-    from django.contrib.sites.shortcuts import get_current_site
-    from django.conf import settings
-
     current_site = get_current_site(request)
 
     BASE_APP_PATH = reverse('embalses:home')
@@ -40,13 +45,6 @@ def get_sfptflows(reservoir_name):
     Queries the SFPT API for the rivers going into the reservoir specified for the next 7 days. Returns a dictionary of
     the dates of the flows and their magnitudes.
     """
-
-    from .model import operations
-    from .app import Embalses as App
-    import requests
-    import datetime
-    import codecs
-
     flows = {}
     info = operations()
 
@@ -61,10 +59,10 @@ def get_sfptflows(reservoir_name):
 
     for comid in info[reservoir_name]['comids']:
         parameters['reach_id'] = comid
-        content = requests.get(api_url, params=parameters, headers=api_token).content       # returns a bytes object
-        content = codecs.decode(content)                                                    # decode into a string
-        data = content.split('dateTimeUTC="')      # split the xml into a list of strings that start with dateTimeUTC="
-        data.pop(0)                                # get rid of the first string, everything before the first date
+        content = requests.get(api_url, params=parameters, headers=api_token).content  # returns a bytes object
+        content = codecs.decode(content)  # decode into a string
+        data = content.split('dateTimeUTC="')  # split the xml into a list of strings that start with dateTimeUTC="
+        data.pop(0)  # get rid of the first string, everything before the first date
 
         values = []
         timestep = []
@@ -83,6 +81,7 @@ def get_sfptflows(reservoir_name):
         flows[comid] = values
 
     total = [0 for i in range(7)]
+    print(flows)
     for comid in flows:
         for i in range(7):
             total[i] += flows[comid][i]
@@ -98,11 +97,9 @@ def make_simulationtable(reservoir):
     """
     A function that gets called when the simulations page is opened that creates the list of entries for the table
     """
-    import datetime
-
     # variables declaration
-    tabledata = {}          # the response dictionary
-    entries = []            # tabulator expects a list with one dictionary per row
+    tabledata = {}  # the response dictionary
+    entries = []  # tabulator expects a list with one dictionary per row
     flows = get_sfptflows(reservoir)
 
     # For each day in the next 7 days
@@ -129,10 +126,9 @@ def make_overviewtable():
     A function that creates the data needed for the overview table on the app home page.
     The format for that data is a list of dictionaries
     """
-    from .model import operations, get_lastelevations, get_reservoirvolumes
     # variables declaration
-    tabledata = {}              # the response dictionary
-    entries = []                # tabulator expects a list with one dictionary per row
+    tabledata = {}  # the response dictionary
+    entries = []  # tabulator expects a list with one dictionary per row
     res_ops = operations()
     lastelevation = get_lastelevations()
 
