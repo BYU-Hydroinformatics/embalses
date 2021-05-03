@@ -3,11 +3,18 @@ import calendar
 import datetime
 import os
 
-import pandas
+import pandas as pd
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 
 from .app import Embalses as App
+
+# import pywaterml.waterML as pwml
+# import folium
+# import plotly.graph_objects as go
+# import plotly.express as px
+# import warnings
+# warnings.filterwarnings('ignore')
 
 
 def operations():
@@ -233,6 +240,19 @@ def get_reservoirelevations(reservoir_name):
     elevations['Min'] = operations()[reservoir_name]['minlvl']
     elevations['Max'] = operations()[reservoir_name]['maxlvl']
     return elevations
+
+# def get_hydroserverelevations(reservoir_name):
+#     """
+#     You give it the name of a reservoir and it gives you all the possible relevant elevations associated with it
+#     """
+#     hs_url = "http://128.187.106.131/app/index.php/dr/services/cuahsi_1_1.asmx?WSDL"
+#     water = pwml.WaterMLOperations(url=hs_url)
+#
+#     sites = water.GetSites()
+#     df = pd.DataFrame.from_dict(sites)
+#     print(df)
+
+
 
 
 def get_elevationbyvolume(reservoir_name, newvolume):

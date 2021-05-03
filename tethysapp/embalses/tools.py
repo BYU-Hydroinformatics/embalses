@@ -1,7 +1,6 @@
 import codecs
 import datetime
 import os
-
 import requests
 from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site

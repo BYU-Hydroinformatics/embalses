@@ -185,12 +185,12 @@ def performsimulation(request):
     total_inflow = total_inflow * 3600 * 24
     total_outflow = total_outflow * 3600
 
-    # calculate the changes in elevations
+    # calculate the changes in volumes
     alllastvolumes = get_reservoirvolumes(name)
     volume_change = round(total_inflow - total_outflow, 2)
     newvolume = alllastvolumes['Actual'] + volume_change / 1000000
 
-    # calculate the changes in volumes
+    # calculate the changes in elevations
     newelevation = get_elevationbyvolume(name, newvolume)
     lastelevation = get_lastelevations()[name]
     elevationchange = newelevation - lastelevation
