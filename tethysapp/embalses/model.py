@@ -3,18 +3,13 @@ import calendar
 import datetime
 import os
 
-import pandas as pd
+import pandas
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 
 from .app import Embalses as App
 
-# import pywaterml.waterML as pwml
-# import folium
-# import plotly.graph_objects as go
-# import plotly.express as px
-# import warnings
-# warnings.filterwarnings('ignore')
+
 
 
 def operations():
@@ -241,18 +236,36 @@ def get_reservoirelevations(reservoir_name):
     elevations['Max'] = operations()[reservoir_name]['maxlvl']
     return elevations
 
-# def get_hydroserverelevations(reservoir_name):
-#     """
-#     You give it the name of a reservoir and it gives you all the possible relevant elevations associated with it
-#     """
-#     hs_url = "http://128.187.106.131/app/index.php/dr/services/cuahsi_1_1.asmx?WSDL"
-#     water = pwml.WaterMLOperations(url=hs_url)
-#
-#     sites = water.GetSites()
-#     df = pd.DataFrame.from_dict(sites)
-#     print(df)
 
+def get_hydroserverelevations(reservoir_name):
+    """
+    You give it the name of a reservoir and it gives you all the possible relevant elevations associated with it
+    """
+    from .app import Embalses as App
+    import pandas as pd
+    import pywaterml.waterML as pwml
+    import folium
+    import plotly.graph_objects as go
+    import plotly.express as px
+    import warnings
+    import plotly
+    warnings.filterwarnings('ignore')
 
+    hs_url = "http://128.187.106.131/app/index.php/dr/services/cuahsi_1_1.asmx?WSDL"
+    water = pwml.WaterMLOperations(url=hs_url)
+
+    sites = water.GetSites()
+    df = pd.DataFrame.from_dict(sites)
+    print(df)
+
+    variable_full_code = siteInfo['siteInfo'][VARIABLE]['fullVariableCode']
+    start_date = siteInfo['siteInfo'][VARIABLE]['beginDateTime'].split('T')[0]
+    end_date = siteInfo['siteInfo'][VARIABLE]['endDateTime'].split('T')[0]
+    variableResponse = water.GetValues(site_full_code, variable_full_code, start_date, end_date)
+    df = pd.DataFrame.from_dict(variableResponse['values'])
+    print(df)
+
+#is there a way to do this like the water data explorer app where it pulls out a .ipynb and then uses that?
 
 
 def get_elevationbyvolume(reservoir_name, newvolume):
