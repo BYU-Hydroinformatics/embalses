@@ -12,6 +12,8 @@ from .app import Embalses as App
 from tethys_sdk.gizmos import SelectInput
 
 import os
+import pywaterml.waterML as pwml
+
 
 reservoirs = reservoirs()
 
@@ -22,10 +24,13 @@ def home(request):
     controller for the home page
     """
     # The map on this page is handled entirely using leaflet and javascript
+    print("hey anna")
+    sites_xxx = getsites_hs()
     context = {
         'admin': has_permission(request, 'update_data'),
         'urls': generate_app_urls(request, reservoirs),
-        'youtubelink': App.youtubelink
+        'youtubelink': App.youtubelink,
+        'sites_xxx': sites_xxx
     }
 
     return render(request, 'embalses/home.html', context)
@@ -115,3 +120,11 @@ def reservoirviewer(request, name):
     }
 
     return render(request, 'embalses/reservoir.html', context)
+
+def getsites_hs():
+    url = "http://128.187.106.131/app/index.php/dr/services/cuahsi_1_1.asmx?WSDL"
+    water = pwml.WaterMLOperations(url=url)
+    sites = water.GetSites()
+    print(sites)
+    return sites
+    # sites_parsed_json = json.dumps(sites)
